@@ -2,6 +2,18 @@
   "framework": null,
   "buildCommand": "echo static site, no build step",
   "outputDirectory": "public",
-  "regions": ["sin1"],
-  "functions": { "api/skin-scan.mjs": { "maxDuration": 60 } }
+  "regions": [
+    "sin1"
+  ],
+  "functions": {
+    "api/skin-scan.mjs": {
+      "maxDuration": 60
+    },
+    "api/insights.mjs": {
+      "maxDuration": 60
+    },
+    "api/search.mjs": {
+      "maxDuration": 20
+    }
+  }
 }
