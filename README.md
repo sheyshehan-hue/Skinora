@@ -13,6 +13,7 @@ Built with Next.js 15 (App Router, server actions), TypeScript, Tailwind CSS, Po
 - Categories: Skin Care (cleansers, toners, serums, moisturisers, sunscreen, masks), Fragrances (women, men, unisex), Lifestyle and Luxury.
 - Filters by brand, skin type, concern, key ingredient and price, all kept in the URL so filtered pages can be shared.
 - Product pages with gallery and zoom, variants, batch number and expiry of the batch you'll receive, import origin, ingredients, how to use, suitability, reviews, and "frequently bought together" from real order data.
+- AI skin analysis: shoppers take or upload a selfie, Claude scores eight signs of skin health (hydration, oil balance, pores, clarity, calm, even tone, smoothness, firmness) and the result feeds the skin quiz's routine. Signed-in customers get their scores saved to their account with progress since the last scan and a four-weekly re-scan prompt. The photo is never stored.
 - Skin quiz that builds a routine, wishlist, cart drawer, search with autocomplete, gift wrap, and "100% Authentic" messaging throughout.
 - Guest checkout or customer accounts with order history, order tracking, and loyalty points.
 - Sri Lanka specifics: LKR pricing, district delivery fees with same-day delivery in Colombo and next-day in nearby districts, PayHere cards, Koko and Mintpay, bank transfer, cash on delivery (up to LKR 75,000), a WhatsApp button, and SMS and email order updates.
@@ -66,7 +67,7 @@ Open http://localhost:3000 for the store and http://localhost:3000/admin for the
 
 Change these passwords (Admin → Staff) before going live.
 
-Without payment or messaging keys everything still works: card and BNPL payments go through an on-site demo gateway, and SMS and emails are written to the notification log instead of being sent.
+Without payment, messaging or AI keys everything still works: card and BNPL payments go through an on-site demo gateway, and SMS and emails are written to the notification log instead of being sent.
 
 ---
 
@@ -81,6 +82,7 @@ All settings live in environment variables. See `.env.example`.
 | **Cloudinary** (images) | `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` | Required in production. Without it, uploads are saved to `public/uploads`, which doesn't persist on Vercel. |
 | **Notify.lk** (SMS) | `NOTIFYLK_USER_ID`, `NOTIFYLK_API_KEY`, `NOTIFYLK_SENDER_ID` | The sender ID must be approved by Notify.lk. |
 | **Resend** (email) | `RESEND_API_KEY`, `EMAIL_FROM` | Verify your sending domain in Resend. |
+| **Anthropic** (AI skin analysis) | `ANTHROPIC_API_KEY` | Create a key at console.anthropic.com. Each scan is one Claude Opus 5.5 request with one image, at low effort. Without a key the scan runs in demo mode: a rough on-server estimate from photo colour and shine, clearly labelled as a demo. |
 | **WhatsApp** | `NEXT_PUBLIC_WHATSAPP_NUMBER` | International format without `+`, e.g. `94771234567`. |
 
 Bank transfer details shown at checkout are in `src/lib/constants.ts` (`BANK_DETAILS`). Delivery fees per district are in `src/lib/districts.ts` and are copied to the `DeliveryZone` table by the seed.

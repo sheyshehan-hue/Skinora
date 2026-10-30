@@ -5,6 +5,8 @@ import { getCustomerSession } from "@/lib/auth";
 import { customerLogout } from "@/actions/account";
 import { formatDate, formatLKR } from "@/lib/format";
 import { ORDER_STATUS_LABEL } from "@/lib/constants";
+import { concernList, METRICS, RESCAN_DAYS } from "@/lib/skin-metrics";
+import { MetricBars } from "@/components/store/SkinScan";
 
 export const metadata = { title: "My account", robots: { index: false } };
 export const dynamic = "force-dynamic";
@@ -13,12 +15,16 @@ export default async function AccountPage({ searchParams }: { searchParams: Prom
   const s = await getCustomerSession();
   if (!s) redirect("/account/login");
   const [c, sp] = await Promise.all([
-    prisma.customer.findUnique({ where: { id: s.id }, include: { orders: { orderBy: { createdAt: "desc" }, include: { _count: { select: { items: true } } } }, addresses: true, loyalty: { orderBy: { createdAt: "desc" }, take: 6 } } }),
+    prisma.customer.findUnique({ where: { id: s.id }, include: { orders: { orderBy: { createdAt: "desc" }, include: { _count: { select: { items: true } } } }, addresses: true, loyalty: { orderBy: { createdAt: "desc" }, take: 6 }, skinScans: { orderBy: { createdAt: "desc" }, take: 6 } } }),
     searchParams,
   ]);
   if (!c) redirect("/account/login");
   const spent = c.orders.filter((o) => o.paymentStatus === "PAID").reduce((a, o) => a + o.total, 0);
   const tier = spent > 250000 ? "Noir" : spent > 100000 ? "Champagne" : "Ivory";
+  const [scan, prevScan] = c.skinScans;
+  const scanScores = scan ? (scan.scores as Record<string, number>) : null;
+  const rescanDue = scan ? new Date(scan.createdAt.getTime() + RESCAN_DAYS * 86400000) : null;
+  const rescanNow = rescanDue ? rescanDue.getTime() <= Date.now() : true;
   return (
     <div className="container-lux py-14">
       <div className="flex flex-wrap items-end justify-between gap-6">
@@ -37,6 +43,34 @@ export default async function AccountPage({ searchParams }: { searchParams: Prom
         <div className="bg-ivory p-8"><p className="eyebrow">Orders</p><p className="mt-3 font-serif text-5xl">{c.orders.length}</p></div>
         <div className="bg-ivory p-8"><p className="eyebrow">Earn</p><p className="mt-3 font-serif text-2xl">1 point for every LKR 100</p><p className="mt-1 text-sm text-ink-500">Redeem up to 20% of any order.</p></div>
       </div>
+      <section className="mt-16 border border-ink/10 bg-white p-6 sm:p-10">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="eyebrow">My skin</p>
+            <h2 className="mt-2 font-serif text-3xl">{scan ? <>Skin score <span className="text-champagne-700">{scan.overall}</span>/100</> : "Discover your skin score"}</h2>
+            {scan && (
+              <p className="mt-2 text-sm text-ink-500">
+                <span className="capitalize">{scan.skinType}</span> skin · focus on {concernList(scan.concerns)} · scanned {formatDate(scan.createdAt, { day: "numeric", month: "short" })}
+                {prevScan && <span className={scan.overall >= prevScan.overall ? "text-sage" : "text-rosewood"}> · {scan.overall >= prevScan.overall ? "▲" : "▼"} {Math.abs(scan.overall - prevScan.overall)} since {formatDate(prevScan.createdAt, { day: "numeric", month: "short" })}</span>}
+              </p>
+            )}
+          </div>
+          <Link href="/quiz?scan=1" className={rescanNow ? "btn-primary" : "btn-outline"}>{scan ? (rescanNow ? "Time for your skin check" : "Scan again") : "Scan my skin with AI"}</Link>
+        </div>
+        {scanScores ? (
+          <>
+            <div className="mt-8"><MetricBars scores={scanScores} /></div>
+            <p className="mt-6 text-sm text-ink-500">{rescanNow ? "It's been four weeks. Re-scan to see how your skin has changed." : `Next skin check: ${formatDate(rescanDue!, { day: "numeric", month: "long" })}. Skin renews in about four weeks, so that's when changes show.`}</p>
+            {c.skinScans.length > 1 && (
+              <ol className="mt-6 flex flex-wrap gap-2 text-xs text-ink-500" aria-label="Scan history">
+                {[...c.skinScans].reverse().map((s) => <li key={s.id} className="border border-ink/10 px-3 py-1.5">{formatDate(s.createdAt, { day: "numeric", month: "short" })} · <span className="text-ink">{s.overall}</span></li>)}
+              </ol>
+            )}
+          </>
+        ) : (
+          <p className="mt-4 max-w-xl text-sm text-ink-600">Take a selfie and our AI scores {METRICS.length} signs of skin health, then builds a routine around them. Re-scan every four weeks to track your progress.</p>
+        )}
+      </section>
       <div className="mt-16 grid gap-14 lg:grid-cols-[1fr_320px]">
         <section>
           <h2 className="mb-6 font-serif text-3xl">Order history</h2>
