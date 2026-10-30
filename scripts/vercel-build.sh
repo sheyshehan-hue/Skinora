@@ -12,4 +12,6 @@ if [ "$SEED_DEMO" = "1" ]; then
     tsx prisma/seed.ts
   fi
 fi
-next build
+# Prerendering opens many queries at once; the default pool of 3 times out over a long link.
+case "$DATABASE_URL" in *\?*) SEP="&" ;; *) SEP="?" ;; esac
+DATABASE_URL="${DATABASE_URL}${SEP}connection_limit=10&pool_timeout=60" next build
