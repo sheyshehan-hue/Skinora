@@ -1,0 +1,7 @@
+{
+  "framework": null,
+  "buildCommand": "echo static site, no build step",
+  "outputDirectory": "public",
+  "regions": ["sin1"],
+  "functions": { "api/skin-scan.mjs": { "maxDuration": 60 } }
+}

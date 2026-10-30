@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100" width="900" height="1100" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="wallsh6o0p2" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#fbf5eb"/><stop offset="1" stop-color="#ebe5db"/></linearGradient>
+    <linearGradient id="archsh6o0p2" x1="0" x2="1"><stop offset="0" stop-color="#dbceb7"/><stop offset="1" stop-color="#f1e4cd"/></linearGradient>
+    <linearGradient id="lightsh6o0p2" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".45"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  </defs>
+  <rect width="900" height="1100" fill="url(#wallsh6o0p2)"/>
+  <path d="M252.00000000000003 902 L252.00000000000003 396 A198 198 0 0 1 648 396 L648 902 Z" fill="url(#archsh6o0p2)"/>
+  <path d="M72 902 L72 550 A81 81 0 0 1 234 550 L234 902 Z" fill="#f5e8d1" opacity=".55"/>
+  <rect x="0" y="902" width="900" height="198" fill="#dfd9cf"/>
+  <rect x="0" y="902" width="900" height="3" fill="#fffdf3"/>
+  <polygon points="0,0 495.00000000000006,0 180,1100 0,1100" fill="url(#lightsh6o0p2)"/>
+  <g transform="translate(74.9 435.512) scale(0.589)">
+  <defs>
+    <radialGradient id="bgsh6o0p20" cx="50%" cy="38%" r="75%">
+      <stop offset="0%" stop-color="#fef7ec"/>
+      <stop offset="100%" stop-color="#e2dbd0"/>
+    </radialGradient>
+    <linearGradient id="bodysh6o0p20" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#000000"/>
+      <stop offset="18%" stop-color="#242424"/>
+      <stop offset="42%" stop-color="#343434"/>
+      <stop offset="70%" stop-color="#1A1A1A"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+    <linearGradient id="capsh6o0p20" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#000000"/>
+      <stop offset="35%" stop-color="#383838"/>
+      <stop offset="60%" stop-color="#1A1A1A"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+    <linearGradient id="glosssh6o0p20" x1="0" x2="1">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="shadowsh6o0p20">
+      <stop offset="0%" stop-color="#000" stop-opacity=".28"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softsh6o0p20" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2"/></filter>
+  </defs><ellipse cx="400" cy="796" rx="230" ry="20" fill="url(#shadowsh6o0p20)"/>
+        <path d="M398 268 Q382 300 400 318 Q418 300 402 268 Q400 262 398 268 Z" fill="#F6C75B"/>
+        <ellipse cx="400" cy="300" rx="70" ry="60" fill="#F6C75B" opacity=".18" filter="url(#softsh6o0p20)"/>
+        <rect x="397" y="314" width="6" height="40" fill="#222"/>
+        <rect x="240" y="350" width="320" height="440" rx="10" fill="url(#bodysh6o0p20)"/>
+        <ellipse cx="400" cy="352" rx="160" ry="18" fill="#383838"/>
+        <rect x="256" y="365" width="22" height="410" rx="10" fill="url(#glosssh6o0p20)" opacity=".45"/>
+        <rect x="270" y="500" width="260" height="190" fill="#fff" fill-opacity=".92"/>
+        <text x="400" y="555" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="25.299999999999997" letter-spacing="3.96" fill="#1d1d1d">DIPTYQUE</text><line x1="358.6" x2="441.4" y1="574.8" y2="574.8" stroke="#1d1d1d" stroke-opacity=".5" stroke-width="1.2"/><text x="400" y="601.2" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15.84" letter-spacing="1.3199999999999998" fill="#1d1d1d" fill-opacity=".85">Baies Scented</text><text x="400" y="624.3000000000001" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15.84" letter-spacing="1.3199999999999998" fill="#1d1d1d" fill-opacity=".85">Candle</text></g>
+        <g transform="translate(399.5 448.8) scale(0.475)">
+  <defs>
+    <radialGradient id="bgsh6o0p21" cx="50%" cy="38%" r="75%">
+      <stop offset="0%" stop-color="#fffaf2"/>
+      <stop offset="100%" stop-color="#e3ded6"/>
+    </radialGradient>
+    <linearGradient id="bodysh6o0p21" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#d6d2ca"/>
+      <stop offset="18%" stop-color="#fcf8f0"/>
+      <stop offset="42%" stop-color="#ffffff"/>
+      <stop offset="70%" stop-color="#F2EEE6"/>
+      <stop offset="100%" stop-color="#cecac2"/>
+    </linearGradient>
+    <linearGradient id="capsh6o0p21" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#000000"/>
+      <stop offset="35%" stop-color="#383838"/>
+      <stop offset="60%" stop-color="#1A1A1A"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+    <linearGradient id="glosssh6o0p21" x1="0" x2="1">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="shadowsh6o0p21">
+      <stop offset="0%" stop-color="#000" stop-opacity=".28"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softsh6o0p21" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2"/></filter>
+  </defs><ellipse cx="400" cy="796" rx="230" ry="20" fill="url(#shadowsh6o0p21)"/>
+        <path d="M398 268 Q382 300 400 318 Q418 300 402 268 Q400 262 398 268 Z" fill="#F6C75B"/>
+        <ellipse cx="400" cy="300" rx="70" ry="60" fill="#F6C75B" opacity=".18" filter="url(#softsh6o0p21)"/>
+        <rect x="397" y="314" width="6" height="40" fill="#222"/>
+        <rect x="240" y="350" width="320" height="440" rx="10" fill="url(#bodysh6o0p21)"/>
+        <ellipse cx="400" cy="352" rx="160" ry="18" fill="#ffffff"/>
+        <rect x="256" y="365" width="22" height="410" rx="10" fill="url(#glosssh6o0p21)" opacity=".45"/>
+        <rect x="270" y="500" width="260" height="190" fill="#fff" fill-opacity=".92"/>
+        <text x="400" y="555" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="25.299999999999997" letter-spacing="3.96" fill="#1d1d1d">JO MALONE</text><line x1="358.6" x2="441.4" y1="574.8" y2="574.8" stroke="#1d1d1d" stroke-opacity=".5" stroke-width="1.2"/><text x="400" y="601.2" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15.84" letter-spacing="1.3199999999999998" fill="#1d1d1d" fill-opacity=".85">Pomegranate Noir</text><text x="400" y="624.3000000000001" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15.84" letter-spacing="1.3199999999999998" fill="#1d1d1d" fill-opacity=".85">Home Candle</text></g>
+        <rect x="472.32" y="825" width="234.35999999999999" height="81.00000000000001" fill="#e3ddd3"/><rect x="472.32" y="825" width="234.35999999999999" height="6" fill="#fdf7ed"/>
+</svg>

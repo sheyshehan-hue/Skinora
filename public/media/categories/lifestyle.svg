@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100" width="900" height="1100" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="wallsqzciwk" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f9f2e6"/><stop offset="1" stop-color="#e9e2d6"/></linearGradient>
+    <linearGradient id="archsqzciwk" x1="0" x2="1"><stop offset="0" stop-color="#d6c7ac"/><stop offset="1" stop-color="#ecddc2"/></linearGradient>
+    <linearGradient id="lightsqzciwk" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".45"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  </defs>
+  <rect width="900" height="1100" fill="url(#wallsqzciwk)"/>
+  <path d="M252.00000000000003 902 L252.00000000000003 396 A198 198 0 0 1 648 396 L648 902 Z" fill="url(#archsqzciwk)"/>
+  <path d="M72 902 L72 550 A81 81 0 0 1 234 550 L234 902 Z" fill="#f0e1c6" opacity=".55"/>
+  <rect x="0" y="902" width="900" height="198" fill="#ddd6ca"/>
+  <rect x="0" y="902" width="900" height="3" fill="#fffaee"/>
+  <polygon points="0,0 495.00000000000006,0 180,1100 0,1100" fill="url(#lightsqzciwk)"/>
+  <g transform="translate(28.400000000000006 435.512) scale(0.589)">
+  <defs>
+    <radialGradient id="bgsqzciwk0" cx="50%" cy="38%" r="75%">
+      <stop offset="0%" stop-color="#fbf1e1"/>
+      <stop offset="100%" stop-color="#dfd5c5"/>
+    </radialGradient>
+    <linearGradient id="bodysqzciwk0" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#5e2e02"/>
+      <stop offset="18%" stop-color="#845428"/>
+      <stop offset="42%" stop-color="#946438"/>
+      <stop offset="70%" stop-color="#7A4A1E"/>
+      <stop offset="100%" stop-color="#562600"/>
+    </linearGradient>
+    <linearGradient id="capsqzciwk0" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#000000"/>
+      <stop offset="35%" stop-color="#383838"/>
+      <stop offset="60%" stop-color="#1A1A1A"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+    <linearGradient id="glosssqzciwk0" x1="0" x2="1">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="shadowsqzciwk0">
+      <stop offset="0%" stop-color="#000" stop-opacity=".28"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softsqzciwk0" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2"/></filter>
+  </defs><ellipse cx="400" cy="796" rx="230" ry="20" fill="url(#shadowsqzciwk0)"/>
+        <rect x="380" y="160" width="40" height="80" fill="url(#capsqzciwk0)"/>
+        <rect x="380" y="160" width="130" height="28" rx="6" fill="url(#capsqzciwk0)"/>
+        <rect x="340" y="236" width="120" height="60" rx="8" fill="url(#capsqzciwk0)"/>
+        <rect x="270" y="292" width="260" height="500" rx="44" fill="url(#bodysqzciwk0)"/>
+        <rect x="292" y="310" width="24" height="460" rx="12" fill="url(#glosssqzciwk0)" opacity=".6"/>
+        <text x="400" y="470" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="27.599999999999998" letter-spacing="4.32" fill="#F1E3C3">AESOP</text><line x1="356.8" x2="443.2" y1="491.6" y2="491.6" stroke="#F1E3C3" stroke-opacity=".5" stroke-width="1.2"/><text x="400" y="520.4" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17.28" letter-spacing="1.44" fill="#F1E3C3" fill-opacity=".85">Resurrection</text><text x="400" y="545.6" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17.28" letter-spacing="1.44" fill="#F1E3C3" fill-opacity=".85">Aromatique Hand</text><text x="400" y="570.8" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17.28" letter-spacing="1.44" fill="#F1E3C3" fill-opacity=".85">Wash</text></g>
+        <g transform="translate(260 448.8) scale(0.475)">
+  <defs>
+    <radialGradient id="bgsqzciwk1" cx="50%" cy="38%" r="75%">
+      <stop offset="0%" stop-color="#fff5e5"/>
+      <stop offset="100%" stop-color="#e3d9c9"/>
+    </radialGradient>
+    <linearGradient id="bodysqzciwk1" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#9d7140"/>
+      <stop offset="18%" stop-color="#c39766"/>
+      <stop offset="42%" stop-color="#d3a776"/>
+      <stop offset="70%" stop-color="#B98D5C"/>
+      <stop offset="100%" stop-color="#956938"/>
+    </linearGradient>
+    <linearGradient id="capsqzciwk1" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#000000"/>
+      <stop offset="35%" stop-color="#383838"/>
+      <stop offset="60%" stop-color="#1A1A1A"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+    <linearGradient id="glosssqzciwk1" x1="0" x2="1">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="shadowsqzciwk1">
+      <stop offset="0%" stop-color="#000" stop-opacity=".28"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softsqzciwk1" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2"/></filter>
+  </defs><ellipse cx="400" cy="796" rx="230" ry="20" fill="url(#shadowsqzciwk1)"/>
+        <path d="M290 180 L510 180 L490 690 Q400 712 310 690 Z" fill="url(#bodysqzciwk1)"/>
+        <rect x="282" y="168" width="236" height="18" rx="3" fill="#a57948"/>
+        <rect x="335" y="690" width="130" height="100" rx="14" fill="url(#capsqzciwk1)"/>
+        <rect x="305" y="200" width="20" height="470" rx="10" fill="url(#glosssqzciwk1)" opacity=".55"/>
+        <text x="400" y="340" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="25.299999999999997" letter-spacing="3.96" fill="#1A1A1A">AESOP</text><line x1="365.8" x2="434.2" y1="359.8" y2="359.8" stroke="#1A1A1A" stroke-opacity=".5" stroke-width="1.2"/><text x="400" y="386.2" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15.84" letter-spacing="1.3199999999999998" fill="#1A1A1A" fill-opacity=".85">Resurrection</text><text x="400" y="409.3" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15.84" letter-spacing="1.3199999999999998" fill="#1A1A1A" fill-opacity=".85">Aromatique</text><text x="400" y="432.4" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15.84" letter-spacing="1.3199999999999998" fill="#1A1A1A" fill-opacity=".85">Hand Balm</text></g>
+        <rect x="371.88" y="825" width="156.23999999999998" height="81.00000000000001" fill="#e1dace"/><rect x="371.88" y="825" width="156.23999999999998" height="6" fill="#fbf4e8"/><g transform="translate(400.4 435.512) scale(0.589)">
+  <defs>
+    <radialGradient id="bgsqzciwk2" cx="50%" cy="38%" r="75%">
+      <stop offset="0%" stop-color="#fef7ec"/>
+      <stop offset="100%" stop-color="#e2dbd0"/>
+    </radialGradient>
+    <linearGradient id="bodysqzciwk2" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#000000"/>
+      <stop offset="18%" stop-color="#242424"/>
+      <stop offset="42%" stop-color="#343434"/>
+      <stop offset="70%" stop-color="#1A1A1A"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+    <linearGradient id="capsqzciwk2" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#000000"/>
+      <stop offset="35%" stop-color="#383838"/>
+      <stop offset="60%" stop-color="#1A1A1A"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+    <linearGradient id="glosssqzciwk2" x1="0" x2="1">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="shadowsqzciwk2">
+      <stop offset="0%" stop-color="#000" stop-opacity=".28"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softsqzciwk2" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2"/></filter>
+  </defs><ellipse cx="400" cy="796" rx="230" ry="20" fill="url(#shadowsqzciwk2)"/>
+        <path d="M398 268 Q382 300 400 318 Q418 300 402 268 Q400 262 398 268 Z" fill="#F6C75B"/>
+        <ellipse cx="400" cy="300" rx="70" ry="60" fill="#F6C75B" opacity=".18" filter="url(#softsqzciwk2)"/>
+        <rect x="397" y="314" width="6" height="40" fill="#222"/>
+        <rect x="240" y="350" width="320" height="440" rx="10" fill="url(#bodysqzciwk2)"/>
+        <ellipse cx="400" cy="352" rx="160" ry="18" fill="#383838"/>
+        <rect x="256" y="365" width="22" height="410" rx="10" fill="url(#glosssqzciwk2)" opacity=".45"/>
+        <rect x="270" y="500" width="260" height="190" fill="#fff" fill-opacity=".92"/>
+        <text x="400" y="555" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="25.299999999999997" letter-spacing="3.96" fill="#1d1d1d">DIPTYQUE</text><line x1="358.6" x2="441.4" y1="574.8" y2="574.8" stroke="#1d1d1d" stroke-opacity=".5" stroke-width="1.2"/><text x="400" y="601.2" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15.84" letter-spacing="1.3199999999999998" fill="#1d1d1d" fill-opacity=".85">Baies Scented</text><text x="400" y="624.3000000000001" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15.84" letter-spacing="1.3199999999999998" fill="#1d1d1d" fill-opacity=".85">Candle</text></g>
+        
+</svg>
