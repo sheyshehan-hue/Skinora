@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+  <defs>
+    <radialGradient id="bga" cx="50%" cy="38%" r="75%">
+      <stop offset="0%" stop-color="#fff8fc"/>
+      <stop offset="100%" stop-color="#e9dce0"/>
+    </radialGradient>
+    <linearGradient id="bodya" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#d69caa"/>
+      <stop offset="18%" stop-color="#fcc2d0"/>
+      <stop offset="42%" stop-color="#ffd2e0"/>
+      <stop offset="70%" stop-color="#F2B8C6"/>
+      <stop offset="100%" stop-color="#ce94a2"/>
+    </linearGradient>
+    <linearGradient id="capa" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#cacfd1"/>
+      <stop offset="35%" stop-color="#ffffff"/>
+      <stop offset="60%" stop-color="#E8EDEF"/>
+      <stop offset="100%" stop-color="#c0c5c7"/>
+    </linearGradient>
+    <linearGradient id="glossa" x1="0" x2="1">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="shadowa">
+      <stop offset="0%" stop-color="#000" stop-opacity=".28"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softa" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2"/></filter>
+  </defs>
+  <rect width="800" height="1000" fill="url(#bga)"/>
+  <rect x="0" y="830" width="800" height="170" fill="#e3d6da" opacity=".5"/>
+  <ellipse cx="400" cy="800" rx="240" ry="26" fill="url(#shadowa)"/>
+  
+        <rect x="220" y="440" width="360" height="110" rx="18" fill="url(#capa)"/>
+        <rect x="236" y="452" width="20" height="86" rx="10" fill="url(#glossa)" opacity=".5"/>
+        <rect x="205" y="545" width="390" height="245" rx="40" fill="url(#bodya)"/>
+        <rect x="225" y="560" width="26" height="210" rx="13" fill="url(#glossa)" opacity=".6"/>
+        <text x="400" y="620" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="27.599999999999998" letter-spacing="4.32" fill="#5A1F33">CLINIQUE</text><line x1="340.6" x2="459.4" y1="641.6" y2="641.6" stroke="#5A1F33" stroke-opacity=".5" stroke-width="1.2"/><text x="400" y="670.4" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17.28" letter-spacing="1.44" fill="#5A1F33" fill-opacity=".85">Moisture Surge 100H</text><text x="400" y="695.6" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17.28" letter-spacing="1.44" fill="#5A1F33" fill-opacity=".85">Auto-Replenishing</text><text x="400" y="720.8" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17.28" letter-spacing="1.44" fill="#5A1F33" fill-opacity=".85">Hydrator</text>
+</svg>

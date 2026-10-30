@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+  <defs>
+    <radialGradient id="bga" cx="50%" cy="38%" r="75%">
+      <stop offset="0%" stop-color="#fbf1e1"/>
+      <stop offset="100%" stop-color="#dfd5c5"/>
+    </radialGradient>
+    <linearGradient id="bodya" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#5e2e02"/>
+      <stop offset="18%" stop-color="#845428"/>
+      <stop offset="42%" stop-color="#946438"/>
+      <stop offset="70%" stop-color="#7A4A1E"/>
+      <stop offset="100%" stop-color="#562600"/>
+    </linearGradient>
+    <linearGradient id="capa" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#000000"/>
+      <stop offset="35%" stop-color="#383838"/>
+      <stop offset="60%" stop-color="#1A1A1A"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+    <linearGradient id="glossa" x1="0" x2="1">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="shadowa">
+      <stop offset="0%" stop-color="#000" stop-opacity=".28"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softa" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2"/></filter>
+  </defs>
+  <rect width="800" height="1000" fill="url(#bga)"/>
+  <rect x="0" y="830" width="800" height="170" fill="#d9cfbf" opacity=".5"/>
+  <ellipse cx="400" cy="800" rx="240" ry="26" fill="url(#shadowa)"/>
+  
+        <rect x="380" y="160" width="40" height="80" fill="url(#capa)"/>
+        <rect x="380" y="160" width="130" height="28" rx="6" fill="url(#capa)"/>
+        <rect x="340" y="236" width="120" height="60" rx="8" fill="url(#capa)"/>
+        <rect x="270" y="292" width="260" height="500" rx="44" fill="url(#bodya)"/>
+        <rect x="292" y="310" width="24" height="460" rx="12" fill="url(#glossa)" opacity=".6"/>
+        <text x="400" y="470" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="27.599999999999998" letter-spacing="4.32" fill="#F1E3C3">AESOP</text><line x1="356.8" x2="443.2" y1="491.6" y2="491.6" stroke="#F1E3C3" stroke-opacity=".5" stroke-width="1.2"/><text x="400" y="520.4" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17.28" letter-spacing="1.44" fill="#F1E3C3" fill-opacity=".85">Resurrection</text><text x="400" y="545.6" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17.28" letter-spacing="1.44" fill="#F1E3C3" fill-opacity=".85">Aromatique Hand</text><text x="400" y="570.8" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17.28" letter-spacing="1.44" fill="#F1E3C3" fill-opacity=".85">Wash</text>
+</svg>
