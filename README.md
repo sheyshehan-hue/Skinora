@@ -100,7 +100,7 @@ Bank transfer details shown at checkout are in `src/lib/constants.ts` (`BANK_DET
    DATABASE_URL="<production url>" npm run db:seed   # optional: demo data
    ```
    The seed wipes all tables first, so only run it on an empty or demo database. For a real launch, skip the seed, create your admin with `DATABASE_URL="<production url>" npm run create-admin -- you@domain.lk "Your Name" "a-strong-password"`, then load products via Admin → Import.
-5. **Deploy.** The build runs `prisma generate && next build`.
+5. **Deploy.** The build (`scripts/vercel-build.sh`) runs `prisma migrate deploy` and then `next build`, so new migrations are applied on every deploy. For a demo or preview database, set `SEED_DEMO=1` and the first build also loads the demo catalogue (only while the database has no products; never set it on a real store's database).
 6. **Connect your domain** in Vercel → Domains, then update `NEXT_PUBLIC_SITE_URL` and the PayHere allowed domain.
 
 For later schema changes, run `npx prisma migrate dev --name <change>` locally, commit the migration, and run `npx prisma migrate deploy` against production.
