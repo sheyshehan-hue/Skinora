@@ -95,7 +95,8 @@ async function main() {
   console.log("Clearing database…");
   const tables = await prisma.$queryRaw<{ tablename: string }[]>`SELECT tablename FROM pg_tables WHERE schemaname='public' AND tablename <> '_prisma_migrations'`;
   await prisma.$executeRawUnsafe(`TRUNCATE ${tables.map((t) => `"${t.tablename}"`).join(", ")} CASCADE`);
-  fs.rmSync(PUBLIC, { recursive: true, force: true });
+  // Regenerate the drawn product art, but keep the editorial photographs, which are checked in
+  for (const dir of fs.existsSync(PUBLIC) ? fs.readdirSync(PUBLIC) : []) if (dir !== "editorial") fs.rmSync(path.join(PUBLIC, dir), { recursive: true, force: true });
 
   // ───────── staff
   const pw = await bcrypt.hash("Skinora@2026", 10);
