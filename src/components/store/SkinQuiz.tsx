@@ -1,12 +1,13 @@
 "use client";
-import Link from "next/link";
 import { useMemo, useState } from "react";
 import clsx from "clsx";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ListChecks, ScanFace } from "lucide-react";
 import type { Card } from "@/lib/catalog";
 import { useCart } from "@/store/cart";
 import { formatLKR } from "@/lib/format";
 import { ProductCard } from "./ProductCard";
+import { SkinScan } from "./SkinScan";
+import { concernList, type SkinResult } from "@/lib/skin-metrics";
 
 type Candidate = Card & { category: string; skinTypes: string[]; concerns: string[]; keyIngredients: string[]; luxury: boolean };
 
@@ -33,7 +34,9 @@ function score(p: Candidate, a: Answers) {
   return s;
 }
 
-export function SkinQuiz({ candidates }: { candidates: Candidate[] }) {
+export function SkinQuiz({ candidates, startWithScan = false }: { candidates: Candidate[]; startWithScan?: boolean }) {
+  const [mode, setMode] = useState<"choose" | "scan" | "questions">(startWithScan ? "scan" : "choose");
+  const [scan, setScan] = useState<SkinResult | null>(null);
   const [step, setStep] = useState(0);
   const [a, setA] = useState<Answers>({});
   const add = useCart((s) => s.add);
@@ -64,6 +67,46 @@ export function SkinQuiz({ candidates }: { candidates: Candidate[] }) {
     }
   };
 
+  if (mode === "choose") {
+    return (
+      <div className="container-lux flex min-h-[78vh] flex-col items-center justify-center py-16">
+        <div className="w-full max-w-3xl text-center">
+          <p className="eyebrow">Find your routine</p>
+          <h1 className="mt-4 text-balance font-serif text-4xl font-light leading-tight sm:text-6xl">How would you like to start?</h1>
+          <div className="mt-12 grid gap-4 text-left sm:grid-cols-2">
+            <button onClick={() => setMode("scan")} className="group animate-fadeUp border border-ink bg-ink p-8 text-ivory transition duration-500 hover:bg-[#3a362f]">
+              <ScanFace width={28} strokeWidth={1} className="text-champagne-300" />
+              <p className="mt-6 text-[11px] uppercase tracking-luxe text-champagne-300">New · AI skin analysis</p>
+              <p className="mt-2 font-serif text-3xl">Scan my skin</p>
+              <p className="mt-3 text-sm text-ivory/70">Take a selfie and our AI scores eight signs of skin health in seconds.</p>
+            </button>
+            <button onClick={() => setMode("questions")} className="animate-fadeUp border border-ink/15 bg-white p-8 transition duration-500 hover:border-ink" style={{ animationDelay: "80ms" }}>
+              <ListChecks width={28} strokeWidth={1} className="text-champagne-700" />
+              <p className="mt-6 text-[11px] uppercase tracking-luxe text-ink-500">Two minutes</p>
+              <p className="mt-2 font-serif text-3xl">Answer five questions</p>
+              <p className="mt-3 text-sm text-ink-600">Tell us about your skin, your day and your budget.</p>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (mode === "scan") {
+    return (
+      <SkinScan
+        onBack={() => setMode("choose")}
+        onDone={(r) => {
+          // The scan answers the first two questions; the shopper still picks sun, routine length and budget
+          setScan(r);
+          setA({ skin: r.skinType, concern: r.concerns.length ? r.concerns : ["dullness"] });
+          setStep(2);
+          setMode("questions");
+        }}
+      />
+    );
+  }
+
   if (done) {
     const total = routine.reduce((s, r) => s + (r.p?.price ?? 0), 0);
     return (
@@ -71,9 +114,9 @@ export function SkinQuiz({ candidates }: { candidates: Candidate[] }) {
         <div className="mx-auto max-w-3xl text-center">
           <p className="eyebrow">Your Skinora routine</p>
           <h1 className="mt-4 font-serif text-5xl font-light leading-tight sm:text-6xl">
-            For <em className="capitalize">{a.skin}</em> skin, focused on {a.concern?.join(", ") || "balance"}
+            For <em className="capitalize">{a.skin}</em> skin, focused on {concernList(a.concern ?? []) || "balance"}
           </h1>
-          <p className="mt-5 text-ink-600">Chosen for your answers, our clients&apos; reviews and Sri Lanka&apos;s heat and humidity.</p>
+          <p className="mt-5 text-ink-600">{scan ? `Chosen for your skin scan (score ${scan.overall}/100), your answers` : "Chosen for your answers"}, our clients&apos; reviews and Sri Lanka&apos;s heat and humidity.</p>
         </div>
         <ol className="mt-16 grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
           {routine.map((r, i) =>
@@ -98,7 +141,7 @@ export function SkinQuiz({ candidates }: { candidates: Candidate[] }) {
           >
             Add the full routine to bag
           </button>
-          <button onClick={() => { setA({}); setStep(0); }} className="text-[11px] uppercase tracking-[0.16em] text-ink-500 hover:text-ink">Retake the quiz</button>
+          <button onClick={() => { setA({}); setScan(null); setStep(0); setMode("choose"); }} className="text-[11px] uppercase tracking-[0.16em] text-ink-500 hover:text-ink">Start again</button>
         </div>
       </div>
     );
@@ -110,10 +153,10 @@ export function SkinQuiz({ candidates }: { candidates: Candidate[] }) {
     <div className="container-lux flex min-h-[78vh] flex-col items-center justify-center py-16">
       <div className="w-full max-w-2xl">
         <div className="mb-12 flex items-center gap-4">
-          {step > 0 ? (
+          {step > (scan ? 2 : 0) ? (
             <button onClick={() => setStep(step - 1)} aria-label="Back"><ArrowLeft width={18} strokeWidth={1.2} /></button>
           ) : (
-            <Link href="/" aria-label="Exit quiz"><ArrowLeft width={18} strokeWidth={1.2} /></Link>
+            <button onClick={() => { setScan(null); setA({}); setStep(0); setMode("choose"); }} aria-label="Back to start"><ArrowLeft width={18} strokeWidth={1.2} /></button>
           )}
           <div className="h-px flex-1 bg-ink/10">
             <div className="h-full bg-ink transition-all duration-700 ease-luxe" style={{ width: `${((step + 1) / STEPS.length) * 100}%` }} />

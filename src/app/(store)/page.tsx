@@ -146,14 +146,15 @@ export default async function Home() {
         <section className="mt-28">
           <Reveal>
             <div className="relative overflow-hidden border border-ink/10 bg-white px-6 py-16 text-center sm:px-16 sm:py-24">
-              <p className="eyebrow">A routine made for you</p>
+              <p className="eyebrow">New · AI skin analysis</p>
               <h2 className="mx-auto mt-4 max-w-2xl font-serif text-5xl font-light leading-tight sm:text-6xl">
-                Not sure where to begin? <em>Take the skin quiz.</em>
+                Not sure where to begin? <em>Let AI read your skin.</em>
               </h2>
-              <p className="mx-auto mt-6 max-w-lg text-ink-600">Five questions, two minutes. We&apos;ll build a morning and evening routine for your skin type, your concerns and Sri Lanka&apos;s climate.</p>
-              <Link href="/quiz" className="btn-primary mt-10">
-                Start the quiz
-              </Link>
+              <p className="mx-auto mt-6 max-w-lg text-ink-600">Take a selfie and we&apos;ll score eight signs of skin health, then build a morning and evening routine for your skin, your concerns and Sri Lanka&apos;s climate. Prefer not to? Answer five quick questions instead.</p>
+              <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+                <Link href="/quiz?scan=1" className="btn-primary">Scan my skin</Link>
+                <Link href="/quiz" className="btn-outline">Take the quiz</Link>
+              </div>
             </div>
           </Reveal>
         </section>

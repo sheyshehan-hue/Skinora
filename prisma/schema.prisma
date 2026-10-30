@@ -46,6 +46,23 @@ model Customer {
   reviews        Review[]
   loyalty        LoyaltyTransaction[]
   wishlist       WishlistItem[]
+  skinScans      SkinScan[]
+}
+
+// AI skin analysis results. The selfie itself is never stored, only the scores.
+model SkinScan {
+  id         String    @id @default(cuid())
+  customerId String?
+  customer   Customer? @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  engine     String // "claude" or "device" (on-server estimate when no AI key is set)
+  skinType   String
+  concerns   String[]
+  scores     Json // { hydration: 0-100, ... } higher is healthier
+  overall    Int
+  summary    String
+  createdAt  DateTime  @default(now())
+
+  @@index([customerId, createdAt])
 }
 
 model Address {

@@ -23,6 +23,7 @@ export default {
         fadeUp: { "0%": { opacity: "0", transform: "translateY(16px)" }, "100%": { opacity: "1", transform: "none" } },
         marquee: { "0%": { transform: "translateX(0)" }, "100%": { transform: "translateX(-50%)" } },
         fadeIn: { "0%": { opacity: "0" }, "100%": { opacity: "1" } },
+        scan: { "0%": { top: "-33%" }, "100%": { top: "100%" } },
         heroIn: { "0%": { opacity: "0", transform: "scale(1.04)" }, "100%": { opacity: "1", transform: "none" } },
       },
       animation: {
