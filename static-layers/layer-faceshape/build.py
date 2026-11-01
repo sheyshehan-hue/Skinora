@@ -67,7 +67,9 @@ for f in ['quiz.html', 'account.html']:
 
 # Home page: the quiz banner offers the style scan too.
 p = os.path.join(D, 'home.html'); s = open(p).read()
-if '<a class="btn-outline" href="quiz.html">Take the quiz</a></div>' in s:  # skin scan layer present
+if 'quiz.html?face=1' in s:  # already applied
+    pass
+elif '<a class="btn-outline" href="quiz.html">Take the quiz</a></div>' in s:  # skin scan layer present
     s = put(s, '<a class="btn-outline" href="quiz.html">Take the quiz</a></div>',
             '<a class="btn-outline" href="quiz.html">Take the quiz</a><a class="btn-outline" href="quiz.html?face=1">Find my hairstyle</a></div>', 'home button')
 else:
