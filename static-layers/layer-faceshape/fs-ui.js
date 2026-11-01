@@ -232,12 +232,21 @@
 
     function camera() {
       error = null;
-      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { error = 'Your camera can\'t open here. You can upload a selfie instead.'; return intro(); }
+      var blocked = function () {
+        // The live camera is blocked here. On a phone, the phone's own camera still works through the file picker.
+        if (touch()) {
+          wrap(head('AI face shape and style') + '<div class="animate-fadeUp text-center"><h1 class="font-serif text-3xl font-light leading-tight sm:text-4xl">Open your camera</h1><p class="mt-4 text-ink-600">Tap below, switch to the front camera if needed, and take a selfie looking straight ahead.</p>' +
+            '<button data-f="phonecam" class="btn-primary mt-8 w-full max-w-md">' + svg(IC.camera) + ' Open my camera</button><input type="file" accept="image/*" capture="user" data-f="selfie" hidden></div>');
+          return;
+        }
+        error = 'Your browser did not let this page use the camera. Click "Upload a photo" and choose a selfie instead.'; intro();
+      };
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return blocked();
       navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 1280 } }, audio: false }).then(function (s) {
         stream = s;
         wrap(head('AI face shape and style') + '<div class="animate-fadeUp flex flex-col items-center"><div class="sks-cam"><video playsinline muted autoplay></video><div class="sks-oval"><div></div></div><p>Face inside the oval, look straight ahead</p></div><button data-f="snap" class="btn-primary mt-8 w-full max-w-md">' + svg(IC.camera) + ' Take photo</button></div>');
         var v = host.querySelector('video'); v.srcObject = s; v.play().catch(function () {});
-      }, function () { error = 'Your browser did not let this page use the camera. Click "Upload a photo" and choose a selfie instead.'; intro(); });
+      }, blocked);
     }
     function snap() {
       var v = host.querySelector('video');
@@ -392,7 +401,8 @@
       if (k === 'back') { stop(); location.href = 'quiz.html'; }
       else if (k === 'intro') { error = null; intro(); }
       else if (k === 'g-w' || k === 'g-m') { gender = k.slice(2); var y0 = window.scrollY; intro(); window.scrollTo(0, y0); }
-      else if (k === 'camera') { if (ready()) { if (touch()) host.querySelector('[data-f="selfie"]').click(); else camera(); } }
+      else if (k === 'camera') { if (ready()) camera(); }
+      else if (k === 'phonecam') host.querySelector('[data-f="selfie"]').click();
       else if (k === 'upload') { if (ready()) host.querySelector('[data-f="file"]').click(); }
       else if (k === 'snap') snap();
       else if (k === 'pick') picker();
