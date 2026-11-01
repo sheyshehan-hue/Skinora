@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 :root {
+  --font-serif: "Cormorant Garamond";
+  --font-display: "Bodoni Moda";
+  --font-sans: "Jost";
   --ivory: #f6f2ec;
   --ink: #1a1917;
   --champagne: #c6a15b;
