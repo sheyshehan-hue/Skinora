@@ -1,0 +1,120 @@
+# Skinora
+
+> Skinora is an online store in Sri Lanka for 100% authentic international skincare and fragrance. Every product comes from brand-authorised distributors, is cleared through Sri Lanka Customs by Skinora Imports (Pvt) Ltd, and shows its batch number and expiry date before you buy. Prices are in LKR.
+
+## Key facts
+- Delivery: island-wide. Same-day or next-day in Colombo, 1 to 2 days in Gampaha and Kalutara, 2 to 5 days elsewhere. Free over LKR 15,000; otherwise from LKR 350.
+- Returns: unopened items within 14 days for a full refund or exchange. Opened items only if faulty or you have a reaction.
+- Payment: Visa, Mastercard, Amex, Koko and Mintpay (pay in 3), bank transfer, cash on delivery up to LKR 75,000.
+- Storage: climate-controlled at 18 to 22°C in Colombo. Dispatched first-expiry-first-out.
+- Contact: WhatsApp or call +94 77 123 4567, email care@skinora.lk. Atelier: 42 Flower Road, Colombo 07.
+- Free tools: AI skin scan and skin quiz (https://skinora-test.vercel.app/quiz.html), scent finder (https://skinora-test.vercel.app/scent-finder.html).
+
+## Pages
+- [Authenticity promise](https://skinora-test.vercel.app/authenticity.html)
+- [Delivery and returns](https://skinora-test.vercel.app/delivery.html)
+- [Help centre](https://skinora-test.vercel.app/help.html)
+- [Ingredient guide](https://skinora-test.vercel.app/ingredients.html)
+- [Ingredient checker: check if skincare products clash](https://skinora-test.vercel.app/ingredient-check.html)
+- [Gift guide](https://skinora-test.vercel.app/gift-guide.html)
+
+## Shop by category
+- [Skin Care](https://skinora-test.vercel.app/c__skin-care.html)
+- [Cleansers](https://skinora-test.vercel.app/c__cleansers.html)
+- [Toners & Essences](https://skinora-test.vercel.app/c__toners-essences.html)
+- [Serums](https://skinora-test.vercel.app/c__serums.html)
+- [Moisturisers](https://skinora-test.vercel.app/c__moisturisers.html)
+- [Sunscreen](https://skinora-test.vercel.app/c__sunscreen.html)
+- [Masks & Treatments](https://skinora-test.vercel.app/c__masks-treatments.html)
+- [Fragrances](https://skinora-test.vercel.app/c__fragrances.html)
+- [For Her](https://skinora-test.vercel.app/c__women.html)
+- [For Him](https://skinora-test.vercel.app/c__men.html)
+- [Unisex](https://skinora-test.vercel.app/c__unisex.html)
+- [Lifestyle](https://skinora-test.vercel.app/c__lifestyle.html)
+- [Bath & Body](https://skinora-test.vercel.app/c__bath-body.html)
+- [Home Fragrance](https://skinora-test.vercel.app/c__home-fragrance.html)
+- [Tools & Accessories](https://skinora-test.vercel.app/c__tools.html)
+- [Luxury](https://skinora-test.vercel.app/c__luxury.html)
+- [Gift Sets](https://skinora-test.vercel.app/c__gift-sets.html)
+
+## Brands
+- [Aesop](https://skinora-test.vercel.app/brands__aesop.html)
+- [Beauty of Joseon](https://skinora-test.vercel.app/brands__beauty-of-joseon.html)
+- [COSRX](https://skinora-test.vercel.app/brands__cosrx.html)
+- [CeraVe](https://skinora-test.vercel.app/brands__cerave.html)
+- [Chanel](https://skinora-test.vercel.app/brands__chanel.html)
+- [Clinique](https://skinora-test.vercel.app/brands__clinique.html)
+- [Dior](https://skinora-test.vercel.app/brands__dior.html)
+- [Diptyque](https://skinora-test.vercel.app/brands__diptyque.html)
+- [Estée Lauder](https://skinora-test.vercel.app/brands__estee-lauder.html)
+- [Glow Recipe](https://skinora-test.vercel.app/brands__glow-recipe.html)
+- [Jo Malone London](https://skinora-test.vercel.app/brands__jo-malone-london.html)
+- [Kiehl's](https://skinora-test.vercel.app/brands__kiehls.html)
+- [La Mer](https://skinora-test.vercel.app/brands__la-mer.html)
+- [La Roche-Posay](https://skinora-test.vercel.app/brands__la-roche-posay.html)
+- [Lancôme](https://skinora-test.vercel.app/brands__lancome.html)
+- [Laneige](https://skinora-test.vercel.app/brands__laneige.html)
+- [Le Labo](https://skinora-test.vercel.app/brands__le-labo.html)
+- [Maison Margiela](https://skinora-test.vercel.app/brands__maison-margiela.html)
+- [Medicube](https://skinora-test.vercel.app/brands__medicube.html)
+- [Mount Lai](https://skinora-test.vercel.app/brands__mount-lai.html)
+- [Skinora](https://skinora-test.vercel.app/brands__skinora.html)
+- [Sulwhasoo](https://skinora-test.vercel.app/brands__sulwhasoo.html)
+- [The Ordinary](https://skinora-test.vercel.app/brands__the-ordinary.html)
+- [Tom Ford](https://skinora-test.vercel.app/brands__tom-ford.html)
+- [YSL Beauty](https://skinora-test.vercel.app/brands__ysl-beauty.html)
+
+## Products
+- [The Ordinary Hyaluronic Acid 2% + B5](https://skinora-test.vercel.app/p__the-ordinary-hyaluronic-acid-2-b5.html): Multi-depth hydration serum. From LKR 4,950. Skin: dry, oily, combination, normal, sensitive.
+- [The Ordinary Glycolic Acid 7% Exfoliating Toner](https://skinora-test.vercel.app/p__the-ordinary-glycolic-acid-7-exfoliating-toner.html): Radiance-renewing toner. From LKR 6,900. Skin: normal, oily, combination.
+- [The Ordinary Retinol 0.5% in Squalane](https://skinora-test.vercel.app/p__the-ordinary-retinol-05-in-squalane.html): Moderate-strength retinol. From LKR 4,450. Skin: normal, dry, combination.
+- [The Ordinary Squalane Cleanser](https://skinora-test.vercel.app/p__the-ordinary-squalane-cleanser.html): Balm-to-oil makeup remover. From LKR 4,250. Skin: dry, oily, combination, normal, sensitive.
+- [The Ordinary Azelaic Acid Suspension 10%](https://skinora-test.vercel.app/p__the-ordinary-azelaic-acid-suspension-10.html): Brightening & texture cream-gel. From LKR 5,250. Skin: oily, combination, normal, sensitive.
+- [CeraVe Moisturising Cream](https://skinora-test.vercel.app/p__cerave-moisturising-cream.html): Barrier-restoring face & body cream. From LKR 8,900. Skin: dry, normal, sensitive.
+- [CeraVe Foaming Cleanser](https://skinora-test.vercel.app/p__cerave-foaming-cleanser.html): For normal to oily skin. From LKR 6,450. Skin: oily, combination, normal.
+- [CeraVe SA Smoothing Cleanser](https://skinora-test.vercel.app/p__cerave-sa-smoothing-cleanser.html): Exfoliating salicylic acid cleanser. From LKR 6,950. Skin: oily, combination, normal.
+- [CeraVe PM Facial Moisturising Lotion](https://skinora-test.vercel.app/p__cerave-pm-facial-moisturising-lotion.html): Oil-free night lotion. From LKR 6,750. Skin: oily, combination, normal, sensitive.
+- [CeraVe AM Facial Moisturising Lotion SPF 30](https://skinora-test.vercel.app/p__cerave-am-facial-moisturising-lotion-spf-30.html): Daily moisturiser with sun protection. From LKR 7,200. Skin: normal, combination, dry.
+- [Medicube PDRN Pink Peptide Serum](https://skinora-test.vercel.app/p__medicube-pdrn-pink-peptide-serum.html): Salmon PDRN glass-skin serum. From LKR 11,500. Skin: dry, oily, combination, normal, sensitive.
+- [Medicube Zero Pore Pad 2.0](https://skinora-test.vercel.app/p__medicube-zero-pore-pad-20.html): Dual-textured AHA/BHA toner pads. From LKR 9,900. Skin: oily, combination, normal.
+- [Medicube Collagen Night Wrapping Mask](https://skinora-test.vercel.app/p__medicube-collagen-night-wrapping-mask.html): Peel-off overnight collagen mask. From LKR 10,500. Skin: dry, normal, combination.
+- [COSRX Advanced Snail 96 Mucin Power Essence](https://skinora-test.vercel.app/p__cosrx-advanced-snail-96-mucin-power-essence.html): Repairing snail mucin essence. From LKR 7,450. Skin: dry, oily, combination, normal, sensitive.
+- [Beauty of Joseon Relief Sun: Rice + Probiotics SPF50+](https://skinora-test.vercel.app/p__beauty-of-joseon-relief-sun-rice-probiotics-spf50.html): Weightless organic sunscreen. From LKR 5,450. Skin: dry, oily, combination, normal, sensitive.
+- [Beauty of Joseon Glow Serum: Propolis + Niacinamide](https://skinora-test.vercel.app/p__beauty-of-joseon-glow-serum-propolis-niacinamide.html): Calming glow serum. From LKR 4,720. Skin: oily, combination, normal, sensitive.
+- [La Roche-Posay Anthelios UVMune 400 Invisible Fluid SPF50+](https://skinora-test.vercel.app/p__la-roche-posay-anthelios-uvmune-400-invisible-fluid-spf50.html): Ultra-long UVA protection. From LKR 7,960. Skin: dry, oily, combination, normal, sensitive.
+- [La Roche-Posay Effaclar Duo+M](https://skinora-test.vercel.app/p__la-roche-posay-effaclar-duom.html): Triple-correcting anti-blemish care. From LKR 8,950. Skin: oily, combination.
+- [Laneige Water Sleeping Mask](https://skinora-test.vercel.app/p__laneige-water-sleeping-mask.html): Overnight hydration mask. From LKR 9,800. Skin: dry, oily, combination, normal, sensitive.
+- [Laneige Lip Sleeping Mask Berry](https://skinora-test.vercel.app/p__laneige-lip-sleeping-mask-berry.html): Overnight lip treatment. From LKR 6,950. Skin: dry, oily, combination, normal, sensitive.
+- [Sulwhasoo First Care Activating Serum](https://skinora-test.vercel.app/p__sulwhasoo-first-care-activating-serum.html): Ginseng-powered first step serum. From LKR 32,500. Skin: dry, oily, combination, normal, sensitive.
+- [La Mer Crème de la Mer](https://skinora-test.vercel.app/p__la-mer-creme-de-la-mer.html): The legendary moisturising cream. From LKR 118,000. Skin: dry, normal, sensitive.
+- [Clinique Moisture Surge 100H Auto-Replenishing Hydrator](https://skinora-test.vercel.app/p__clinique-moisture-surge-100h-auto-replenishing-hydrator.html): 100-hour gel-cream. From LKR 14,500. Skin: dry, oily, combination, normal, sensitive.
+- [Kiehl's Ultra Facial Cream](https://skinora-test.vercel.app/p__kiehls-ultra-facial-cream.html): 24-hour daily moisturiser. From LKR 13,900. Skin: dry, oily, combination, normal, sensitive.
+- [YSL Beauty Libre Eau de Parfum](https://skinora-test.vercel.app/p__ysl-beauty-libre-eau-de-parfum.html): The freedom fragrance. From LKR 36,500. Skin: all.
+- [Chanel Coco Mademoiselle Eau de Parfum](https://skinora-test.vercel.app/p__chanel-coco-mademoiselle-eau-de-parfum.html): Irresistibly sensual. From LKR 56,000. Skin: all.
+- [Lancôme La Vie Est Belle Eau de Parfum](https://skinora-test.vercel.app/p__lancome-la-vie-est-belle-eau-de-parfum.html): Life is beautiful. From LKR 42,000. Skin: all.
+- [Chanel Bleu de Chanel Eau de Parfum](https://skinora-test.vercel.app/p__chanel-bleu-de-chanel-eau-de-parfum.html): An ode to masculine freedom. From LKR 49,500. Skin: all.
+- [Tom Ford Oud Wood Eau de Parfum](https://skinora-test.vercel.app/p__tom-ford-oud-wood-eau-de-parfum.html): Private Blend. From LKR 98,000. Skin: all.
+- [Jo Malone London Wood Sage & Sea Salt Cologne](https://skinora-test.vercel.app/p__jo-malone-london-wood-sage-sea-salt-cologne.html): Escape the everyday. From LKR 28,500. Skin: all.
+- [Le Labo Santal 33 Eau de Parfum](https://skinora-test.vercel.app/p__le-labo-santal-33-eau-de-parfum.html): The scent of a generation. From LKR 92,000. Skin: all.
+- [Maison Margiela REPLICA Lazy Sunday Morning](https://skinora-test.vercel.app/p__maison-margiela-replica-lazy-sunday-morning.html): Fresh, clean linen. From LKR 24,500. Skin: all.
+- [Aesop Resurrection Aromatique Hand Wash](https://skinora-test.vercel.app/p__aesop-resurrection-aromatique-hand-wash.html): Mandarin rind, rosemary leaf, cedar atlas. From LKR 18,500. Skin: all.
+- [Aesop Resurrection Aromatique Hand Balm](https://skinora-test.vercel.app/p__aesop-resurrection-aromatique-hand-balm.html): Rich, fast-absorbing hand balm. From LKR 11,500. Skin: all.
+- [Diptyque Baies Scented Candle](https://skinora-test.vercel.app/p__diptyque-baies-scented-candle.html): Blackcurrant leaves & Bulgarian rose. From LKR 36,000. Skin: all.
+- [The Ordinary Niacinamide 10% + Zinc 1%](https://skinora-test.vercel.app/p__the-ordinary-niacinamide-10-zinc-1.html): Blemish & pore refining serum. From LKR 3,720. Skin: oily, combination, normal.
+- [CeraVe Hydrating Cleanser](https://skinora-test.vercel.app/p__cerave-hydrating-cleanser.html): Non-foaming cream cleanser. From LKR 6,450. Skin: dry, normal, sensitive.
+- [Medicube Deep Vita C Capsule Cream](https://skinora-test.vercel.app/p__medicube-deep-vita-c-capsule-cream.html): Brightening capsule cream. From LKR 7,840. Skin: dry, oily, combination, normal, sensitive.
+- [COSRX Low pH Good Morning Gel Cleanser](https://skinora-test.vercel.app/p__cosrx-low-ph-good-morning-gel-cleanser.html): Gentle low-pH gel cleanser. From LKR 3,950. Skin: oily, combination, normal, sensitive.
+- [Mount Lai Rose Quartz Gua Sha Facial Lifting Tool](https://skinora-test.vercel.app/p__mount-lai-rose-quartz-gua-sha-facial-lifting-tool.html): Sculpt and de-puff. From LKR 9,500. Skin: all.
+- [Skinora The Luxury Discovery Box](https://skinora-test.vercel.app/p__skinora-the-luxury-discovery-box.html): Hand-wrapped prestige minis. From LKR 34,500. Skin: all.
+- [Skinora The Glass Skin Ritual Set](https://skinora-test.vercel.app/p__skinora-the-glass-skin-ritual-set.html): A complete Korean routine. From LKR 19,900. Skin: dry, oily, combination, normal, sensitive.
+- [La Roche-Posay Cicaplast Baume B5+](https://skinora-test.vercel.app/p__la-roche-posay-cicaplast-baume-b5.html): Soothing repair balm. From LKR 6,950. Skin: dry, sensitive, normal.
+- [Estée Lauder Advanced Night Repair Serum](https://skinora-test.vercel.app/p__estee-lauder-advanced-night-repair-serum.html): Synchronized multi-recovery complex. From LKR 38,500. Skin: dry, oily, combination, normal, sensitive.
+- [Glow Recipe Watermelon Glow Niacinamide Dew Drops](https://skinora-test.vercel.app/p__glow-recipe-watermelon-glow-niacinamide-dew-drops.html): Highlighting hydration serum. From LKR 12,400. Skin: dry, oily, combination, normal, sensitive.
+- [Dior Miss Dior Eau de Parfum](https://skinora-test.vercel.app/p__dior-miss-dior-eau-de-parfum.html): A millefiori of love. From LKR 34,000. Skin: all.
+- [Dior Sauvage Eau de Toilette](https://skinora-test.vercel.app/p__dior-sauvage-eau-de-toilette.html): Raw and noble. From LKR 38,500. Skin: all.
+- [YSL Beauty Y Eau de Parfum](https://skinora-test.vercel.app/p__ysl-beauty-y-eau-de-parfum.html): Freshness and intensity. From LKR 41,000. Skin: all.
+- [Jo Malone London Pomegranate Noir Home Candle](https://skinora-test.vercel.app/p__jo-malone-london-pomegranate-noir-home-candle.html): Dark, daring and sensual. From LKR 28,500. Skin: all.
+
+## Product feeds
+- [Google Merchant feed](https://skinora-test.vercel.app/feeds/google-merchant.xml)
+- [ChatGPT product feed](https://skinora-test.vercel.app/feeds/chatgpt-products.jsonl)
