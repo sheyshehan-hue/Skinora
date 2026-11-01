@@ -96,3 +96,6 @@
 .skf-prod-img { flex: none; width: 72px; height: 88px; background: #EFE9E1; overflow: hidden }
 .skf-prod-img img { width: 100%; height: 100%; object-fit: cover }
 @media (max-width: 560px) { .skf-card { padding: 16px; gap: 14px } .skf-card-art { width: 72px } .skf-prod-img { width: 60px; height: 74px } }
+.skf-need { margin-top: 14px; border-left: 2px solid #C6A15B; background: #fff; padding: 10px 14px; font-size: 14px; color: #1A1917 }
+.skf-nudge { animation: skf-nudge .7s ease-in-out 2; outline: 2px solid #C6A15B; outline-offset: 3px }
+@keyframes skf-nudge { 0%, 100% { transform: translateX(0) } 25% { transform: translateX(-5px) } 75% { transform: translateX(5px) } }

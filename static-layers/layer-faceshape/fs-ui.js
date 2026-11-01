@@ -210,14 +210,25 @@
         '<ul class="sks-tips">' + ['Look straight at the camera, face level', 'Hair off your face and forehead, glasses off', 'Soft, even light from the front, no filters'].map(function (t, i) { return '<li><span class="font-serif text-xl text-champagne-700">0' + (i + 1) + '</span><br>' + t + '</li>'; }).join('') + '</ul>' +
         '<label class="sks-consent"><input type="checkbox" data-f="consent"' + (consent ? ' checked' : '') + '><span>I agree to use my photo for this scan. It is checked on this device only. It is never uploaded or saved. Only my face shape is kept, in this browser.</span></label>' +
         (error ? '<p role="alert" class="sks-error">' + esc(error) + '</p>' : '') +
-        '<div class="mt-8 grid gap-3 sm:grid-cols-2"><button data-f="camera" class="btn-primary"' + (consent && gender ? '' : ' disabled') + '>' + svg(IC.camera) + ' Take a selfie</button><button data-f="upload" class="btn-outline"' + (consent && gender ? '' : ' disabled') + '>' + svg(IC.upload) + ' Upload a photo</button></div>' +
-        (!gender ? '<p class="mt-3 text-xs text-ink-400">Choose Women or Men first.</p>' : '') +
-        '<input type="file" accept="image/*" capture="user" data-f="file" hidden>' +
+        '<div class="mt-8 grid gap-3 sm:grid-cols-2"><button data-f="camera" class="btn-primary">' + svg(IC.camera) + ' Take a selfie</button><button data-f="upload" class="btn-outline">' + svg(IC.upload) + ' Upload a photo</button></div>' +
+        '<p role="alert" class="skf-need" data-f-need hidden></p>' +
+        '<input type="file" accept="image/*" data-f="file" hidden><input type="file" accept="image/*" capture="user" data-f="selfie" hidden>' +
         '<p class="mt-6 flex items-center gap-2 text-xs text-ink-400">' + svg(IC.shield, 14) + ' Private. Your photo never leaves your phone or computer.</p>' +
         '<button data-f="pick" class="mt-4 text-[11px] uppercase tracking-[0.16em] text-ink-500 underline-offset-4 hover:text-ink hover:underline">No photo? Choose your face shape</button></div>');
       E.load().catch(function () {}); // start loading the face model while she reads
     }
-    function refreshButtons() { host.querySelectorAll('[data-f="camera"],[data-f="upload"]').forEach(function (b) { b.disabled = !(consent && gender); }); }
+    function refreshButtons() { var n = host.querySelector('[data-f-need]'); if (n && consent && gender) n.hidden = true; }
+    // Says what is still missing, and points at it, instead of a greyed-out button.
+    function ready() {
+      if (consent && gender) return true;
+      var n = host.querySelector('[data-f-need]'), target = !gender ? host.querySelector('.skf-seg') : host.querySelector('.sks-consent');
+      if (n) { n.textContent = !gender ? 'First choose Women or Men, so we show the right styles.' : 'Please tick the box to agree, then take your photo.'; n.hidden = false; }
+      if (target) { target.classList.remove('skf-nudge'); void target.offsetWidth; target.classList.add('skf-nudge'); target.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
+      return false;
+    }
+    // Phones and tablets: open the front camera straight away through the file picker. It works everywhere,
+    // even where a page is not allowed to use the camera directly.
+    var touch = function () { return window.matchMedia && window.matchMedia('(pointer: coarse)').matches; };
 
     function camera() {
       error = null;
@@ -226,7 +237,7 @@
         stream = s;
         wrap(head('AI face shape and style') + '<div class="animate-fadeUp flex flex-col items-center"><div class="sks-cam"><video playsinline muted autoplay></video><div class="sks-oval"><div></div></div><p>Face inside the oval, look straight ahead</p></div><button data-f="snap" class="btn-primary mt-8 w-full max-w-md">' + svg(IC.camera) + ' Take photo</button></div>');
         var v = host.querySelector('video'); v.srcObject = s; v.play().catch(function () {});
-      }, function () { error = 'We couldn\'t open your camera. You can upload a selfie instead.'; intro(); });
+      }, function () { error = 'Your browser did not let this page use the camera. Click "Upload a photo" and choose a selfie instead.'; intro(); });
     }
     function snap() {
       var v = host.querySelector('video');
@@ -381,8 +392,8 @@
       if (k === 'back') { stop(); location.href = 'quiz.html'; }
       else if (k === 'intro') { error = null; intro(); }
       else if (k === 'g-w' || k === 'g-m') { gender = k.slice(2); var y0 = window.scrollY; intro(); window.scrollTo(0, y0); }
-      else if (k === 'camera' && consent && gender) camera();
-      else if (k === 'upload' && consent && gender) host.querySelector('[data-f="file"]').click();
+      else if (k === 'camera') { if (ready()) { if (touch()) host.querySelector('[data-f="selfie"]').click(); else camera(); } }
+      else if (k === 'upload') { if (ready()) host.querySelector('[data-f="file"]').click(); }
       else if (k === 'snap') snap();
       else if (k === 'pick') picker();
       else if (k === 'pg-w' || k === 'pg-m') { gender = k.slice(3); picker(); }
@@ -398,7 +409,7 @@
     host.addEventListener('change', function (e) {
       var k = e.target.getAttribute('data-f');
       if (k === 'consent') { consent = e.target.checked; refreshButtons(); }
-      if (k === 'file') { var f = e.target.files && e.target.files[0]; e.target.value = ''; if (f) run(f); }
+      if (k === 'file' || k === 'selfie') { var f = e.target.files && e.target.files[0]; e.target.value = ''; if (f) run(f); }
     });
     window.addEventListener('pagehide', stop);
     host.__skfIntro = intro;
