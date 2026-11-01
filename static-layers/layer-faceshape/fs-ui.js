@@ -41,7 +41,18 @@
       Object.keys(c.why).forEach(function (k) { if (has[k] != null) { s += 1 + Math.min(has[k], 3) * 0.3; reasons.push({ t: k, s: has[k], text: c.why[k] }); } });
       (c.not || []).forEach(function (k) { if (has[k] != null) { s -= 2.5; against.push(k); } });
       reasons.sort(function (a, b) { return b.s - a.s; });
-      return { c: c, score: s, reasons: reasons, against: against };
+      // Match: how well it suits this face, from shape fit and features. The trend boost is left out.
+      // Shape part: fit (0 to 3) for each shape in your mix, weighted by how much of it you have.
+      var mix = r.mix && r.mix.length ? r.mix : [{ shape: r.shape, share: 1 }], tot = 0, sf = 0;
+      mix.forEach(function (x) { sf += x.share * (c.fit[x.shape] || 0) / 3; tot += x.share; });
+      sf = tot ? sf / tot : 0;
+      // Feature part: how many of your stand-out features this style works with, and how strongly.
+      var tw = 0, tm = 0;
+      r.traits.forEach(function (t) { var w = Math.min(t.s || 1, 3); tw += w; if (c.why[t.id]) tm += w; });
+      var tf = tw ? 0.55 + 0.45 * Math.min(1, tm / Math.max(tw * 0.5, 1)) : sf;
+      var pct = Math.round(100 * (0.6 * sf + 0.4 * tf) - 14 * against.length);
+      pct = Math.max(25, Math.min(97, pct));
+      return { c: c, score: s, pct: pct, reasons: reasons, against: against };
     }).sort(function (a, b) { return b.score - a.score; });
   }
 
@@ -324,6 +335,7 @@
       return '<article class="skf-card animate-fadeUp">' +
         '<div class="skf-card-art">' + (beard ? art({ len: 60, fringe: 'crop', top: 3, tight: 1 }, c.art) : art(c.art)) + '</div>' +
         '<div class="skf-card-body">' + (c.hot ? '<p class="skf-hot"><b>Trending</b>' + esc(c.hot) + '</p>' : '') + '<h3 class="font-serif text-2xl leading-tight">' + esc(c.n) + '</h3>' +
+        (R.m ? '<div class="skf-match"><span class="skf-match-bar"><i style="width:' + x.pct + '%"></i></span><b>' + x.pct + '%</b> match for your face</div>' : '') +
         (beard ? '' : '<p class="mt-1 text-[11px] uppercase tracking-[0.14em] text-ink-400">' + esc(c.len) + ' · ' + esc(tex) + '</p>') +
         '<p class="mt-4 text-[11px] uppercase tracking-[0.16em] text-champagne-700">Why it suits you</p><ul class="skf-why">' + why.join('') + '</ul>' +
         '<p class="skf-ask">' + svg(IC.scissors, 14) + '<span><b>Ask for:</b> ' + esc(c.ask) + '</span></p></div></article>';
@@ -350,7 +362,8 @@
       R.traits.forEach(function (t) { has[t.id] = 1; });
       var cuts = rank(Dt.CUTS.filter(function (c) { return c.g === g; }), R);
       var shown = cuts.filter(function (x) { return !texture || x.c.tex.indexOf(texture) >= 0; });
-      var top = shown.slice(0, full ? 4 : 3);
+      var byPct = function (a, b) { return b.pct - a.pct; };
+      var top = shown.slice(0, full ? 4 : 3).sort(byPct);
       var beards = g === 'm' ? rank(Dt.BEARDS, R) : null;
       var mix = R.mix ? R.mix.slice(0, 3) : null;
       var photo = R.photo && R.m;
@@ -382,13 +395,13 @@
           ['s', 'w', 'c', 'k'].map(function (t) { return '<button data-f="tex-' + t + '" aria-pressed="' + (texture === t) + '" class="' + (texture === t ? 'is-on' : '') + '">' + Dt.TEXTURE[t].n + '</button>'; }).join('') + '</div>' +
           (texture ? '<p class="mt-3 text-sm text-ink-600">' + esc(Dt.TEXTURE[texture].tip) + '</p>' : '') +
           '<div class="skf-cards">' + top.map(function (x) { return card(x); }).join('') + '</div>' + (full ? skipList(cuts) : '')) +
-        (!full ? (g === 'm' ? sec('02', 'Beard styles', '<div class="skf-cards">' + beards.slice(0, 3).map(function (x) { return card(x, true); }).join('') + '</div>') : '') +
+        (!full ? (g === 'm' ? sec('02', 'Beard styles', '<div class="skf-cards">' + beards.slice(0, 3).sort(byPct).map(function (x) { return card(x, true); }).join('') + '</div>') : '') +
           '<div class="mt-12 text-center"><button data-f="full" class="btn-outline">See full breakdown</button><p class="mt-2 text-xs text-ink-400">Face measurements, ' + (g === 'm' ? 'fringe, brows and products' : 'fringe, brows, contour and products') + '</p></div>' : '') +
         (full ? 
         sec('02', 'Fringe and parting', '<p class="mt-3 text-ink-700">' + esc(Dt.PART[g][R.shape]) + '</p>' + (has.tallForehead ? '<ul class="skf-why mt-3"><li><span class="skf-trait">Taller forehead</span>A fringe or a side sweep covers some of it, so the three sections of your face look even.</li></ul>' : has.shortForehead ? '<ul class="skf-why mt-3"><li><span class="skf-trait">Shorter forehead</span>Keep the forehead open, or choose a light, wispy fringe, so it does not look smaller.</li></ul>' : '')) +
         sec('03', 'Brows', '<p class="mt-3 text-ink-700">' + esc(brows) + '</p>' + (browExtra ? '<ul class="skf-why mt-3">' + browExtra + '</ul>' : '')) +
         (g === 'w' ? sec('04', 'Contour and blush', '<div class="skf-two mt-3"><div><p class="text-[11px] uppercase tracking-[0.16em] text-ink-500">Contour</p><p class="mt-1 text-ink-700">' + esc(mk.contour) + '</p></div><div><p class="text-[11px] uppercase tracking-[0.16em] text-ink-500">Blush</p><p class="mt-1 text-ink-700">' + esc(mk.blush) + '</p></div></div>' + (mkExtra ? '<ul class="skf-why mt-3">' + mkExtra + '</ul>' : '') + (photo ? '<button data-f="view-makeup" class="mt-4 text-[11px] uppercase tracking-[0.16em] text-ink-600 underline underline-offset-4">See it on my photo</button>' : ''))
-          : sec('04', 'Beard styles', '<div class="skf-cards">' + beards.slice(0, 3).map(function (x) { return card(x, true); }).join('') + '</div>' + skipList(beards))) +
+          : sec('04', 'Beard styles', '<div class="skf-cards">' + beards.slice(0, 3).sort(byPct).map(function (x) { return card(x, true); }).join('') + '</div>' + skipList(beards))) +
         sec('05', 'Shop the look', '<ul class="skf-prods">' + productRows(g) + '</ul>') : '') +
         '<div class="mt-14 flex flex-col items-center gap-4 border-t border-ink/10 pt-10 text-center">' +
         '<div class="flex flex-wrap justify-center gap-3"><button data-f="intro" class="btn-primary">Take a new photo</button><button data-f="swap" class="btn-outline">See ' + (g === 'w' ? 'men\'s' : 'women\'s') + ' styles</button></div>' +
