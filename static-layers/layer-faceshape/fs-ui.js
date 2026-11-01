@@ -193,7 +193,7 @@
   function attach(host) {
     if (host.__skfBound) return;
     host.__skfBound = 1;
-    var stream = null, consent = false, gender = null, preview = null, error = null, R = null, texture = null, view = 'lines';
+    var stream = null, consent = false, gender = null, preview = null, error = null, R = null, texture = null, view = 'lines', full = false;
     var stop = function () { if (stream) stream.getTracks().forEach(function (t) { t.stop(); }); stream = null; };
     var wrap = function (h) { host.className = 'container-lux flex min-h-[78vh] flex-col items-center justify-center py-16'; host.innerHTML = '<div class="w-full max-w-2xl">' + h + '</div>'; window.scrollTo(0, 0); };
     var head = function (label) { return '<div class="mb-10 flex items-center gap-4"><button data-f="back" aria-label="Back">' + svg(IC.back, 18) + '</button><p class="eyebrow">' + label + '</p></div>'; };
@@ -298,7 +298,7 @@
         var a = E.analyse(m);
         R = { m: m, shape: a.shape, second: a.second, mix: a.mix, traits: a.traits, gender: gender, texture: texture, photo: preview, d: d.faces };
         save(R);
-        setTimeout(function () { view = 'lines'; result(); }, 1900);
+        setTimeout(function () { view = 'lines'; full = false; result(); }, 1900);
       }).catch(function (e) {
         if (e && e.skfLoad) { picker('Our face scan couldn\'t start on this device.'); return; }
         error = (e && e.message) || 'Something went wrong. Please try again.'; intro();
@@ -316,7 +316,7 @@
     /* ---------- result ---------- */
     function card(x, beard) {
       var v = vals(R.m), c = x.c;
-      var why = x.reasons.slice(0, 3).map(function (r) { return '<li><span class="skf-trait">' + esc(Dt.TRAITS[r.t].name) + '</span>' + esc(fill(r.text, v)) + '</li>'; });
+      var why = x.reasons.slice(0, full ? 3 : 2).map(function (r) { return '<li><span class="skf-trait">' + esc(Dt.TRAITS[r.t].name) + '</span>' + esc(fill(r.text, v)) + '</li>'; });
       var f = c.fit[R.shape] || 0, sn = Dt.SHAPES[R.shape].name;
       if (why.length < 2 && c.does) why.push('<li><span class="skf-trait">' + esc(sn) + ' face</span>' + esc(c.does) + ' ' + (f >= 3 ? 'That is exactly what a ' + sn.toLowerCase() + ' face needs.' : f >= 2 ? 'This works well with a ' + sn.toLowerCase() + ' face.' : 'Style it as shown to keep the balance.') + '</li>');
       if (!why.length) why = ['<li><span class="skf-trait">' + esc(sn) + ' face</span>' + esc(goal(Dt.SHAPES[R.shape], R.gender)) + '</li>'];
@@ -350,7 +350,7 @@
       R.traits.forEach(function (t) { has[t.id] = 1; });
       var cuts = rank(Dt.CUTS.filter(function (c) { return c.g === g; }), R);
       var shown = cuts.filter(function (x) { return !texture || x.c.tex.indexOf(texture) >= 0; });
-      var top = shown.slice(0, 4);
+      var top = shown.slice(0, full ? 4 : 3);
       var beards = g === 'm' ? rank(Dt.BEARDS, R) : null;
       var mix = R.mix ? R.mix.slice(0, 3) : null;
       var photo = R.photo && R.m;
@@ -365,28 +365,31 @@
         '<div class="mb-8 flex items-center gap-4"><button data-f="back" aria-label="Back">' + svg(IC.back, 18) + '</button><p class="eyebrow">Your face shape and style report</p></div>' +
         '<div class="skf-hero">' +
         (photo ? '<div><div class="skf-stage is-result" style="aspect-ratio:' + R.m.W + '/' + R.m.H + '"><img src="' + R.photo + '" alt="Your selfie with your face shape drawn on it">' + overlay(R.m, view, R.shape) + '</div>' +
-          (g === 'w' ? '<div class="skf-seg skf-seg-sm mt-3">' + [['lines', 'Proportions'], ['makeup', 'Contour and blush map']].map(function (o) { return '<button data-f="view-' + o[0] + '" class="' + (view === o[0] ? 'is-on' : '') + '">' + o[1] + '</button>'; }).join('') + '</div>' : '') +
+          (full && g === 'w' ? '<div class="skf-seg skf-seg-sm mt-3">' + [['lines', 'Proportions'], ['makeup', 'Contour and blush map']].map(function (o) { return '<button data-f="view-' + o[0] + '" class="' + (view === o[0] ? 'is-on' : '') + '">' + o[1] + '</button>'; }).join('') + '</div>' : '') +
           (view === 'makeup' ? '<p class="skf-legend"><i style="background:#9A5B3A"></i>Contour <i style="background:#E07A8B"></i>Blush <i style="background:#F3E2BE"></i>Highlight</p>' : '') + '</div>'
           : '<div class="skf-shape-big">' + shapeIcon(R.shape, 150) + '</div>') +
         '<div><p class="eyebrow">Your face shape</p><h1 class="mt-3 font-serif text-5xl font-light leading-tight sm:text-6xl"><em>' + esc(S.name) + '</em></h1>' +
         (R.second ? '<p class="mt-2 text-ink-500">with a touch of ' + esc(Dt.SHAPES[R.second].name.toLowerCase()) + '</p>' : '') +
         '<p class="mt-5 text-ink-700">' + esc(S.line) + '</p><p class="mt-3 text-ink-600">' + esc(goal(S, g)) + '</p>' +
-        (mix ? '<ul class="skf-mix">' + mix.map(function (x) { return '<li><span>' + esc(Dt.SHAPES[x.shape].name) + '</span><span class="skf-mix-bar"><i style="width:' + Math.round(x.share * 100) + '%"></i></span><span>' + Math.round(x.share * 100) + '%</span></li>'; }).join('') + '</ul>' : '') +
-        (traitChips ? '<p class="mt-8 text-[11px] uppercase tracking-[0.16em] text-ink-500">What stands out in your face</p><ul class="skf-traits">' + traitChips + '</ul>' : '') +
+        (full && mix ? '<ul class="skf-mix">' + mix.map(function (x) { return '<li><span>' + esc(Dt.SHAPES[x.shape].name) + '</span><span class="skf-mix-bar"><i style="width:' + Math.round(x.share * 100) + '%"></i></span><span>' + Math.round(x.share * 100) + '%</span></li>'; }).join('') + '</ul>' : '') +
+        (full && traitChips ? '<p class="mt-8 text-[11px] uppercase tracking-[0.16em] text-ink-500">What stands out in your face</p><ul class="skf-traits">' + traitChips + '</ul>' : '') +
         (photo && Math.abs(R.m.yaw) > 0.12 ? '<p class="mt-4 text-xs text-ink-400">Your head was turned a little, so the widths may be a bit off. For the most exact result, take a new photo looking straight ahead.</p>' : '') +
         (photo && R.m.hairlineFound === false ? '<p class="mt-4 text-xs text-ink-400">We couldn\'t see your hairline clearly, so the top third is an estimate.</p>' : '') +
         '</div></div>' +
 
-        sec('01', 'Haircuts for you', '<p class="mt-2 text-ink-600">Ranked for your ' + esc(S.name.toLowerCase()) + ' face and the features above.</p>' +
+        sec('01', 'Haircuts for you', '<p class="mt-2 text-ink-600">Picked for your ' + esc(S.name.toLowerCase()) + ' face' + (full ? ' and the features above' : '') + '.</p>' +
           '<div class="skf-chips mt-5" role="group" aria-label="Your hair type"><span class="text-[11px] uppercase tracking-[0.16em] text-ink-500">My hair is</span>' +
           ['s', 'w', 'c', 'k'].map(function (t) { return '<button data-f="tex-' + t + '" aria-pressed="' + (texture === t) + '" class="' + (texture === t ? 'is-on' : '') + '">' + Dt.TEXTURE[t].n + '</button>'; }).join('') + '</div>' +
           (texture ? '<p class="mt-3 text-sm text-ink-600">' + esc(Dt.TEXTURE[texture].tip) + '</p>' : '') +
-          '<div class="skf-cards">' + top.map(function (x) { return card(x); }).join('') + '</div>' + skipList(cuts)) +
+          '<div class="skf-cards">' + top.map(function (x) { return card(x); }).join('') + '</div>' + (full ? skipList(cuts) : '')) +
+        (!full ? (g === 'm' ? sec('02', 'Beard styles', '<div class="skf-cards">' + beards.slice(0, 3).map(function (x) { return card(x, true); }).join('') + '</div>') : '') +
+          '<div class="mt-12 text-center"><button data-f="full" class="btn-outline">See full breakdown</button><p class="mt-2 text-xs text-ink-400">Face measurements, ' + (g === 'm' ? 'fringe, brows and products' : 'fringe, brows, contour and products') + '</p></div>' : '') +
+        (full ? 
         sec('02', 'Fringe and parting', '<p class="mt-3 text-ink-700">' + esc(Dt.PART[g][R.shape]) + '</p>' + (has.tallForehead ? '<ul class="skf-why mt-3"><li><span class="skf-trait">Taller forehead</span>A fringe or a side sweep covers some of it, so the three sections of your face look even.</li></ul>' : has.shortForehead ? '<ul class="skf-why mt-3"><li><span class="skf-trait">Shorter forehead</span>Keep the forehead open, or choose a light, wispy fringe, so it does not look smaller.</li></ul>' : '')) +
         sec('03', 'Brows', '<p class="mt-3 text-ink-700">' + esc(brows) + '</p>' + (browExtra ? '<ul class="skf-why mt-3">' + browExtra + '</ul>' : '')) +
         (g === 'w' ? sec('04', 'Contour and blush', '<div class="skf-two mt-3"><div><p class="text-[11px] uppercase tracking-[0.16em] text-ink-500">Contour</p><p class="mt-1 text-ink-700">' + esc(mk.contour) + '</p></div><div><p class="text-[11px] uppercase tracking-[0.16em] text-ink-500">Blush</p><p class="mt-1 text-ink-700">' + esc(mk.blush) + '</p></div></div>' + (mkExtra ? '<ul class="skf-why mt-3">' + mkExtra + '</ul>' : '') + (photo ? '<button data-f="view-makeup" class="mt-4 text-[11px] uppercase tracking-[0.16em] text-ink-600 underline underline-offset-4">See it on my photo</button>' : ''))
           : sec('04', 'Beard styles', '<div class="skf-cards">' + beards.slice(0, 3).map(function (x) { return card(x, true); }).join('') + '</div>' + skipList(beards))) +
-        sec('05', 'Shop the look', '<ul class="skf-prods">' + productRows(g) + '</ul>') +
+        sec('05', 'Shop the look', '<ul class="skf-prods">' + productRows(g) + '</ul>') : '') +
         '<div class="mt-14 flex flex-col items-center gap-4 border-t border-ink/10 pt-10 text-center">' +
         '<div class="flex flex-wrap justify-center gap-3"><button data-f="intro" class="btn-primary">Take a new photo</button><button data-f="swap" class="btn-outline">See ' + (g === 'w' ? 'men\'s' : 'women\'s') + ' styles</button></div>' +
         '<button data-f="pick" class="text-[11px] uppercase tracking-[0.16em] text-ink-500 hover:text-ink">Not quite right? Choose your shape</button>' +
@@ -406,11 +409,12 @@
       else if (k === 'upload') { if (ready()) host.querySelector('[data-f="file"]').click(); }
       else if (k === 'snap') snap();
       else if (k === 'pick') picker();
+      else if (k === 'full') { full = true; var y1 = window.scrollY; result(); window.scrollTo(0, y1); }
       else if (k === 'pg-w' || k === 'pg-m') { gender = k.slice(3); picker(); }
-      else if (k.indexOf('shape-') === 0) { R = { m: null, shape: k.slice(6), second: null, mix: null, traits: [], gender: gender || 'w', texture: texture, photo: null }; save(R); view = 'lines'; result(); }
+      else if (k.indexOf('shape-') === 0) { R = { m: null, shape: k.slice(6), second: null, mix: null, traits: [], gender: gender || 'w', texture: texture, photo: null }; save(R); view = 'lines'; full = false; result(); }
       else if (k.indexOf('view-') === 0) { view = k.slice(5); result(); var st = host.querySelector('.skf-stage'); if (st) st.scrollIntoView({ block: 'center' }); }
       else if (k.indexOf('tex-') === 0) { var t = k.slice(4); texture = texture === t ? null : t; R.texture = texture; save(R); var y = window.scrollY; result(); window.scrollTo(0, y); }
-      else if (k === 'swap') { R.gender = gender = R.gender === 'm' ? 'w' : 'm'; view = 'lines'; save(R); result(); }
+      else if (k === 'swap') { R.gender = gender = R.gender === 'm' ? 'w' : 'm'; view = 'lines'; full = false; save(R); result(); }
       else if (k.indexOf('add-') === 0) {
         var D = window.__skfData, p = D && D.products.filter(function (x) { return x.slug === k.slice(4); })[0], c = window.__sk && window.__sk.cart(), v0 = p && p.variants[0];
         if (c && v0 && v0.stock > 0) c.add({ variantId: v0.id, productId: p.id, slug: p.slug, brand: p.brand, name: p.name, variantName: v0.name, price: v0.price, compareAt: v0.compareAt, image: p.image, maxQty: v0.stock }, 1);
@@ -423,7 +427,7 @@
     });
     window.addEventListener('pagehide', stop);
     host.__skfIntro = intro;
-    host.__skfShow = function (sv) { gender = sv.gender || 'w'; texture = sv.texture || null; R = { m: null, shape: sv.shape, second: sv.second, mix: null, traits: (sv.traits || []).map(function (id) { return { id: id, s: 1 }; }).filter(function (t) { return Dt.TRAITS[t.id]; }), gender: gender, texture: texture, photo: null }; view = 'lines'; result(); };
+    host.__skfShow = function (sv) { gender = sv.gender || 'w'; texture = sv.texture || null; R = { m: null, shape: sv.shape, second: sv.second, mix: null, traits: (sv.traits || []).map(function (id) { return { id: id, s: 1 }; }).filter(function (t) { return Dt.TRAITS[t.id]; }), gender: gender, texture: texture, photo: null }; view = 'lines'; full = false; result(); };
     host.__skfStop = stop;
   }
 
