@@ -83,4 +83,9 @@ if os.path.exists(p):
     if '<iframe id="site" src="home.html"' in s:
         s = s.replace('<iframe id="site" src="home.html"', '<iframe id="site" allow="camera" src="home.html"', 1)
         open(p, 'w').write(s)
+# AI try-on: a serverless function at /api/tryon (Vercel), with the allowed styles baked in.
+api = os.path.join(D, 'api'); os.makedirs(api, exist_ok=True)
+shutil.copyfile(os.path.join(HERE, 'server', 'tryon.js'), os.path.join(api, 'tryon.js'))
+styles = subprocess.check_output(['node', '-e', "global.window={};require(process.argv[1]);const D=window.SKFACE_DATA;const o={cuts:{},beards:{}};D.CUTS.forEach(c=>o.cuts[c.id]={n:c.n,ask:c.ask,g:c.g});D.BEARDS.forEach(c=>o.beards[c.id]={n:c.n,ask:c.ask});console.log(JSON.stringify(o))", os.path.join(HERE, 'fs-data.js')])
+open(os.path.join(api, 'tryon-styles.json'), 'wb').write(styles)
 print('faceshape layer applied')

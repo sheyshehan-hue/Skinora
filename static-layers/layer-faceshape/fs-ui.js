@@ -18,6 +18,7 @@
     face: '<path d="M12 3c4.4 0 7 3.4 7 8.2 0 5.3-3.3 9.8-7 9.8s-7-4.5-7-9.8C5 6.4 7.6 3 12 3z"/><path d="M9 10h.01M15 10h.01"/><path d="M9.5 15c1.4 1 3.6 1 5 0"/>',
     check: '<path d="M20 6 9 17l-5-5"/>',
     x: '<path d="M18 6 6 18M6 6l12 12"/>',
+    spark: '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/>',
     scissors: '<circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.12 15.88M14.47 14.48 20 20M8.12 8.12 12 12"/>'
   };
 
@@ -204,6 +205,7 @@
   function attach(host) {
     if (host.__skfBound) return;
     host.__skfBound = 1;
+    var tryCache = {}, tryBusy = {}, tryErr = {}, tryOk = false, tryPending = null;
     var stream = null, consent = false, gender = null, preview = null, error = null, R = null, texture = null, view = 'lines', full = false;
     var stop = function () { if (stream) stream.getTracks().forEach(function (t) { t.stop(); }); stream = null; };
     var wrap = function (h) { host.className = 'container-lux flex min-h-[78vh] flex-col items-center justify-center py-16'; host.innerHTML = '<div class="w-full max-w-2xl">' + h + '</div>'; window.scrollTo(0, 0); };
@@ -308,6 +310,7 @@
         if (st) st.textContent = '478 points found. Working out your shape…';
         var a = E.analyse(m);
         R = { m: m, shape: a.shape, second: a.second, mix: a.mix, traits: a.traits, gender: gender, texture: texture, photo: preview, d: d.faces };
+        tryCache = {}; tryBusy = {}; tryErr = {};
         save(R);
         setTimeout(function () { view = 'lines'; full = false; result(); }, 1900);
       }).catch(function (e) {
@@ -333,12 +336,22 @@
       if (!why.length) why = ['<li><span class="skf-trait">' + esc(sn) + ' face</span>' + esc(goal(Dt.SHAPES[R.shape], R.gender)) + '</li>'];
       var tex = beard ? '' : c.tex.split('').map(function (t) { return Dt.TEXTURE[t].n; }).join(', ');
       return '<article class="skf-card animate-fadeUp">' +
-        '<div class="skf-card-art">' + (beard ? art({ len: 60, fringe: 'crop', top: 3, tight: 1 }, c.art) : art(c.art)) + '</div>' +
+        (function () {
+          var k = (beard ? 'beard:' : 'cut:') + c.id;
+          if (tryCache[k]) return '<button class="skf-card-art skf-card-photo" data-f="tryopen-' + k + '" aria-label="See ' + esc(c.n) + ' on you"><img src="' + tryCache[k] + '" alt="You with ' + esc(c.n) + '"><span>On you</span></button>';
+          return '<div class="skf-card-art">' + (beard ? art({ len: 60, fringe: 'crop', top: 3, tight: 1 }, c.art) : art(c.art)) + '</div>';
+        })() +
         '<div class="skf-card-body">' + (c.hot ? '<p class="skf-hot"><b>Trending</b>' + esc(c.hot) + '</p>' : '') + '<h3 class="font-serif text-2xl leading-tight">' + esc(c.n) + '</h3>' +
         (R.m ? '<div class="skf-match"><span class="skf-match-bar"><i style="width:' + x.pct + '%"></i></span><b>' + x.pct + '%</b> match for your face</div>' : '') +
         (beard ? '' : '<p class="mt-1 text-[11px] uppercase tracking-[0.14em] text-ink-400">' + esc(c.len) + ' · ' + esc(tex) + '</p>') +
         '<p class="mt-4 text-[11px] uppercase tracking-[0.16em] text-champagne-700">Why it suits you</p><ul class="skf-why">' + why.join('') + '</ul>' +
-        '<p class="skf-ask">' + svg(IC.scissors, 14) + '<span><b>Ask for:</b> ' + esc(c.ask) + '</span></p></div></article>';
+        '<p class="skf-ask">' + svg(IC.scissors, 14) + '<span><b>Ask for:</b> ' + esc(c.ask) + '</span></p>' +
+        (R.photo ? (function () {
+          var k = (beard ? 'beard:' : 'cut:') + c.id;
+          if (tryBusy[k]) return '<p class="skf-try is-busy"><span class="skf-spin"></span>Creating your look. This takes about 10 to 20 seconds…</p>';
+          return '<button class="skf-try" data-f="try-' + k + '">' + svg(IC.spark, 15) + (tryCache[k] ? 'See it on me again' : 'Try it on my photo') + '</button>' +
+            (tryErr[k] ? '<p class="mt-2 text-xs text-[#8E4A49]">' + esc(tryErr[k]) + '</p>' : '');
+        })() : '') + '</div></article>';
     }
     function skipList(list) {
       var low = list.filter(function (x) { return x.against.length; }).slice(-2).reverse();
@@ -406,8 +419,64 @@
         '<div class="mt-14 flex flex-col items-center gap-4 border-t border-ink/10 pt-10 text-center">' +
         '<div class="flex flex-wrap justify-center gap-3"><button data-f="intro" class="btn-primary">Take a new photo</button><button data-f="swap" class="btn-outline">See ' + (g === 'w' ? 'men\'s' : 'women\'s') + ' styles</button></div>' +
         '<button data-f="pick" class="text-[11px] uppercase tracking-[0.16em] text-ink-500 hover:text-ink">Not quite right? Choose your shape</button>' +
-        '<p class="max-w-lg text-xs text-ink-400">Face shape is a styling guide, not a rule. Wear what makes you feel good. Your photo was checked on this device and was not uploaded or saved.</p></div></div>';
+        '<p class="max-w-lg text-xs text-ink-400">Face shape is a styling guide, not a rule. Wear what makes you feel good. Your photo was checked on this device and was not saved. It only leaves your device if you tap Try it on my photo.</p></div></div>';
       window.scrollTo(0, 0);
+    }
+
+    /* ---------- AI try-on ---------- */
+    function rerender() { var y = window.scrollY; result(); window.scrollTo(0, y); }
+    function styleOf(k) { var p = k.split(':'), list = p[0] === 'beard' ? Dt.BEARDS : Dt.CUTS; return list.filter(function (c) { return c.id === p[1]; })[0]; }
+    function small(src) {
+      return new Promise(function (ok, no) {
+        var im = new Image(); im.onload = function () {
+          var s = Math.min(1, 768 / Math.max(im.naturalWidth, im.naturalHeight)), c = document.createElement('canvas');
+          c.width = Math.round(im.naturalWidth * s); c.height = Math.round(im.naturalHeight * s);
+          c.getContext('2d').drawImage(im, 0, 0, c.width, c.height); ok(c.toDataURL('image/jpeg', 0.9));
+        }; im.onerror = no; im.src = src;
+      });
+    }
+    function tryOn(k) {
+      if (!R || !R.photo || tryBusy[k]) return;
+      if (tryCache[k]) { lightbox(k); return; }
+      if (!tryOk) { tryPending = k; lightbox(null); return; }
+      tryBusy[k] = 1; tryErr[k] = null; rerender();
+      var p = k.split(':');
+      small(R.photo).then(function (img) {
+        return fetch('/api/tryon', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ image: img, kind: p[0], id: p[1], texture: texture || '' }) });
+      }).then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (j) {
+          if (r.status === 404) throw new Error('The try-on only works on the live store, not in this preview.');
+          if (!r.ok || !j.image) throw new Error(j.error || 'The AI could not make this picture. Please try again.');
+          return j.image;
+        });
+      }).then(function (src) {
+        tryCache[k] = src; delete tryBusy[k]; rerender(); lightbox(k);
+      }).catch(function (e) {
+        delete tryBusy[k]; tryErr[k] = (e && e.message) || 'Something went wrong. Please try again.'; rerender();
+      });
+    }
+    function lightbox(k) {
+      var old = document.getElementById('skf-lb'); if (old) old.remove();
+      var c = k && styleOf(k), box = document.createElement('div');
+      box.id = 'skf-lb'; box.className = 'skf-lb'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true');
+      if (!k) {
+        box.innerHTML = '<div class="skf-lb-card skf-lb-consent"><p class="eyebrow">AI try-on</p><h2 class="mt-3 font-serif text-3xl font-light">See the style on your own photo</h2>' +
+          '<p class="mt-4 text-ink-700">To make this picture, your selfie is sent to our AI partner (Google Gemini). It is used only to create your picture. Skinora does not save it.</p>' +
+          '<p class="mt-3 text-sm text-ink-500">It is an AI picture, so small details can differ from real life.</p>' +
+          '<div class="mt-7 flex flex-wrap gap-3"><button class="btn-primary" data-lb="ok">Continue</button><button class="btn-outline" data-lb="close">Not now</button></div></div>';
+      } else {
+        box.innerHTML = '<div class="skf-lb-card skf-lb-photo"><button class="skf-lb-x" data-lb="close" aria-label="Close">×</button>' +
+          '<div class="skf-lb-imgs"><figure><img src="' + R.photo + '" alt="Your photo"><figcaption>Before</figcaption></figure><figure><img src="' + tryCache[k] + '" alt="You with ' + esc(c.n) + '"><figcaption>' + esc(c.n) + '</figcaption></figure></div>' +
+          '<p class="mt-4 text-sm text-ink-600"><b class="font-medium text-ink">Ask for:</b> ' + esc(c.ask) + '</p>' +
+          '<p class="mt-2 text-xs text-ink-400">AI picture made from your selfie. Your photo was not saved.</p></div>';
+      }
+      box.addEventListener('click', function (e) {
+        var a = e.target.closest('[data-lb]');
+        if (e.target === box || (a && a.getAttribute('data-lb') === 'close')) { box.remove(); tryPending = null; }
+        else if (a && a.getAttribute('data-lb') === 'ok') { tryOk = true; box.remove(); var t = tryPending; tryPending = null; if (t) tryOn(t); }
+      });
+      document.addEventListener('keydown', function esc0(e) { if (e.key === 'Escape') { box.remove(); document.removeEventListener('keydown', esc0); } });
+      document.body.appendChild(box);
     }
 
     host.addEventListener('click', function (e) {
@@ -422,6 +491,8 @@
       else if (k === 'upload') { if (ready()) host.querySelector('[data-f="file"]').click(); }
       else if (k === 'snap') snap();
       else if (k === 'pick') picker();
+      else if (k.indexOf('tryopen-') === 0) lightbox(k.slice(8));
+      else if (k.indexOf('try-') === 0) tryOn(k.slice(4));
       else if (k === 'full') { full = true; var y1 = window.scrollY; result(); window.scrollTo(0, y1); }
       else if (k === 'pg-w' || k === 'pg-m') { gender = k.slice(3); picker(); }
       else if (k.indexOf('shape-') === 0) { R = { m: null, shape: k.slice(6), second: null, mix: null, traits: [], gender: gender || 'w', texture: texture, photo: null }; save(R); view = 'lines'; full = false; result(); }

@@ -105,3 +105,22 @@
 .skf-match b { font-weight: 500; color: #1A1917; font-size: 13px }
 .skf-match-bar { width: 72px; height: 4px; background: rgba(26,25,23,.08); border-radius: 999px; overflow: hidden }
 .skf-match-bar i { display: block; height: 100%; background: #C6A15B }
+/* AI try-on */
+.skf-try { margin-top: 14px; display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 16px; border-radius: 999px; background: #1A1917; color: #F6F2EC; font-size: 12px; letter-spacing: .08em; transition: background .2s }
+.skf-try:hover { background: #3a352e }
+.skf-try svg { color: #E9D3A3 }
+.skf-try.is-busy { background: #F3EAD7; color: #7a5c25; border-radius: 12px; padding: 10px 14px; min-height: 0; letter-spacing: 0; font-size: 13px }
+.skf-spin { width: 14px; height: 14px; border-radius: 999px; border: 2px solid rgba(122,92,37,.25); border-top-color: #7a5c25; animation: skf-spin .8s linear infinite; flex: none }
+@keyframes skf-spin { to { transform: rotate(360deg) } }
+.skf-card-photo { position: relative; padding: 0; overflow: hidden; aspect-ratio: 4/5; place-items: stretch }
+.skf-card-photo img { width: 100%; height: 100%; object-fit: cover; display: block }
+.skf-card-photo span { position: absolute; left: 6px; bottom: 6px; padding: 1px 7px; border-radius: 999px; background: rgba(26,25,23,.8); color: #E9D3A3; font-size: 10px; letter-spacing: .1em; text-transform: uppercase }
+.skf-lb { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 16px; background: rgba(26,25,23,.6); backdrop-filter: blur(4px); animation: skf-in .25s forwards; opacity: 0 }
+.skf-lb-card { position: relative; width: 100%; max-height: 92vh; overflow: auto; background: #F6F2EC; padding: 28px }
+.skf-lb-consent { max-width: 30rem }
+.skf-lb-photo { max-width: 52rem }
+.skf-lb-x { position: absolute; right: 10px; top: 6px; font-size: 28px; line-height: 1; color: #5f5a52; padding: 4px 8px }
+.skf-lb-imgs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px }
+.skf-lb-imgs figure { margin: 0 }
+.skf-lb-imgs img { width: 100%; aspect-ratio: 4/5; object-fit: cover; display: block; background: #1A1917 }
+.skf-lb-imgs figcaption { margin-top: 6px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #6f6a62 }
