@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100" width="900" height="1100" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="wallsdyyg6" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#fbf5eb"/><stop offset="1" stop-color="#ebe5db"/></linearGradient>
+    <linearGradient id="archsdyyg6" x1="0" x2="1"><stop offset="0" stop-color="#dbceb7"/><stop offset="1" stop-color="#f1e4cd"/></linearGradient>
+    <linearGradient id="lightsdyyg6" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".45"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  </defs>
+  <rect width="900" height="1100" fill="url(#wallsdyyg6)"/>
+  <path d="M252.00000000000003 902 L252.00000000000003 396 A198 198 0 0 1 648 396 L648 902 Z" fill="url(#archsdyyg6)"/>
+  <path d="M72 902 L72 550 A81 81 0 0 1 234 550 L234 902 Z" fill="#f5e8d1" opacity=".55"/>
+  <rect x="0" y="902" width="900" height="198" fill="#dfd9cf"/>
+  <rect x="0" y="902" width="900" height="3" fill="#fffdf3"/>
+  <polygon points="0,0 495.00000000000006,0 180,1100 0,1100" fill="url(#lightsdyyg6)"/>
+  <g transform="translate(74.9 435.512) scale(0.589)">
+  <defs>
+    <radialGradient id="bgsdyyg60" cx="50%" cy="38%" r="75%">
+      <stop offset="0%" stop-color="#fef9f2"/>
+      <stop offset="100%" stop-color="#e2ddd6"/>
+    </radialGradient>
+    <linearGradient id="bodysdyyg60" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#dad7d2"/>
+      <stop offset="18%" stop-color="#fffdf8"/>
+      <stop offset="42%" stop-color="#ffffff"/>
+      <stop offset="70%" stop-color="#F6F3EE"/>
+      <stop offset="100%" stop-color="#d2cfca"/>
+    </linearGradient>
+    <linearGradient id="capsdyyg60" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#000000"/>
+      <stop offset="35%" stop-color="#2f2f2f"/>
+      <stop offset="60%" stop-color="#111111"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+    <linearGradient id="glosssdyyg60" x1="0" x2="1">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="shadowsdyyg60">
+      <stop offset="0%" stop-color="#000" stop-opacity=".28"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softsdyyg60" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2"/></filter>
+  </defs><ellipse cx="400" cy="796" rx="230" ry="20" fill="url(#shadowsdyyg60)"/>
+        <path d="M290 180 L510 180 L490 690 Q400 712 310 690 Z" fill="url(#bodysdyyg60)"/>
+        <rect x="282" y="168" width="236" height="18" rx="3" fill="#e2dfda"/>
+        <rect x="335" y="690" width="130" height="100" rx="14" fill="url(#capsdyyg60)"/>
+        <rect x="305" y="200" width="20" height="470" rx="10" fill="url(#glosssdyyg60)" opacity=".55"/>
+        <text x="400" y="340" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="25.299999999999997" letter-spacing="3.96" fill="#222222">THE ORDINARY</text><line x1="365.8" x2="434.2" y1="359.8" y2="359.8" stroke="#222222" stroke-opacity=".5" stroke-width="1.2"/><text x="400" y="386.2" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15.84" letter-spacing="1.3199999999999998" fill="#222222" fill-opacity=".85">Azelaic Acid</text><text x="400" y="409.3" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15.84" letter-spacing="1.3199999999999998" fill="#222222" fill-opacity=".85">Suspension 10%</text></g>
+        <g transform="translate(399.5 448.8) scale(0.475)">
+  <defs>
+    <radialGradient id="bgsdyyg61" cx="50%" cy="38%" r="75%">
+      <stop offset="0%" stop-color="#f7ffff"/>
+      <stop offset="100%" stop-color="#dbe3e8"/>
+    </radialGradient>
+    <linearGradient id="bodysdyyg61" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#c0cdd6"/>
+      <stop offset="18%" stop-color="#e6f3fc"/>
+      <stop offset="42%" stop-color="#f6ffff"/>
+      <stop offset="70%" stop-color="#DCE9F2"/>
+      <stop offset="100%" stop-color="#b8c5ce"/>
+    </linearGradient>
+    <linearGradient id="capsdyyg61" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#3d6f9a"/>
+      <stop offset="35%" stop-color="#79abd6"/>
+      <stop offset="60%" stop-color="#5B8DB8"/>
+      <stop offset="100%" stop-color="#336590"/>
+    </linearGradient>
+    <linearGradient id="glosssdyyg61" x1="0" x2="1">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="shadowsdyyg61">
+      <stop offset="0%" stop-color="#000" stop-opacity=".28"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softsdyyg61" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2"/></filter>
+  </defs><ellipse cx="400" cy="796" rx="230" ry="20" fill="url(#shadowsdyyg61)"/>
+        <ellipse cx="400" cy="460" rx="190" ry="54" fill="url(#capsdyyg61)"/>
+        <rect x="210" y="460" width="380" height="300" fill="url(#bodysdyyg61)"/>
+        <ellipse cx="400" cy="760" rx="190" ry="34" fill="#becbd4"/>
+        <ellipse cx="400" cy="456" rx="190" ry="54" fill="#74a6d1"/>
+        <rect x="228" y="480" width="22" height="270" rx="10" fill="url(#glosssdyyg61)" opacity=".5"/>
+        <text x="400" y="560" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="27.599999999999998" letter-spacing="4.32" fill="#1F3D6B">MEDICUBE</text><line x1="342.4" x2="457.6" y1="581.6" y2="581.6" stroke="#1F3D6B" stroke-opacity=".5" stroke-width="1.2"/><text x="400" y="610.4" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17.28" letter-spacing="1.44" fill="#1F3D6B" fill-opacity=".85">Zero Pore Pad 2.0</text></g>
+        <rect x="472.32" y="825" width="234.35999999999999" height="81.00000000000001" fill="#e3ddd3"/><rect x="472.32" y="825" width="234.35999999999999" height="6" fill="#fdf7ed"/>
+</svg>

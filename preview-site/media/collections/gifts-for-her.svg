@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100" width="900" height="1100" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="wallsd3oeg3" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f9f2e6"/><stop offset="1" stop-color="#e9e2d6"/></linearGradient>
+    <linearGradient id="archsd3oeg3" x1="0" x2="1"><stop offset="0" stop-color="#d6c7ac"/><stop offset="1" stop-color="#ecddc2"/></linearGradient>
+    <linearGradient id="lightsd3oeg3" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".45"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  </defs>
+  <rect width="900" height="1100" fill="url(#wallsd3oeg3)"/>
+  <path d="M252.00000000000003 902 L252.00000000000003 396 A198 198 0 0 1 648 396 L648 902 Z" fill="url(#archsd3oeg3)"/>
+  <path d="M72 902 L72 550 A81 81 0 0 1 234 550 L234 902 Z" fill="#f0e1c6" opacity=".55"/>
+  <rect x="0" y="902" width="900" height="198" fill="#ddd6ca"/>
+  <rect x="0" y="902" width="900" height="3" fill="#fffaee"/>
+  <polygon points="0,0 495.00000000000006,0 180,1100 0,1100" fill="url(#lightsd3oeg3)"/>
+  <g transform="translate(28.400000000000006 435.512) scale(0.589)">
+  <defs>
+    <radialGradient id="bgsd3oeg30" cx="50%" cy="38%" r="75%">
+      <stop offset="0%" stop-color="#fff8f8"/>
+      <stop offset="100%" stop-color="#e9dcdc"/>
+    </radialGradient>
+    <linearGradient id="bodysd3oeg30" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#d6a7af"/>
+      <stop offset="18%" stop-color="#fccdd5"/>
+      <stop offset="42%" stop-color="#ffdde5"/>
+      <stop offset="70%" stop-color="#F2C3CB"/>
+      <stop offset="100%" stop-color="#ce9fa7"/>
+    </linearGradient>
+    <linearGradient id="capsd3oeg30" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#c9b592"/>
+      <stop offset="35%" stop-color="#fff1ce"/>
+      <stop offset="60%" stop-color="#E7D3B0"/>
+      <stop offset="100%" stop-color="#bfab88"/>
+    </linearGradient>
+    <linearGradient id="glosssd3oeg30" x1="0" x2="1">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="shadowsd3oeg30">
+      <stop offset="0%" stop-color="#000" stop-opacity=".28"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softsd3oeg30" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2"/></filter>
+  </defs><ellipse cx="400" cy="796" rx="230" ry="20" fill="url(#shadowsd3oeg30)"/>
+        <ellipse cx="400" cy="235" rx="62" ry="70" fill="url(#capsd3oeg30)"/>
+        <ellipse cx="380" cy="215" rx="16" ry="34" fill="#fff" opacity=".35"/>
+        <rect x="374" y="300" width="52" height="46" fill="#c9b592"/>
+        <path d="M400 340 C560 340 590 480 590 590 C590 720 510 792 400 792 C290 792 210 720 210 590 C210 480 240 340 400 340 Z" fill="url(#bodysd3oeg30)" fill-opacity=".9"/>
+        <path d="M268 450 C250 520 250 640 290 720" stroke="#fff" stroke-opacity=".55" stroke-width="16" fill="none" stroke-linecap="round"/>
+        <text x="400" y="560" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="29.9" letter-spacing="4.68" fill="#4A2A30">DIOR</text><line x1="355" x2="445" y1="583.4" y2="583.4" stroke="#4A2A30" stroke-opacity=".5" stroke-width="1.2"/><text x="400" y="614.6" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18.72" letter-spacing="1.56" fill="#4A2A30" fill-opacity=".85">Miss Dior</text></g>
+        <g transform="translate(260 448.8) scale(0.475)">
+  <defs>
+    <radialGradient id="bgsd3oeg31" cx="50%" cy="38%" r="75%">
+      <stop offset="0%" stop-color="#fff7e4"/>
+      <stop offset="100%" stop-color="#e5dbc8"/>
+    </radialGradient>
+    <linearGradient id="bodysd3oeg31" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#c6a662"/>
+      <stop offset="18%" stop-color="#eccc88"/>
+      <stop offset="42%" stop-color="#fcdc98"/>
+      <stop offset="70%" stop-color="#E2C27E"/>
+      <stop offset="100%" stop-color="#be9e5a"/>
+    </linearGradient>
+    <linearGradient id="capsd3oeg31" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#000000"/>
+      <stop offset="35%" stop-color="#2f2f2f"/>
+      <stop offset="60%" stop-color="#111111"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+    <linearGradient id="glosssd3oeg31" x1="0" x2="1">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="shadowsd3oeg31">
+      <stop offset="0%" stop-color="#000" stop-opacity=".28"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softsd3oeg31" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2"/></filter>
+  </defs><ellipse cx="400" cy="796" rx="230" ry="20" fill="url(#shadowsd3oeg31)"/>
+        <rect x="322" y="170" width="156" height="150" rx="6" fill="url(#capsd3oeg31)"/>
+        <rect x="336" y="182" width="24" height="126" fill="url(#glosssd3oeg31)" opacity=".5"/>
+        <rect x="372" y="318" width="56" height="34" fill="#000000"/>
+        <rect x="230" y="350" width="340" height="440" rx="18" fill="url(#bodysd3oeg31)" fill-opacity=".92"/>
+        <rect x="250" y="370" width="300" height="400" rx="12" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2"/>
+        <rect x="258" y="380" width="30" height="380" rx="8" fill="url(#glosssd3oeg31)" opacity=".7"/>
+        <text x="400" y="540" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="29.9" letter-spacing="4.68" fill="#1A1A1A">YSL</text><line x1="353.2" x2="446.8" y1="563.4" y2="563.4" stroke="#1A1A1A" stroke-opacity=".5" stroke-width="1.2"/><text x="400" y="594.6" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18.72" letter-spacing="1.56" fill="#1A1A1A" fill-opacity=".85">Libre</text></g>
+        <rect x="371.88" y="825" width="156.23999999999998" height="81.00000000000001" fill="#e1dace"/><rect x="371.88" y="825" width="156.23999999999998" height="6" fill="#fbf4e8"/><g transform="translate(400.4 435.512) scale(0.589)">
+  <defs>
+    <radialGradient id="bgsd3oeg32" cx="50%" cy="38%" r="75%">
+      <stop offset="0%" stop-color="#fff9fb"/>
+      <stop offset="100%" stop-color="#e8dddf"/>
+    </radialGradient>
+    <linearGradient id="bodysd3oeg32" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#ceaab3"/>
+      <stop offset="18%" stop-color="#f4d0d9"/>
+      <stop offset="42%" stop-color="#ffe0e9"/>
+      <stop offset="70%" stop-color="#EAC6CF"/>
+      <stop offset="100%" stop-color="#c6a2ab"/>
+    </linearGradient>
+    <linearGradient id="capsd3oeg32" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#d5d1cc"/>
+      <stop offset="35%" stop-color="#ffffff"/>
+      <stop offset="60%" stop-color="#F3EFEA"/>
+      <stop offset="100%" stop-color="#cbc7c2"/>
+    </linearGradient>
+    <linearGradient id="glosssd3oeg32" x1="0" x2="1">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="shadowsd3oeg32">
+      <stop offset="0%" stop-color="#000" stop-opacity=".28"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softsd3oeg32" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2"/></filter>
+  </defs><ellipse cx="400" cy="796" rx="230" ry="20" fill="url(#shadowsd3oeg32)"/>
+        <ellipse cx="400" cy="235" rx="62" ry="70" fill="url(#capsd3oeg32)"/>
+        <ellipse cx="380" cy="215" rx="16" ry="34" fill="#fff" opacity=".35"/>
+        <rect x="374" y="300" width="52" height="46" fill="#d5d1cc"/>
+        <path d="M400 340 C560 340 590 480 590 590 C590 720 510 792 400 792 C290 792 210 720 210 590 C210 480 240 340 400 340 Z" fill="url(#bodysd3oeg32)" fill-opacity=".9"/>
+        <path d="M268 450 C250 520 250 640 290 720" stroke="#fff" stroke-opacity=".55" stroke-width="16" fill="none" stroke-linecap="round"/>
+        <text x="400" y="560" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="29.9" letter-spacing="4.68" fill="#4A2A30">LANCÔME</text><line x1="355" x2="445" y1="583.4" y2="583.4" stroke="#4A2A30" stroke-opacity=".5" stroke-width="1.2"/><text x="400" y="614.6" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18.72" letter-spacing="1.56" fill="#4A2A30" fill-opacity=".85">La Vie Est Belle</text></g>
+        
+</svg>

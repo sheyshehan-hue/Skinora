@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100" width="900" height="1100" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="wallsxo5ye8" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#fbf5eb"/><stop offset="1" stop-color="#ebe5db"/></linearGradient>
+    <linearGradient id="archsxo5ye8" x1="0" x2="1"><stop offset="0" stop-color="#dbceb7"/><stop offset="1" stop-color="#f1e4cd"/></linearGradient>
+    <linearGradient id="lightsxo5ye8" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".45"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  </defs>
+  <rect width="900" height="1100" fill="url(#wallsxo5ye8)"/>
+  <path d="M252.00000000000003 902 L252.00000000000003 396 A198 198 0 0 1 648 396 L648 902 Z" fill="url(#archsxo5ye8)"/>
+  <path d="M72 902 L72 550 A81 81 0 0 1 234 550 L234 902 Z" fill="#f5e8d1" opacity=".55"/>
+  <rect x="0" y="902" width="900" height="198" fill="#dfd9cf"/>
+  <rect x="0" y="902" width="900" height="3" fill="#fffdf3"/>
+  <polygon points="0,0 495.00000000000006,0 180,1100 0,1100" fill="url(#lightsxo5ye8)"/>
+  <g transform="translate(74.9 435.512) scale(0.589)">
+  <defs>
+    <radialGradient id="bgsxo5ye80" cx="50%" cy="38%" r="75%">
+      <stop offset="0%" stop-color="#fff9ea"/>
+      <stop offset="100%" stop-color="#e5ddce"/>
+    </radialGradient>
+    <linearGradient id="bodysxo5ye80" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#d8d3ca"/>
+      <stop offset="18%" stop-color="#fef9f0"/>
+      <stop offset="42%" stop-color="#ffffff"/>
+      <stop offset="70%" stop-color="#F4EFE6"/>
+      <stop offset="100%" stop-color="#d0cbc2"/>
+    </linearGradient>
+    <linearGradient id="capsxo5ye80" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#a8833d"/>
+      <stop offset="35%" stop-color="#e4bf79"/>
+      <stop offset="60%" stop-color="#C6A15B"/>
+      <stop offset="100%" stop-color="#9e7933"/>
+    </linearGradient>
+    <linearGradient id="glosssxo5ye80" x1="0" x2="1">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="shadowsxo5ye80">
+      <stop offset="0%" stop-color="#000" stop-opacity=".28"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softsxo5ye80" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2"/></filter>
+  </defs><ellipse cx="400" cy="796" rx="230" ry="20" fill="url(#shadowsxo5ye80)"/>
+        <ellipse cx="400" cy="460" rx="190" ry="54" fill="url(#capsxo5ye80)"/>
+        <rect x="210" y="460" width="380" height="300" fill="url(#bodysxo5ye80)"/>
+        <ellipse cx="400" cy="760" rx="190" ry="34" fill="#d6d1c8"/>
+        <ellipse cx="400" cy="456" rx="190" ry="54" fill="#dfba74"/>
+        <rect x="228" y="480" width="22" height="270" rx="10" fill="url(#glosssxo5ye80)" opacity=".5"/>
+        <text x="400" y="560" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="27.599999999999998" letter-spacing="4.32" fill="#1A1A1A">SKINORA</text><line x1="342.4" x2="457.6" y1="581.6" y2="581.6" stroke="#1A1A1A" stroke-opacity=".5" stroke-width="1.2"/><text x="400" y="610.4" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17.28" letter-spacing="1.44" fill="#1A1A1A" fill-opacity=".85">The Luxury Discovery</text><text x="400" y="635.6" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17.28" letter-spacing="1.44" fill="#1A1A1A" fill-opacity=".85">Box</text></g>
+        <g transform="translate(399.5 448.8) scale(0.475)">
+  <defs>
+    <radialGradient id="bgsxo5ye81" cx="50%" cy="38%" r="75%">
+      <stop offset="0%" stop-color="#fffaf6"/>
+      <stop offset="100%" stop-color="#e9deda"/>
+    </radialGradient>
+    <linearGradient id="bodysxo5ye81" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#dacbc7"/>
+      <stop offset="18%" stop-color="#fff1ed"/>
+      <stop offset="42%" stop-color="#fffffd"/>
+      <stop offset="70%" stop-color="#F6E7E3"/>
+      <stop offset="100%" stop-color="#d2c3bf"/>
+    </linearGradient>
+    <linearGradient id="capsxo5ye81" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#a8833d"/>
+      <stop offset="35%" stop-color="#e4bf79"/>
+      <stop offset="60%" stop-color="#C6A15B"/>
+      <stop offset="100%" stop-color="#9e7933"/>
+    </linearGradient>
+    <linearGradient id="glosssxo5ye81" x1="0" x2="1">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="shadowsxo5ye81">
+      <stop offset="0%" stop-color="#000" stop-opacity=".28"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softsxo5ye81" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2"/></filter>
+  </defs><ellipse cx="400" cy="796" rx="230" ry="20" fill="url(#shadowsxo5ye81)"/>
+        <ellipse cx="400" cy="460" rx="190" ry="54" fill="url(#capsxo5ye81)"/>
+        <rect x="210" y="460" width="380" height="300" fill="url(#bodysxo5ye81)"/>
+        <ellipse cx="400" cy="760" rx="190" ry="34" fill="#d8c9c5"/>
+        <ellipse cx="400" cy="456" rx="190" ry="54" fill="#dfba74"/>
+        <rect x="228" y="480" width="22" height="270" rx="10" fill="url(#glosssxo5ye81)" opacity=".5"/>
+        <text x="400" y="560" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="27.599999999999998" letter-spacing="4.32" fill="#1A1A1A">SKINORA</text><line x1="342.4" x2="457.6" y1="581.6" y2="581.6" stroke="#1A1A1A" stroke-opacity=".5" stroke-width="1.2"/><text x="400" y="610.4" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17.28" letter-spacing="1.44" fill="#1A1A1A" fill-opacity=".85">The Glass Skin Ritual</text><text x="400" y="635.6" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17.28" letter-spacing="1.44" fill="#1A1A1A" fill-opacity=".85">Set</text></g>
+        <rect x="472.32" y="825" width="234.35999999999999" height="81.00000000000001" fill="#e3ddd3"/><rect x="472.32" y="825" width="234.35999999999999" height="6" fill="#fdf7ed"/>
+</svg>
