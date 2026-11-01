@@ -15,6 +15,7 @@
 - [Delivery and returns](https://skinora-git-final-site-shehan12.vercel.app/delivery.html)
 - [Help centre](https://skinora-git-final-site-shehan12.vercel.app/help.html)
 - [Ingredient guide](https://skinora-git-final-site-shehan12.vercel.app/ingredients.html)
+- [Ingredient checker: check if skincare products clash](https://skinora-git-final-site-shehan12.vercel.app/ingredient-check.html)
 - [Gift guide](https://skinora-git-final-site-shehan12.vercel.app/gift-guide.html)
 
 ## Shop by category
