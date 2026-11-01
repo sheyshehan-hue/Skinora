@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-label="Three Skinora sample vials">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2E2924"/><stop offset="1" stop-color="#1A1917"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".55" r=".5"><stop offset="0" stop-color="#E2C992" stop-opacity=".28"/><stop offset="1" stop-color="#E2C992" stop-opacity="0"/></radialGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".18"/><stop offset=".35" stop-color="#fff" stop-opacity=".05"/><stop offset=".8" stop-color="#fff" stop-opacity=".02"/><stop offset="1" stop-color="#fff" stop-opacity=".16"/></linearGradient>
+    <linearGradient id="j1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3DFA9"/><stop offset="1" stop-color="#C99A4B"/></linearGradient>
+    <linearGradient id="j2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F2CFC9"/><stop offset="1" stop-color="#C98A93"/></linearGradient>
+    <linearGradient id="j3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D9B98F"/><stop offset="1" stop-color="#8A6A4F"/></linearGradient>
+    <linearGradient id="cap" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9C7A3C"/><stop offset=".5" stop-color="#E9D3A0"/><stop offset="1" stop-color="#9C7A3C"/></linearGradient>
+  </defs>
+  <rect width="800" height="800" fill="url(#bg)"/>
+  <ellipse cx="400" cy="470" rx="330" ry="300" fill="url(#glow)"/>
+  <rect x="120" y="610" width="560" height="64" rx="4" fill="#3A332C"/>
+  <rect x="120" y="606" width="560" height="10" fill="#4A4138"/>
+  <g>
+    <g transform="translate(230 250)"><rect x="-34" y="0" width="68" height="44" rx="6" fill="url(#cap)"/><rect x="-30" y="44" width="60" height="320" rx="14" fill="url(#j1)" opacity=".92"/><rect x="-30" y="44" width="60" height="320" rx="14" fill="url(#glass)"/><rect x="-30" y="44" width="60" height="70" fill="#fff" opacity=".08"/><rect x="-20" y="190" width="40" height="80" fill="#F6F2EC" opacity=".9"/><text x="0" y="226" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#1A1917" letter-spacing="2">N°1</text><text x="0" y="246" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="#5d584f" letter-spacing="1.5">2 ML</text></g>
+    <g transform="translate(400 220)"><rect x="-34" y="0" width="68" height="44" rx="6" fill="url(#cap)"/><rect x="-30" y="44" width="60" height="350" rx="14" fill="url(#j2)" opacity=".92"/><rect x="-30" y="44" width="60" height="350" rx="14" fill="url(#glass)"/><rect x="-30" y="44" width="60" height="70" fill="#fff" opacity=".08"/><rect x="-20" y="210" width="40" height="80" fill="#F6F2EC" opacity=".9"/><text x="0" y="246" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#1A1917" letter-spacing="2">N°2</text><text x="0" y="266" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="#5d584f" letter-spacing="1.5">2 ML</text></g>
+    <g transform="translate(570 250)"><rect x="-34" y="0" width="68" height="44" rx="6" fill="url(#cap)"/><rect x="-30" y="44" width="60" height="320" rx="14" fill="url(#j3)" opacity=".92"/><rect x="-30" y="44" width="60" height="320" rx="14" fill="url(#glass)"/><rect x="-30" y="44" width="60" height="70" fill="#fff" opacity=".08"/><rect x="-20" y="190" width="40" height="80" fill="#F6F2EC" opacity=".9"/><text x="0" y="226" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#1A1917" letter-spacing="2">N°3</text><text x="0" y="246" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="#5d584f" letter-spacing="1.5">2 ML</text></g>
+  </g>
+  <text x="400" y="128" text-anchor="middle" font-family="Georgia,serif" font-size="40" fill="#F6F2EC" letter-spacing="14">SKINORA</text>
+  <text x="400" y="166" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#E2C992" letter-spacing="5">YOUR SCENT FINDER SAMPLE SET</text>
+</svg>
