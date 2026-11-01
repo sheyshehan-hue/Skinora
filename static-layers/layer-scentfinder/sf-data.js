@@ -13,7 +13,13 @@
   };
 
   // Five questions. v = how much each answer adds to each family. m = mood, tm = time, s = strength (1 to 3).
+  // g = which shoppers see the option (women, men, all). No g = everyone.
   var Q = [
+    { k: 'who', eye: 'Before we start', q: 'Who is the scent for?', sub: 'We only show fragrances made for them.', o: [
+      { id: 'women', t: 'For her', d: 'Women\'s fragrances', sw: ['#F1D9D6', '#C98A93'], v: {} },
+      { id: 'men', t: 'For him', d: 'Men\'s fragrances', sw: ['#D8CFC2', '#3B2F2A'], v: {} },
+      { id: 'all', t: 'For anyone', d: 'Show me everything, including unisex', sw: ['#E9E4DA', '#B9AFA4'], v: {} }
+    ] },
     { k: 'mood', eye: 'Your mood', q: 'Pick the mood you want to wear', sub: 'How do you want to feel when you smell it on yourself?', o: [
       { id: 'calm', t: 'Calm and slow', d: 'A quiet Sunday, nowhere to be', sw: ['#E9E4DA', '#C9D3CC'], v: { musky: .6, fresh: .3, green: .2 }, m: 'calm' },
       { id: 'romantic', t: 'Romantic', d: 'Soft light, someone special', sw: ['#F1D9D6', '#C98A93'], v: { floral: .6, warm: .3, musky: .1 }, m: 'romantic' },
@@ -22,20 +28,24 @@
       { id: 'mysterious', t: 'Mysterious', d: 'Late nights, a little hard to read', sw: ['#4B3B3F', '#A4553F'], v: { woody: .4, spicy: .4, warm: .3 }, m: 'mysterious' }
     ] },
     { k: 'place', eye: 'Your happy place', q: 'Where would you rather be right now?', sub: 'Places we love hold the smells we love.', o: [
-      { id: 'beach', t: 'Mirissa beach at sunrise', d: 'Salt air, warm sand, coconut palms', sw: ['#BFD8D6', '#F3D9B1'], v: { fresh: .9, citrus: .3, green: .2 }, notes: ['sea salt', 'bergamot'] },
-      { id: 'tea', t: 'The tea hills of Nuwara Eliya', d: 'Cool mist, wet leaves, a hot cup', sw: ['#A9B89A', '#E5E8DD'], v: { green: .9, fresh: .4, woody: .2 }, notes: ['sage', 'green tea'] },
+      { id: 'beach', t: 'A quiet beach at sunrise', d: 'Salt air, warm sand, coconut palms', sw: ['#BFD8D6', '#F3D9B1'], v: { fresh: .9, citrus: .3, green: .2 }, notes: ['sea salt', 'bergamot'] },
+      { id: 'tea', t: 'Misty tea hills', d: 'Cool mist, wet leaves, a hot cup', sw: ['#A9B89A', '#E5E8DD'], v: { green: .9, fresh: .4, woody: .2 }, notes: ['sage', 'green tea'] },
       { id: 'garden', t: 'A garden of roses and jasmine', d: 'Petals everywhere after the rain', sw: ['#F0D3D3', '#F7F1E6'], v: { floral: 1, citrus: .1 }, notes: ['rose', 'jasmine'] },
-      { id: 'cafe', t: 'A little Paris patisserie', d: 'Vanilla, caramel and fresh pastry', sw: ['#EBD6BD', '#B98A55'], v: { warm: 1, floral: .2 }, notes: ['vanilla', 'praline'] },
+      { id: 'cafe', t: 'A little bakery and café', d: 'Vanilla, caramel and fresh pastry', sw: ['#EBD6BD', '#B98A55'], v: { warm: 1, floral: .2 }, notes: ['vanilla', 'praline'] },
       { id: 'temple', t: 'An old temple at dusk', d: 'Sandalwood, incense and oil lamps', sw: ['#8A6A4F', '#E8C98E'], v: { woody: .9, spicy: .3, warm: .3 }, notes: ['sandalwood', 'incense'] },
-      { id: 'spice', t: 'A spice market in Kandy', d: 'Cinnamon, cardamom and cloves', sw: ['#A4553F', '#E3B26B'], v: { spicy: 1, warm: .3, citrus: .2 }, notes: ['cardamom', 'pepper'] }
+      { id: 'spice', t: 'A busy spice market', d: 'Cinnamon, cardamom and cloves', sw: ['#A4553F', '#E3B26B'], v: { spicy: 1, warm: .3, citrus: .2 }, notes: ['cardamom', 'pepper'] }
     ] },
     { k: 'outfit', eye: 'Your outfit', q: 'Which outfit feels most like you?', sub: 'Your scent should go with what you wear.', o: [
       { id: 'linen', t: 'A crisp white linen shirt', d: 'Easy, clean, effortless', sw: ['#FBFAF6', '#DCE3E1'], v: { fresh: .5, citrus: .4, musky: .3 }, s: -0.5 },
-      { id: 'dress', t: 'A floaty summer dress', d: 'Pretty, light and bright', sw: ['#F6DCD5', '#F3E7B8'], v: { floral: .6, citrus: .3, warm: .1 }, m: 'playful' },
+      { id: 'dress', g: ['women'], t: 'A floaty summer dress', d: 'Pretty, light and bright', sw: ['#F6DCD5', '#F3E7B8'], v: { floral: .6, citrus: .3, warm: .1 }, m: 'playful' },
+      { id: 'tee', g: ['men'], t: 'A T-shirt, jeans and trainers', d: 'Relaxed, easy, weekend mode', sw: ['#DCE3E1', '#5E6B78'], v: { citrus: .4, fresh: .4, warm: .2 }, m: 'playful' },
+      { id: 'bright', g: ['all'], t: 'Something bright and fun', d: 'Colour, prints, a bit cheeky', sw: ['#F6E2A8', '#E59C7B'], v: { citrus: .5, floral: .3, warm: .1 }, m: 'playful' },
       { id: 'tailored', t: 'Something tailored and black', d: 'Sharp, sleek, polished', sw: ['#2A2725', '#7A7068'], v: { woody: .5, spicy: .3, citrus: .2 }, m: 'confident', s: 0.5 },
       { id: 'knit', t: 'A soft knit and comfy joggers', d: 'Cosy, warm, at home', sw: ['#E7DED2', '#C8B8A6'], v: { musky: .7, warm: .4 }, m: 'calm', s: -0.5 },
       { id: 'leather', t: 'A leather jacket', d: 'A bit of edge', sw: ['#3B2F2A', '#8A6A4F'], v: { woody: .5, spicy: .5, warm: .2 }, m: 'mysterious', s: 0.5 },
-      { id: 'saree', t: 'A silk saree for a wedding', d: 'Rich colour, gold, a big night', sw: ['#9C2F45', '#D8B05C'], v: { floral: .5, warm: .6, spicy: .1 }, m: 'romantic', s: 1, tm: 'evening' }
+      { id: 'saree', g: ['women'], t: 'A silk saree for a wedding', d: 'Rich colour, gold, a big night', sw: ['#9C2F45', '#D8B05C'], v: { floral: .5, warm: .6, spicy: .1 }, m: 'romantic', s: 1, tm: 'evening' },
+      { id: 'suit', g: ['men'], t: 'A sharp suit for a wedding', d: 'Polished, rich, a big night', sw: ['#1F2A3A', '#C6A15B'], v: { woody: .5, warm: .4, spicy: .3 }, m: 'confident', s: 1, tm: 'evening' },
+      { id: 'wedding', g: ['all'], t: 'Dressed up for a wedding', d: 'Your very best, a big night', sw: ['#9C2F45', '#D8B05C'], v: { warm: .5, floral: .3, woody: .3 }, m: 'romantic', s: 1, tm: 'evening' }
     ] },
     { k: 'when', eye: 'Your moments', q: 'When will you wear it most?', sub: 'Light scents suit the day. Rich ones shine at night.', o: [
       { id: 'day', t: 'Work and daytime', d: 'Office, errands, lunch with friends', sw: ['#F7F1E6', '#DCE3E1'], v: { fresh: .3, citrus: .3 }, tm: 'day' },

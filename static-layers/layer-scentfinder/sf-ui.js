@@ -5,6 +5,7 @@
   'use strict';
   var S = window.SKSF_DATA; if (!S) return;
   var host, D, BY = {}, a = {}, step = 0, who = 'all', ai = null, aiFor = '';
+  var vis = function (o) { return !o.g || o.g.indexOf(a.who || 'all') > -1; };
 
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
@@ -42,7 +43,7 @@
     var sum = FAMS.reduce(function (s, f) { return s + v[f]; }, 0) || 1;
     var mix = FAMS.map(function (f) { return { f: f, pct: Math.round(v[f] / sum * 100) }; }).filter(function (x) { return x.pct > 0; }).sort(function (x, y) { return y.pct - x.pct; });
     var top = mix[0] ? mix[0].f : 'fresh';
-    return { v: v, mood: mood || 'calm', time: time, str: str, mix: mix, top: top, notes: notes,
+    return { who: ans.who || 'all', v: v, mood: mood || 'calm', time: time, str: str, mix: mix, top: top, notes: notes,
       name: 'The ' + S.PERSONA.fam[top] + ' ' + S.PERSONA.mood[mood || 'calm'] };
   }
 
@@ -61,14 +62,14 @@
       var st = home ? 1 : 1 - Math.abs(s.s - pr.str) / 2;
       var total = 0.6 * c + 0.2 * m + 0.1 * t + 0.1 * st;
       return { slug: slug, p: p, s: s, score: total, pct: Math.min(98, Math.round(48 + 52 * total)) };
-    }).filter(function (x) { return home || who === 'all' || x.p.gender === who || x.p.gender === 'unisex'; })
+    }).filter(function (x) { return home || pr.who === 'all' || x.p.gender === pr.who; })
       .sort(function (x, y) { return y.score - x.score; });
   }
 
   /* ---------- words (used when the AI is off or slow) ---------- */
-  var PLACE = { beach: 'your sunrise on Mirissa beach', tea: 'the misty tea hills', garden: 'your rose and jasmine garden', cafe: 'that Paris patisserie', temple: 'the old temple at dusk', spice: 'the Kandy spice market' };
+  var PLACE = { beach: 'your beach at sunrise', tea: 'the misty tea hills', garden: 'your rose and jasmine garden', cafe: 'that little bakery', temple: 'the old temple at dusk', spice: 'the spice market' };
   var MOOD = { calm: 'It feels calm and easy', romantic: 'It is soft and romantic', confident: 'It gives you quiet confidence', playful: 'It is bright and fun', mysterious: 'It has a little mystery' };
-  var STORY_PLACE = { beach: 'on Mirissa beach at sunrise', tea: 'in the misty tea hills of Nuwara Eliya', garden: 'in a garden of roses and jasmine', cafe: 'in a little Paris patisserie', temple: 'at an old temple at dusk', spice: 'in a Kandy spice market' };
+  var STORY_PLACE = { beach: 'on a quiet beach at sunrise', tea: 'in the misty tea hills', garden: 'in a garden of roses and jasmine', cafe: 'in a little bakery and café', temple: 'at an old temple at dusk', spice: 'in a busy spice market' };
   var ADJ = { fresh: 'fresh', citrus: 'citrusy', floral: 'floral', green: 'herbal', woody: 'woody', warm: 'warm', spicy: 'spicy', musky: 'musky' };
   var TRAIL = { 1: 'stays close to your skin', 2: 'leaves a soft trail', 3: 'leaves a trail people remember' };
   var TRAIL_TO = { 1: 'stay close to your skin, just for you', 2: 'leave a soft trail when you walk past', 3: 'leave a trail people remember' };
@@ -118,8 +119,8 @@
   function renderQ() {
     var q = S.Q[step], last = get('scent', null);
     host.innerHTML = '<div class="sf2-prog" aria-hidden="true">' + S.Q.map(function (x, i) { return '<i class="' + (i <= step ? 'on' : '') + '"></i>'; }).join('') + '</div>' +
-      '<p class="sf2-eye">Question ' + (step + 1) + ' of ' + S.Q.length + ' · ' + q.eye + '</p><h2 class="sf2-q">' + esc(q.q) + '</h2><p class="sf2-sub">' + esc(q.sub) + '</p>' +
-      '<div class="sf2-opts n' + q.o.length + '" role="list">' + q.o.map(function (o) {
+      '<p class="sf2-eye">' + (step ? 'Question ' + step + ' of ' + (S.Q.length - 1) + ' · ' : '') + q.eye + '</p><h2 class="sf2-q">' + esc(q.q) + '</h2><p class="sf2-sub">' + esc(q.sub) + '</p>' +
+      '<div class="sf2-opts n' + q.o.filter(vis).length + '" role="list">' + q.o.filter(vis).map(function (o) {
         return '<button type="button" role="listitem" data-v="' + o.id + '" aria-pressed="' + (a[q.k] === o.id) + '" class="' + (a[q.k] === o.id ? 'on' : '') + '">' + swatch(o) + '<b>' + esc(o.t) + '</b><span>' + esc(o.d) + '</span></button>';
       }).join('') + '</div>' +
       '<div class="sf2-foot">' + (step ? '<button type="button" class="sf2-link" data-back>← Back</button>' : '<span></span>') +
@@ -203,24 +204,25 @@
   function init() {
     host = $('[data-sf2]'); if (!host) return;
     var last = get('scent', null);
-    if (/[?&]result/.test(location.search) && last && last.a) { a = last.a; who = last.who || 'all'; renderResult(); }
+    if (/[?&]result/.test(location.search) && last && last.a) { a = last.a; who = a.who || last.who || 'all'; renderResult(); }
     else renderQ();
     host.addEventListener('click', function (e) {
       var b = e.target.closest('[data-v]');
       if (b) {
         a[S.Q[step].k] = b.getAttribute('data-v');
+        if (S.Q[step].k === 'who') { who = a.who; var oo = opt('outfit', a.outfit); if (oo && !vis(oo)) delete a.outfit; }
         Array.prototype.forEach.call(host.querySelectorAll('[data-v]'), function (x) { x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', x === b); });
         setTimeout(function () { step++; if (step >= S.Q.length) finish(); else { renderQ(); host.scrollIntoView({ block: 'start', behavior: 'smooth' }); } }, 240);
         return;
       }
       if (e.target.closest('[data-back]')) { step = Math.max(0, step - 1); renderQ(); return; }
-      if (e.target.closest('[data-last]')) { var l = get('scent', null); if (l && l.a) { a = l.a; who = l.who || 'all'; step = S.Q.length; renderResult(); } return; }
-      if (e.target.closest('[data-restart]')) { a = {}; step = 0; ai = null; aiFor = ''; renderQ(); host.scrollIntoView({ block: 'start', behavior: 'smooth' }); return; }
+      if (e.target.closest('[data-last]')) { var l = get('scent', null); if (l && l.a) { a = l.a; who = a.who || l.who || 'all'; step = S.Q.length; renderResult(); } return; }
+      if (e.target.closest('[data-restart]')) { a = {}; who = 'all'; step = 0; ai = null; aiFor = ''; renderQ(); host.scrollIntoView({ block: 'start', behavior: 'smooth' }); return; }
       var w = e.target.closest('[data-who]');
       if (w) {
-        who = w.getAttribute('data-who');
+        who = a.who = w.getAttribute('data-who');
         var pr = profile(a), list = rank(pr, false);
-        if (!list.length) { who = 'all'; toast('No matches for that yet, showing everyone.'); }
+        if (!list.length) { who = a.who = 'all'; toast('No matches for that yet, showing everyone.'); }
         renderResult();
         askAI(pr, rank(pr, false).slice(0, 3), rank(pr, true)[0]).then(function (r) { if (r) renderResult(); });
         return;

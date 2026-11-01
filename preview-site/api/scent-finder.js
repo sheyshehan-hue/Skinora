@@ -14,7 +14,8 @@ A customer just answered five fun questions in our scent finder. Our matching en
   Use their answers (mood, happy place, outfit, when they wear it, how strong). Be specific and a little playful. No more than 60 words.
 - reasons: for every product given, one sentence of 10 to 22 words in simple English saying why it suits them, tying its real notes
   to something they chose. Do not repeat the same opening twice.
-Never invent products, notes, prices, offers or claims about how long a scent lasts. Do not mention percentages. No emojis.`;
+Never invent products, notes, prices, offers or claims about how long a scent lasts. Do not mention percentages. No emojis.
+Do not name any city, town or real place. If the scent is for him, write for a man; if for her, write for a woman.`;
 
 const TOOL = {
   name: 'scent_words',
