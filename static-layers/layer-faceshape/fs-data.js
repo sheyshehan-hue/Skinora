@@ -1,0 +1,314 @@
+/* Skinora face shape and style guide: the content. Plain, simple English, like the rest of the store.
+   Every suggestion says which of the customer's own features it works with. Nothing here rates a face. */
+(function () {
+  'use strict';
+
+  var SHAPES = {
+    oval: { name: 'Oval', line: 'Your face is a little longer than it is wide. Your forehead is slightly wider than your jaw, and your jaw curves softly to the chin.', goal: 'Your features are evenly spread, so most cuts work. Choose styles that keep your face on show.' },
+    round: { name: 'Round', line: 'Your face is close to as wide as it is long, with soft, full cheeks and a jaw that curves gently.', goal: 'Styles that add a little height and length, and some clean lines, suit you best.' },
+    square: { name: 'Square', line: 'Your forehead, cheekbones and jaw are close in width, and your jaw has clear, strong corners.', goal: { w: 'Soft layers and waves around the jaw balance its strong corners.', m: 'Short sides and neat lines show off your strong jaw.' } },
+    heart: { name: 'Heart', line: 'Your forehead is the wide part of your face. It narrows down to a slimmer jaw and a finer chin.', goal: 'Styles that add fullness near the jaw and keep the top lighter bring it into balance.' },
+    long: { name: 'Long', line: 'Your face is clearly longer than it is wide, and your forehead, cheekbones and jaw are close in width.', goal: 'Width at the sides and a fringe that shortens the forehead suit you. Skip a lot of height on top.' },
+    diamond: { name: 'Diamond', line: 'Your cheekbones are the widest part of your face, with a narrower forehead and a finer jaw and chin.', goal: 'Styles that add fullness at the forehead and at the chin frame your cheekbones.' }
+  };
+
+  // Outline icons, 60 x 80
+  var SHAPE_ICON = {
+    oval: 'M30 6C45 6 52 22 52 40C52 60 42 74 30 74C18 74 8 60 8 40C8 22 15 6 30 6Z',
+    round: 'M30 10C46 10 54 24 54 40C54 58 44 70 30 70C16 70 6 58 6 40C6 24 14 10 30 10Z',
+    square: 'M12 10H48C51 10 53 12 53 15V58C53 66 46 72 38 72H22C14 72 7 66 7 58V15C7 12 9 10 12 10Z',
+    heart: 'M30 74C22 70 10 56 8 38C7 22 14 8 30 8C46 8 53 22 52 38C50 56 38 70 30 74Z',
+    long: 'M30 4C44 4 49 14 49 26V54C49 68 40 76 30 76C20 76 11 68 11 54V26C11 14 16 4 30 4Z',
+    diamond: 'M30 6C38 6 44 18 52 36C46 56 38 74 30 74C22 74 14 56 8 36C16 18 22 6 30 6Z'
+  };
+
+  /* Traits: what stands out in this face, compared to most faces. Each comes from a measurement. */
+  var TRAITS = {
+    longFace: { name: 'Longer face', tip: 'Length is {L} times the width' },
+    shortFace: { name: 'Shorter, wider face', tip: 'Length is {L} times the width' },
+    wideForehead: { name: 'Wide forehead', tip: 'Forehead is {F} of your cheekbone width' },
+    narrowForehead: { name: 'Narrower forehead', tip: 'Forehead is {F} of your cheekbone width' },
+    strongJaw: { name: 'Wide, strong jaw', tip: 'Jaw is {J} of your cheekbone width' },
+    narrowJaw: { name: 'Slim jaw', tip: 'Jaw is {J} of your cheekbone width' },
+    angularJaw: { name: 'Defined jaw corners', tip: 'Jaw corner angle {A}°' },
+    softJaw: { name: 'Soft, curved jawline', tip: 'Jaw corner angle {A}°' },
+    pointedChin: { name: 'Fine, pointed chin', tip: 'Chin angle {CA}°' },
+    broadChin: { name: 'Broad chin', tip: 'Chin angle {CA}°' },
+    tallForehead: { name: 'Taller forehead', tip: 'Top third is {T1} of face length' },
+    shortForehead: { name: 'Shorter forehead', tip: 'Top third is {T1} of face length' },
+    longLower: { name: 'Longer lower face', tip: 'Lower third is {T3} of face length' },
+    shortLower: { name: 'Shorter lower face', tip: 'Lower third is {T3} of face length' },
+    cheekbones: { name: 'Cheekbones are your widest point', tip: 'Wider than forehead and jaw' },
+    wideEyes: { name: 'Wide-set eyes', tip: 'Gap between eyes is {E} eye widths' },
+    closeEyes: { name: 'Close-set eyes', tip: 'Gap between eyes is {E} eye widths' }
+  };
+
+  /* Haircuts. g: w (women) or m (men). tex: s straight, w wavy, c curly, k coily.
+     fit: how well it suits each face shape (0 to 3). why: a reason for each trait it works with.
+     not: traits it works against. ask: what to say to your stylist or barber. */
+  var CUTS = [
+    // ---------- Women ----------
+    { id: 'curtain', does: 'The bangs open at the centre and sweep to the cheekbones, which frames the eyes and softens the forehead.', g: 'w', n: 'Curtain bangs with long layers', len: 'Long', tex: 'swc', art: { len: 112, fringe: 'curtain' },
+      fit: { oval: 2, round: 1, square: 2, heart: 2, long: 3, diamond: 2 },
+      why: { tallForehead: 'Your forehead is the tallest of your three face sections ({T1}). Curtain bangs cover the top of it, so the three look more even.',
+        longFace: 'Your face is {L} times as long as it is wide. A fringe shortens it and adds width at the cheekbones.',
+        angularJaw: 'The soft curves of the fringe and layers balance your defined jaw corners.',
+        strongJaw: 'Layers that start at the cheekbones pull the eye up, away from the widest part of your jaw.',
+        wideEyes: 'Bangs that part in the middle frame your wide-set eyes and draw attention to them.',
+        cheekbones: 'The bangs end right at your cheekbones, your widest point, so they frame them.' },
+      not: ['shortForehead'], ask: 'Curtain bangs that start at the bridge of the nose, blended into long layers from the cheekbones down.' },
+    { id: 'layers', does: 'Long lengths with shorter pieces around the face add movement and draw the eye down.', g: 'w', n: 'Long face-framing layers', len: 'Long', tex: 'swck', art: { len: 116, fringe: 'mid' },
+      fit: { oval: 2, round: 3, square: 3, heart: 2, long: 1, diamond: 2 },
+      why: { shortFace: 'Your face is close to as wide as it is long ({L}). Length past the shoulders makes it look longer.',
+        strongJaw: 'Layers that start below your jaw soften its width instead of sitting on it.',
+        angularJaw: 'Soft layers around the jaw corners round off the strong lines.',
+        cheekbones: 'The first layer starts at your cheekbones and shows them off.',
+        softJaw: 'Long, sleek lengths add a clean vertical line to a soft jaw.' },
+      not: ['longFace'], ask: 'Keep the length. Face-framing layers that start at the chin, and long layers through the back for movement.' },
+    { id: 'lob', does: 'It ends just past the chin, which adds length to the face and keeps the jaw free.', g: 'w', n: 'Long bob (lob), slightly angled', len: 'Medium', tex: 'sw', art: { len: 100, fringe: 'side' },
+      fit: { oval: 2, round: 3, square: 2, heart: 2, long: 1, diamond: 2 },
+      why: { shortFace: 'A lob that ends 3 to 5 cm below the chin draws the eye down and makes a wider face look longer.',
+        strongJaw: 'It ends below your jaw, not at it, so it does not add width where your face is already wide.',
+        narrowJaw: 'Ends that flick out at the shoulders add width near your slimmer jaw.',
+        pointedChin: 'Fullness at chin level balances your finer chin.',
+        longLower: 'Movement around the jaw softens a longer lower face.' },
+      not: [], ask: 'A lob a little longer at the front than the back, ending 3 to 5 cm below the chin, with soft ends.' },
+    { id: 'bob', does: 'It puts width right at the jaw and chin.', g: 'w', n: 'Chin-length bob', len: 'Short', tex: 'sw', art: { len: 92, fringe: 'side', wide: 3 },
+      fit: { oval: 2, round: 0, square: 0, heart: 3, long: 2, diamond: 3 },
+      why: { narrowJaw: 'Your jaw is slimmer than your cheekbones ({J}). A bob puts volume right at the jaw to fill it out.',
+        pointedChin: 'Fullness at chin level balances your finer chin.',
+        wideForehead: 'The weight sits at the bottom of the cut, which balances your wider forehead.',
+        longFace: 'A bob with width at the sides makes a long face look shorter.',
+        cheekbones: 'A bob that ends at the chin fills in below your cheekbones, so the face looks evenly framed.' },
+      not: ['shortFace', 'strongJaw', 'angularJaw'], ask: 'A bob that ends at the chin, with soft volume at the sides and a light side part.' },
+    { id: 'sideswept', does: 'The fringe crosses the forehead at an angle, which breaks up width and adds a line.', g: 'w', n: 'Side-swept bangs, deep side part', len: 'Long', tex: 'sw', art: { len: 110, fringe: 'side' },
+      fit: { oval: 1, round: 3, square: 2, heart: 3, long: 2, diamond: 2 },
+      why: { wideForehead: 'A side-swept fringe covers part of your wider forehead and draws a line across it.',
+        shortFace: 'The diagonal line of the fringe adds an angle and makes the face look longer.',
+        tallForehead: 'The fringe covers some of your taller forehead ({T1}), so your face looks more even top to bottom.',
+        softJaw: 'The sharp diagonal line adds definition to a soft jawline.',
+        narrowForehead: 'Hair swept across the top adds width where your forehead is narrower.' },
+      not: [], ask: 'A deep side part with a long fringe swept across the forehead, ending at the cheekbone.' },
+    { id: 'pixie', does: 'It keeps the face fully open and lifts at the crown.', g: 'w', n: 'Textured pixie with side fringe', len: 'Short', tex: 'swk', art: { len: 64, fringe: 'pixie', top: 4 },
+      fit: { oval: 3, round: 1, square: 0, heart: 2, long: 0, diamond: 2 },
+      why: { cheekbones: 'Short hair puts your cheekbones, your widest point, fully on show.',
+        wideEyes: 'With nothing around the face, your wide-set eyes become the focus.',
+        pointedChin: 'Your fine chin and jaw look graceful with short hair.',
+        narrowJaw: 'A short cut shows off your slim jaw.',
+        shortFace: 'Keep some height at the crown to make the face look longer.' },
+      not: ['longFace', 'strongJaw', 'angularJaw'], ask: 'A textured pixie, longer on top with a side fringe, short and soft around the ears.' },
+    { id: 'shag', does: 'Layers add volume at the sides and around the cheekbones.', g: 'w', n: 'Soft shag with wispy layers', len: 'Medium', tex: 'wc', art: { len: 100, fringe: 'curtain', wide: 4, choppy: 1 },
+      fit: { oval: 2, round: 1, square: 3, heart: 1, long: 3, diamond: 2 },
+      why: { longFace: 'Volume at the sides makes your longer face look wider and shorter.',
+        angularJaw: 'Choppy layers around the jaw soften its strong corners.',
+        strongJaw: 'Layers break up the line at the jaw, so it looks softer.',
+        narrowForehead: 'Volume at the temples fills out a narrower forehead.',
+        tallForehead: 'The wispy fringe covers part of your taller forehead.' },
+      not: ['shortFace'], ask: 'A soft shag: lots of layers through the crown and sides, and a wispy curtain fringe.' },
+    { id: 'waves', does: 'Waves add width at the sides and soft movement around the face.', g: 'w', n: 'Shoulder-length waves', len: 'Medium', tex: 'wc', art: { len: 104, fringe: 'side', wide: 6, wavy: 1 },
+      fit: { oval: 2, round: 1, square: 2, heart: 2, long: 3, diamond: 3 },
+      why: { longFace: 'Waves add width at the sides, so a longer face looks more balanced.',
+        narrowForehead: 'Waves that start at temple height fill out a narrower forehead.',
+        narrowJaw: 'Fullness at jaw level adds width where your face is slimmer.',
+        cheekbones: 'Waves around the face soften the width at the cheekbones.',
+        angularJaw: 'Soft curves around the jaw balance its strong corners.' },
+      not: [], ask: 'Shoulder-length hair with long layers, styled in loose waves from the cheekbones down.' },
+    { id: 'curlybob', does: 'Curls sit at chin level and add round fullness at the bottom of the face.', g: 'w', n: 'Rounded curly bob', len: 'Short', tex: 'ck', art: { len: 92, fringe: 'none', wide: 8, curly: 1 },
+      fit: { oval: 2, round: 0, square: 1, heart: 3, long: 3, diamond: 2 },
+      why: { narrowJaw: 'Curls at chin level add the width that balances your slimmer jaw.',
+        pointedChin: 'Round volume around the chin balances your finer chin.',
+        longFace: 'The width of the curls makes a longer face look shorter.',
+        wideForehead: 'The fullest part of the cut sits low, which balances your forehead.' },
+      not: ['shortFace'], ask: 'A rounded bob cut dry, curl by curl, with the most volume at the jaw.' },
+    { id: 'crown', does: 'Curls stack at the top to add height while the sides stay closer.', g: 'w', n: 'Curls with height at the crown', len: 'Medium', tex: 'ck', art: { len: 96, fringe: 'none', top: 10, wide: 2, curly: 1 },
+      fit: { oval: 2, round: 3, square: 2, heart: 1, long: 0, diamond: 1 },
+      why: { shortFace: 'Height at the crown makes your face look longer ({L}).',
+        shortForehead: 'Lift at the roots makes a shorter forehead look taller.',
+        softJaw: 'Tighter sides and height on top add shape to a soft jaw.',
+        strongJaw: 'Volume on top balances the width of your jaw.' },
+      not: ['longFace', 'tallForehead'], ask: 'Layers cut to stack curls at the crown, with the sides kept a little closer.' },
+    { id: 'pony', does: 'Hair goes up and back, which lifts the face and shows its full shape.', g: 'w', n: 'Sleek high ponytail', len: 'Any', tex: 'swck', art: { len: 64, fringe: 'sleek', pony: 1 },
+      fit: { oval: 3, round: 2, square: 1, heart: 1, long: 0, diamond: 2 },
+      why: { cheekbones: 'Pulling hair up and back shows off your cheekbones.',
+        shortFace: 'A high ponytail adds height, which makes the face look longer.',
+        pointedChin: 'Hair off the face makes your fine chin and jaw a feature.',
+        wideEyes: 'A sleek, lifted style opens up the eye area.' },
+      not: ['longFace', 'wideForehead', 'tallForehead'], ask: 'For long hair: a sleek pony at crown height. Leave two thin face-framing pieces out if you want it softer.' },
+    { id: 'fullbangs', does: 'A full fringe shortens the forehead and puts the focus on the eyes.', g: 'w', n: 'Full fringe that skims the brows', len: 'Long', tex: 'sw', art: { len: 112, fringe: 'full' },
+      fit: { oval: 2, round: 0, square: 0, heart: 1, long: 3, diamond: 1 },
+      why: { tallForehead: 'A full fringe covers your taller forehead ({T1}), so your three face sections look even.',
+        longFace: 'A fringe across the forehead is the quickest way to make a long face look shorter.',
+        wideEyes: 'A fringe that ends at the brows makes the eyes the focus.' },
+      not: ['shortFace', 'shortForehead', 'strongJaw'], ask: 'A full, soft fringe that ends just at the brows, a little longer at the sides.' },
+
+    // ---------- Men ----------
+    { id: 'quiff', does: 'Height at the front adds length to the face, and short sides keep it neat.', g: 'm', n: 'Textured quiff', len: 'Short', tex: 'sw', art: { len: 62, fringe: 'quiff', top: 9, tight: 1 },
+      fit: { oval: 3, round: 3, square: 2, heart: 0, long: 0, diamond: 1 },
+      why: { shortFace: 'Your face is close to as wide as it is long ({L}). Height at the front makes it look longer.',
+        strongJaw: 'Height on top balances the width of your jaw.',
+        shortForehead: 'Lift at the front makes a shorter forehead look taller.',
+        softJaw: 'Short sides and height on top give your face more shape.' },
+      not: ['longFace', 'wideForehead', 'tallForehead'], ask: 'Short tapered sides, 7 to 10 cm on top, pushed up and back at the front with matte texture.' },
+    { id: 'sidepart', does: 'A clean part and tapered sides give a balanced, classic frame.', g: 'm', n: 'Classic side part, tapered sides', len: 'Short', tex: 'sw', art: { len: 62, fringe: 'part', top: 4 },
+      fit: { oval: 3, round: 2, square: 3, heart: 2, long: 1, diamond: 2 },
+      why: { angularJaw: 'The clean part line matches the sharp corners of your jaw.',
+        strongJaw: 'A neat, classic shape suits a strong, wide jaw.',
+        wideForehead: 'The part line breaks up a wider forehead.',
+        narrowForehead: 'Hair swept across from the part adds width at the temples.',
+        shortFace: 'Keep a little lift at the front to add height.' },
+      not: [], ask: 'A side part on your natural parting, scissor-cut on top, tapered (not faded) at the sides.' },
+    { id: 'crew', does: 'It is short and even, so the shape of your face does the work.', g: 'm', n: 'Crew cut', len: 'Short', tex: 'swck', art: { len: 58, fringe: 'crew', top: 3, tight: 1 },
+      fit: { oval: 3, round: 1, square: 3, heart: 1, long: 1, diamond: 1 },
+      why: { strongJaw: 'Short sides put your strong jaw on show.',
+        angularJaw: 'Clean, short lines match your defined jaw corners.',
+        cheekbones: 'Short hair makes your cheekbones stand out.',
+        shortLower: 'Keeping the top tidy and short balances a shorter lower face.' },
+      not: [], ask: 'A crew cut: number 2 or 3 on the sides, a little longer on top, slightly longer at the front.' },
+    { id: 'buzz', does: 'Almost no hair, so your face shape and features are the whole look.', g: 'm', n: 'Buzz cut', len: 'Very short', tex: 'swck', art: { len: 56, fringe: 'buzz', top: 0, tight: 1 },
+      fit: { oval: 3, round: 1, square: 3, heart: 1, long: 1, diamond: 2 },
+      why: { angularJaw: 'With almost no hair, your defined jaw becomes the main feature.',
+        cheekbones: 'A buzz cut makes your cheekbones the focus.',
+        strongJaw: 'Your strong jaw gives a buzz cut a clean, solid shape.',
+        longFace: 'Pair it with a beard that is fuller at the sides to add width.' },
+      not: ['shortFace'], ask: 'A number 2 to 4 all over, with a neat, natural neckline.' },
+    { id: 'crop', does: 'The fringe comes forward, which shortens the forehead and adds texture at the top.', g: 'm', n: 'Textured crop with short fringe', len: 'Short', tex: 'swc', art: { len: 60, fringe: 'crop', top: 4, tight: 1 },
+      fit: { oval: 2, round: 1, square: 2, heart: 3, long: 3, diamond: 3 },
+      why: { longFace: 'Your face is longer ({L}). A forward fringe makes it look shorter.',
+        tallForehead: 'A short fringe covers part of your taller forehead ({T1}).',
+        wideForehead: 'A fringe pushed forward makes your wider forehead look narrower.',
+        narrowForehead: 'Texture at the front adds fullness at the forehead.',
+        cheekbones: 'The fringe adds width at the top to frame your cheekbones.' },
+      not: ['shortForehead'], ask: 'A textured crop: skin or low fade at the sides, choppy texture on top, fringe cut straight just above the brows.' },
+    { id: 'fringe', does: 'The fringe sweeps across the forehead, which softens it.', g: 'm', n: 'Side-swept fringe', len: 'Short to medium', tex: 'sw', art: { len: 66, fringe: 'side', top: 4 },
+      fit: { oval: 2, round: 1, square: 1, heart: 3, long: 3, diamond: 2 },
+      why: { wideForehead: 'A fringe swept across the forehead makes it look narrower.',
+        tallForehead: 'It covers part of your taller forehead, so your face looks more even.',
+        longFace: 'A fringe shortens a longer face.',
+        pointedChin: 'Less width at the top balances your finer chin.' },
+      not: ['shortForehead'], ask: 'Keep 8 to 10 cm at the front and sweep it to one side. Medium taper at the sides.' },
+    { id: 'flow', does: 'Length around the ears and jaw adds width at the sides.', g: 'm', n: 'Medium-length flow', len: 'Medium', tex: 'wc', art: { len: 82, fringe: 'flow', top: 3, wide: 2 },
+      fit: { oval: 2, round: 0, square: 1, heart: 3, long: 2, diamond: 3 },
+      why: { narrowJaw: 'Length at the ears and jaw adds width at the bottom of your face, where it is slimmer.',
+        pointedChin: 'Hair around the jaw balances your finer chin.',
+        cheekbones: 'Hair behind the ears softens the width at your cheekbones.',
+        longFace: 'Fullness at the sides makes a longer face look wider.' },
+      not: ['shortFace'], ask: 'Grow it to the ears or jaw, with light layers. Tuck it behind the ears or push it back loosely.' },
+    { id: 'fade', does: 'Very short sides and volume on top make the face look longer and slimmer.', g: 'm', n: 'High fade with textured top', len: 'Short', tex: 'swck', art: { len: 58, fringe: 'crop', top: 8, tight: 2 },
+      fit: { oval: 2, round: 3, square: 1, heart: 0, long: 0, diamond: 0 },
+      why: { shortFace: 'Very short sides and volume on top make your face look longer and slimmer.',
+        softJaw: 'Tight sides add sharp lines to a soft jaw.',
+        strongJaw: 'Short sides keep the focus on your jaw.' },
+      not: ['longFace', 'narrowJaw', 'cheekbones'], ask: 'A high skin fade, with 5 to 7 cm of textured length on top.' },
+    { id: 'slick', does: 'Hair combed back opens the face and shows its strong lines.', g: 'm', n: 'Slick back, short sides', len: 'Medium', tex: 'sw', art: { len: 60, fringe: 'slick', top: 6, tight: 1 },
+      fit: { oval: 3, round: 1, square: 3, heart: 0, long: 0, diamond: 0 },
+      why: { angularJaw: 'A sleek shape with your defined jaw makes a strong, polished look.',
+        strongJaw: 'Combing the hair back balances a strong jaw.',
+        shortForehead: 'With all the hair back, a shorter forehead looks taller.' },
+      not: ['wideForehead', 'tallForehead', 'longFace'], ask: '10 to 12 cm on top to comb back, sides tapered short.' },
+    { id: 'curlytop', does: 'Curls on top add height, and tight sides keep the shape clean.', g: 'm', n: 'Curly top with taper fade', len: 'Short', tex: 'ck', art: { len: 60, fringe: 'none', top: 7, tight: 1, curly: 1 },
+      fit: { oval: 3, round: 2, square: 2, heart: 2, long: 1, diamond: 2 },
+      why: { shortFace: 'Curls stacked on top add height and make the face look longer.',
+        softJaw: 'Tight sides with curls on top add shape to a soft jaw.',
+        narrowForehead: 'Curls at the front add width at the forehead.',
+        angularJaw: 'The soft curls balance your sharp jaw lines.' },
+      not: ['longFace'], ask: 'A low or mid taper, with 5 to 8 cm of curls on top cut dry so they keep their shape.' },
+    { id: 'lineup', does: 'A short, even shape with sharp edges frames the face.', g: 'm', n: 'Short coils with a sharp line-up', len: 'Short', tex: 'k', art: { len: 58, fringe: 'buzz', top: 3, tight: 1, curly: 1 },
+      fit: { oval: 3, round: 2, square: 3, heart: 2, long: 2, diamond: 2 },
+      why: { angularJaw: 'A crisp line-up echoes your defined jaw corners.',
+        strongJaw: 'Clean edges and a short shape suit a strong jaw.',
+        softJaw: 'Sharp edges at the hairline and beard line add definition.' },
+      not: [], ask: 'Even length on top, a taper at the sides, and a sharp line-up at the forehead and temples.' }
+  ];
+
+  var BEARDS = [
+    { id: 'stubble', does: 'A light shadow follows your jawline without changing its shape.', n: 'Designer stubble', art: 'stubble', fit: { oval: 3, round: 2, square: 3, heart: 2, long: 2, diamond: 2 },
+      why: { angularJaw: 'Stubble shows the shape of your defined jaw without hiding it.', softJaw: 'A shadow along the jaw adds the look of more definition.', strongJaw: 'Light stubble keeps the focus on your strong jaw.' },
+      not: [], ask: 'Keep it at 3 to 5 mm. Clean the neckline 2 fingers above the Adam\'s apple.' },
+    { id: 'boxed', does: 'Short, straight lines frame the jaw and cheeks.', n: 'Short boxed beard', art: 'boxed', fit: { oval: 3, round: 2, square: 2, heart: 2, long: 3, diamond: 2 },
+      why: { longFace: 'Keep the sides a little fuller and the chin short. This adds width to a longer face.', softJaw: 'Straight lines on the cheeks and jaw add the definition a soft jaw lacks.', narrowJaw: 'A boxed beard adds width at your jaw.' },
+      not: [], ask: 'About 1 cm long, with sharp cheek lines and a straight neckline.' },
+    { id: 'full', does: 'It adds fullness and width along the jaw and chin.', n: 'Full beard, rounded at the chin', art: 'full', fit: { oval: 2, round: 0, square: 2, heart: 3, long: 1, diamond: 3 },
+      why: { narrowJaw: 'A full beard adds width at your jaw, where your face is slimmer.', pointedChin: 'It fills out a finer, pointed chin.', wideForehead: 'Weight at the bottom balances your wider forehead.', cheekbones: 'Fullness at the jaw balances your wide cheekbones.' },
+      not: ['shortFace', 'longFace'], ask: 'Grow 6 to 8 weeks, then shape it rounded at the chin, a little shorter on the cheeks.' },
+    { id: 'goatee', does: 'Hair at the chin only adds length to the lower face.', n: 'Goatee or anchor beard', art: 'goatee', fit: { oval: 2, round: 3, square: 2, heart: 0, long: 0, diamond: 1 },
+      why: { shortFace: 'Length at the chin makes your face look longer.', shortLower: 'It adds length to a shorter lower face.', softJaw: 'A pointed shape at the chin adds definition.', broadChin: 'It narrows the look of a broad chin.' },
+      not: ['longFace', 'longLower', 'pointedChin'], ask: 'Keep the chin 1 to 2 cm, with a moustache that connects or almost connects. Clean cheeks.' },
+    { id: 'circle', does: 'A rounded shape around the mouth softens the jaw.', n: 'Circle beard', art: 'circle', fit: { oval: 2, round: 1, square: 3, heart: 1, long: 1, diamond: 1 },
+      why: { angularJaw: 'A round beard around the mouth softens a square jaw.', strongJaw: 'It keeps the focus in the middle, not on the width of your jaw.', broadChin: 'The rounded shape softens a broad chin.' },
+      not: [], ask: 'A moustache joined to a rounded chin beard, cheeks shaved clean.' },
+    { id: 'chinstrap', does: 'A line along the jaw makes the jawline look sharper.', n: 'Short beard along the jaw', art: 'chinstrap', fit: { oval: 2, round: 2, square: 1, heart: 2, long: 2, diamond: 2 },
+      why: { softJaw: 'A line along the jaw draws in definition where it is soft.', narrowJaw: 'A defined jaw line adds width to a slimmer jaw.' },
+      not: ['angularJaw'], ask: 'A short beard that follows the jaw from ear to ear, about 1 cm wide.' },
+    { id: 'clean', does: 'Nothing hides your jaw and chin.', n: 'Clean shave', art: 'clean', fit: { oval: 3, round: 0, square: 2, heart: 1, long: 1, diamond: 2 },
+      why: { angularJaw: 'Your jaw lines are strong. A clean shave puts them fully on show.', cheekbones: 'A clean face makes your cheekbones stand out.', pointedChin: 'Shaved, your fine chin keeps its shape.' },
+      not: ['softJaw', 'shortLower', 'shortFace'], ask: 'Shave with the grain, and calm the skin after.' }
+  ];
+
+  var PART = {
+    w: { oval: 'Any parting works for you. A middle part with curtain bangs looks fresh. Side parts look polished.',
+      round: 'Choose a deep side part, it adds an angle. Skip a short, straight-across fringe.',
+      square: 'A soft side part, or a middle part with face-framing layers, softens the jaw.',
+      heart: 'A side part with side-swept bangs balances a wider forehead.',
+      long: 'Choose a fringe or curtain bangs. A middle part with flat sides makes the face look longer, so add volume at the sides.',
+      diamond: 'A side part or a fringe adds width at the forehead, which frames your cheekbones.' },
+    m: { oval: 'Any parting works. A natural side part is the easiest.',
+      round: 'Push hair up and to the side, not forward. Skip a heavy, flat fringe.',
+      square: 'A clean side part suits your jaw. Keep the sides short.',
+      heart: 'Push the fringe forward or to the side, not straight back.',
+      long: 'Bring the fringe forward. Avoid lots of height on top.',
+      diamond: 'A fringe or forward texture adds width at the forehead.' }
+  };
+
+  var BROWS = {
+    oval: 'A soft, angled arch. Follow your natural shape and keep it tidy.',
+    round: 'A higher arch with a clear peak adds length to the face.',
+    square: 'A rounded, curved arch softens the strong lines of the jaw.',
+    heart: 'A low, rounded arch balances a wider forehead.',
+    long: 'Flatter, straighter brows make the face look a little shorter.',
+    diamond: 'A curved brow with a soft peak, a little longer at the tail, to widen the top of the face.'
+  };
+  var BROWS_M = 'Keep the natural thickness. Only tidy the hairs between the brows and the stray hairs underneath.';
+  var BROW_TRAIT = {
+    closeEyes: 'Your eyes are a little close-set, so start your brows in line with the inner corner of each eye, or a touch further out. This opens up the space between them.',
+    wideEyes: 'Your eyes are wide-set, so fill in the start of your brows a little closer to the nose. This brings the eye area together.',
+    tallForehead: 'A slightly higher arch fills more of a tall forehead.',
+    shortForehead: 'Keep the arch low and soft, so it does not crowd a shorter forehead.'
+  };
+
+  // Contour and blush. Zones are drawn on her photo.
+  var MAKEUP = {
+    oval: { contour: 'Lightly, just under the cheekbones.', blush: 'On the apples of the cheeks, blended up toward the temples.', zones: ['underCheek', 'blushApple', 'hiCheek'] },
+    round: { contour: 'Under the cheekbones and down the sides of the face, to add shape.', blush: 'Just above the apples, swept up toward the ears.', zones: ['underCheek', 'sides', 'blushUp', 'hiCheek', 'hiNose'] },
+    square: { contour: 'On the corners of the jaw and the sides of the forehead, to soften them.', blush: 'In a round shape on the apples of the cheeks.', zones: ['jawCorner', 'temple', 'blushApple', 'hiCheek'] },
+    heart: { contour: 'At the temples and the sides of the forehead. A little under the chin.', blush: 'Just below the cheekbones, blended out toward the ears.', zones: ['temple', 'underChin', 'blushLow', 'hiChin'] },
+    long: { contour: 'Along the hairline and under the chin, to shorten the face.', blush: 'Straight across the cheeks, not up, to add width.', zones: ['hairline', 'underChin', 'blushFlat', 'hiCheek'] },
+    diamond: { contour: 'Just under the widest point of the cheekbones.', blush: 'On the apples, blended in toward the nose.', zones: ['underCheek', 'blushApple', 'hiForehead', 'hiChin'] }
+  };
+  var MAKEUP_TRAIT = {
+    longLower: 'Your lower face is longer ({T3}). Add a little shade just under the chin.',
+    tallForehead: 'Your forehead is taller ({T1}). A soft shade along the hairline balances it.',
+    strongJaw: 'Your jaw is wide ({J}). Blend contour along the jaw corners.',
+    pointedChin: 'Highlight the centre of the chin to soften a fine chin.'
+  };
+
+  var TEXTURE = {
+    s: { n: 'Straight', tip: 'Straight hair shows every line of the cut, so ask for soft, point-cut ends.' },
+    w: { n: 'Wavy', tip: 'Let your waves do the work: scrunch in a light cream and air-dry, or diffuse on low heat.' },
+    c: { n: 'Curly', tip: 'Ask for a dry cut, curl by curl, so the shape stays true once your curls spring up.' },
+    k: { n: 'Coily', tip: 'Coily hair shrinks a lot, so plan length with your stylist. Keep it moisturised, and protect it at night.' }
+  };
+
+  // Shop the look: products from the catalogue, with what they do for this look.
+  var SHOP = {
+    w: [['mount-lai-rose-quartz-gua-sha-facial-lifting-tool', 'Sculpt along your cheekbones and jaw, the same lines as your contour map.'],
+      ['glow-recipe-watermelon-glow-niacinamide-dew-drops', 'A dewy highlight on the top of your cheekbones.'],
+      ['laneige-lip-sleeping-mask-berry', 'Soft, smooth lips to finish the look.'],
+      ['la-roche-posay-anthelios-uvmune-400-invisible-fluid-spf50', 'A light SPF base that sits well under makeup.']],
+    m: [['cerave-foaming-cleanser', 'Cleans skin and beard, and takes away oil.'],
+      ['la-roche-posay-cicaplast-baume-b5', 'Calms skin after a shave or a beard trim.'],
+      ['the-ordinary-niacinamide-10-zinc-1', 'Less shine on the forehead and nose.'],
+      ['dior-sauvage-eau-de-toilette', 'A fresh scent to finish the look.']]
+  };
+
+  window.SKFACE_DATA = { SHAPES: SHAPES, SHAPE_ICON: SHAPE_ICON, TRAITS: TRAITS, CUTS: CUTS, BEARDS: BEARDS, PART: PART, BROWS: BROWS, BROWS_M: BROWS_M, BROW_TRAIT: BROW_TRAIT, MAKEUP: MAKEUP, MAKEUP_TRAIT: MAKEUP_TRAIT, TEXTURE: TEXTURE, SHOP: SHOP };
+})();

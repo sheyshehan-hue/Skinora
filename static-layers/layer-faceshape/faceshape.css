@@ -1,0 +1,98 @@
+/* Skinora face shape and style scan */
+/* Shared with the skin scan, repeated so this layer also works on its own */
+.sks-choice { display: flex; align-items: center; gap: 20px; width: 100%; text-align: left; padding: 22px 24px; background: #fff; border: 1px solid rgba(26,25,23,.15); transition: border-color .3s, transform .3s }
+.sks-choice:hover { border-color: #1A1917; transform: translateY(-1px) }
+.sks-choice.is-new { border-color: #C6A15B; box-shadow: 0 0 0 1px #C6A15B inset }
+.sks-choice-ic { display: grid; place-items: center; width: 52px; height: 52px; flex: none; border-radius: 999px; background: #F6F2EC; color: #9C7A3C }
+.sks-new { display: inline-block; margin-bottom: 4px; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: #9C7A3C }
+.sks-tips { display: grid; gap: 12px; margin-top: 32px; font-size: 14px; color: #5f5a52 }
+.sks-tips li { border: 1px solid rgba(26,25,23,.1); background: #fff; padding: 16px }
+@media (min-width: 640px) { .sks-tips { grid-template-columns: repeat(3, 1fr) } }
+.sks-consent { display: flex; gap: 12px; align-items: flex-start; margin-top: 32px; font-size: 14px; color: #5f5a52; cursor: pointer }
+.sks-consent input { margin-top: 4px; width: 16px; height: 16px; flex: none; accent-color: #1A1917 }
+.sks-error { margin-top: 24px; border-left: 2px solid #8E4A49; background: #fff; padding: 12px 16px; font-size: 14px; color: #8E4A49 }
+.sks-cam, .sks-scan { position: relative; width: 100%; max-width: 28rem; aspect-ratio: 1; overflow: hidden; background: #1A1917 }
+.sks-cam video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1) }
+.sks-oval { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none }
+.sks-oval div { width: 54%; height: 72%; border-radius: 50%; border: 2px dashed rgba(246,241,232,.8); box-shadow: 0 0 0 9999px rgba(26,25,23,.45) }
+.sks-cam p { position: absolute; left: 0; right: 0; bottom: 16px; text-align: center; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: #F6F1E8 }
+.sks-beam { position: absolute; left: 0; right: 0; height: 33%; background: linear-gradient(to bottom, transparent, rgba(198,161,91,.45), transparent); animation: sks-beam 2.2s ease-in-out infinite }
+@keyframes sks-beam { 0% { top: -33% } 50% { top: 100% } 100% { top: -33% } }
+.sks-account { margin-top: 64px; border: 1px solid rgba(26,25,23,.1); background: #fff; padding: 32px }
+.sks-account-empty { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px }
+@media (max-width: 560px) { .sks-account { padding: 22px } .sks-choice { padding: 18px; gap: 14px } }
+
+.skf-seg { display: inline-flex; border: 1px solid rgba(26,25,23,.18); background: #fff; padding: 3px; gap: 3px }
+.skf-seg button { min-height: 44px; padding: 0 22px; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: #5f5a52; transition: background .25s, color .25s }
+.skf-seg button.is-on { background: #1A1917; color: #F6F2EC }
+.skf-seg-sm button { min-height: 38px; padding: 0 14px; font-size: 11px }
+.skf-stage { position: relative; width: 100%; max-width: 30rem; overflow: hidden; background: #1A1917 }
+.skf-stage img { display: block; width: 100%; height: 100%; object-fit: cover }
+.skf-stage:not(.is-result) img { opacity: .85 }
+.skf-stage.is-result img { filter: saturate(.92) contrast(1.02) }
+.skf-ov { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible }
+.skf-line { fill: none; stroke: #C6A15B; stroke-width: var(--sw, 2px); filter: drop-shadow(0 0 3px rgba(198,161,91,.55)) }
+.skf-faint { opacity: .45 }
+.skf-draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: skf-draw 1.4s .2s cubic-bezier(.6,.1,.2,1) forwards }
+@keyframes skf-draw { to { stroke-dashoffset: 0 } }
+.skf-dash { stroke: rgba(246,241,232,.75); stroke-width: calc(var(--sw, 2px) * .6); stroke-dasharray: 6 5 }
+.skf-solid { stroke: #C6A15B; stroke-width: calc(var(--sw, 2px) * .8) }
+.skf-dot { fill: #E9D3A3 }
+.skf-fade { opacity: 0; animation: skf-in .6s forwards }
+@keyframes skf-in { to { opacity: 1 } }
+.skf-lbl { fill: #F6F1E8; font-family: inherit; letter-spacing: .06em; paint-order: stroke; stroke: rgba(26,25,23,.75); stroke-width: 3px; stroke-linejoin: round; opacity: 0; animation: skf-in .6s 1.6s forwards }
+.skf-mesh circle { fill: #E9D3A3; opacity: 0; animation: skf-pt 1.2s forwards }
+@keyframes skf-pt { 0% { opacity: 0; transform: scale(.2) } 40% { opacity: 1 } 100% { opacity: .75 } }
+.skf-mesh circle { transform-box: fill-box; transform-origin: center }
+.skf-zones { animation: skf-in .8s forwards }
+.skf-zone-edge { fill: none; stroke-width: calc(var(--sw, 2px) * .55); stroke-dasharray: 3 4; opacity: .85 }
+.skf-legend { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; font-size: 12px; color: #5f5a52 }
+.skf-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 999px; margin-right: -8px }
+.skf-shapes { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px }
+@media (min-width: 640px) { .skf-shapes { grid-template-columns: repeat(3, 1fr) } }
+.skf-shapes button { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 22px 14px; background: #fff; border: 1px solid rgba(26,25,23,.12); text-align: center; color: #1A1917; transition: border-color .25s }
+.skf-shapes button:hover:not(:disabled) { border-color: #C6A15B }
+.skf-shapes button:disabled { opacity: .45 }
+.skf-shapes svg { color: #9C7A3C }
+.skf-hero { display: grid; gap: 36px; align-items: start }
+@media (min-width: 860px) { .skf-hero { grid-template-columns: minmax(0, 30rem) 1fr; gap: 56px } }
+.skf-shape-big { display: grid; place-items: center; padding: 40px; background: #fff; border: 1px solid rgba(26,25,23,.1); color: #9C7A3C }
+.skf-mix { margin-top: 22px; display: grid; gap: 8px; font-size: 13px; color: #5f5a52; max-width: 26rem }
+.skf-mix li { display: grid; grid-template-columns: 5.5rem 1fr 2.5rem; gap: 10px; align-items: center }
+.skf-mix li span:last-child { text-align: right }
+.skf-mix-bar { height: 3px; background: rgba(26,25,23,.08) }
+.skf-mix-bar i { display: block; height: 100%; background: #C6A15B }
+.skf-traits { margin-top: 12px; display: grid; gap: 8px }
+.skf-traits li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; border: 1px solid rgba(26,25,23,.1); background: #fff; padding: 12px 14px; font-size: 14px }
+.skf-traits b { font-weight: 500 }
+.skf-traits span { color: #6f6a62; font-size: 13px }
+.skf-sec { display: flex; gap: 24px; margin-top: 64px; padding-top: 40px; border-top: 1px solid rgba(26,25,23,.1) }
+.skf-num { flex: none; width: 2.5rem; font-family: var(--font-serif), Georgia, serif; font-size: 28px; color: #9C7A3C; line-height: 1.2 }
+@media (max-width: 640px) { .skf-sec { flex-direction: column; gap: 4px; margin-top: 48px; padding-top: 32px } }
+.skf-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 8px }
+.skf-chips button { min-height: 40px; padding: 0 16px; border: 1px solid rgba(26,25,23,.18); border-radius: 999px; background: #fff; font-size: 13px; transition: background .2s, color .2s }
+.skf-chips button.is-on { background: #1A1917; border-color: #1A1917; color: #F6F2EC }
+.skf-cards { margin-top: 24px; display: grid; gap: 16px }
+@media (min-width: 900px) { .skf-cards { grid-template-columns: 1fr 1fr } }
+.skf-card { display: flex; gap: 18px; background: #fff; border: 1px solid rgba(26,25,23,.1); padding: 20px }
+.skf-card:first-child { border-color: #C6A15B; box-shadow: 0 0 0 1px #C6A15B inset }
+.skf-card-art { flex: none; width: 96px; color: #3a352e; background: #F6F2EC; display: grid; place-items: end center; padding-top: 8px; align-self: flex-start }
+.skf-art { width: 100%; height: auto; display: block; --sk-paper: #FBF8F3 }
+.skf-card-body { min-width: 0; flex: 1 }
+.skf-why { margin-top: 8px; display: grid; gap: 10px; font-size: 14px; color: #3f3a33; line-height: 1.5 }
+.skf-trait { display: inline-block; margin-right: 8px; padding: 1px 8px; border-radius: 999px; background: #F3EAD7; color: #7a5c25; font-size: 11px; letter-spacing: .04em; white-space: nowrap }
+.skf-ask { margin-top: 14px; display: flex; gap: 8px; align-items: flex-start; border-top: 1px solid rgba(26,25,23,.08); padding-top: 12px; font-size: 13px; color: #5f5a52 }
+.skf-ask svg { flex: none; margin-top: 3px; color: #9C7A3C }
+.skf-ask b { font-weight: 500; color: #1A1917 }
+.skf-skip { margin-top: 20px }
+.skf-skip ul { margin-top: 8px; display: grid; gap: 8px; font-size: 14px; color: #5f5a52 }
+.skf-skip li { display: flex; gap: 8px; align-items: flex-start }
+.skf-skip svg { flex: none; margin-top: 4px; color: #8E4A49 }
+.skf-skip b { font-weight: 500; color: #1A1917 }
+.skf-two { display: grid; gap: 16px }
+@media (min-width: 640px) { .skf-two { grid-template-columns: 1fr 1fr } }
+.skf-prods { margin-top: 18px; display: grid; gap: 12px }
+.skf-prod { display: flex; gap: 16px; align-items: center; background: #fff; border: 1px solid rgba(26,25,23,.1); padding: 12px }
+.skf-prod-img { flex: none; width: 72px; height: 88px; background: #EFE9E1; overflow: hidden }
+.skf-prod-img img { width: 100%; height: 100%; object-fit: cover }
+@media (max-width: 560px) { .skf-card { padding: 16px; gap: 14px } .skf-card-art { width: 72px } .skf-prod-img { width: 60px; height: 74px } }
