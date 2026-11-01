@@ -850,6 +850,8 @@ details .skf-hsteps{margin-top:6px}
 .skf-need { margin-top: 14px; border-left: 2px solid #C6A15B; background: #fff; padding: 10px 14px; font-size: 14px; color: #1A1917 }
 .skf-nudge { animation: skf-nudge .7s ease-in-out 2; outline: 2px solid #C6A15B; outline-offset: 3px }
 @keyframes skf-nudge { 0%, 100% { transform: translateX(0) } 25% { transform: translateX(-5px) } 75% { transform: translateX(5px) } }
+.skf-hot { margin-bottom: 6px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 11px; letter-spacing: .06em; color: #7a5c25 }
+.skf-hot b { padding: 2px 8px; border-radius: 999px; background: #1A1917; color: #E9D3A3; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; font-size: 10px }
 </style><script id="sk-face-js">/* Skinora face engine: landmarks -> measurements. Shared by the face scan UI. */
 (function () {
   'use strict';
@@ -1170,6 +1172,46 @@ details .skf-hsteps{margin-top:6px}
         wideEyes: 'A fringe that ends at the brows makes the eyes the focus.' },
       not: ['shortFace', 'shortForehead', 'strongJaw'], ask: 'A full, soft fringe that ends just at the brows, a little longer at the sides.' },
 
+    // ---------- Women: trending now (2026) ----------
+    { id: 'butterfly', hot: 'Seen on Sabrina Carpenter', does: 'Short, face-framing layers sit on top of long lengths, so you get the movement of a short cut and keep your length.', g: 'w', n: 'Butterfly cut', len: 'Long', tex: 'swc', art: { len: 116, fringe: 'curtain', wavy: 1 },
+      fit: { oval: 3, round: 2, square: 3, heart: 2, long: 2, diamond: 3 },
+      why: { angularJaw: 'The rounded, blown-out layers soften the corners of your jaw.',
+        strongJaw: 'The volume sits at your cheekbones, which pulls the eye up from the width of your jaw.',
+        cheekbones: 'The shortest layer ends right at your cheekbones, your widest point, and shows them off.',
+        longFace: 'Volume at the sides adds width, so a longer face looks more balanced.',
+        tallForehead: 'The shortest layers fall across the forehead, so the top of your face looks shorter.',
+        narrowForehead: 'Layers swept out at the temples add width where your forehead is narrower.' },
+      not: ['shortForehead'], ask: 'A butterfly cut: keep the length, shortest layers at the cheekbones blended into long layers, blow-dried round and out.' },
+    { id: 'italianbob', hot: 'Seen on Hailey Bieber', does: 'A full, heavy bob that ends at the jaw, with the weight kept at the ends.', g: 'w', n: 'Italian bob', len: 'Short', tex: 'sw', art: { len: 84, fringe: 'side' },
+      fit: { oval: 3, round: 1, square: 1, heart: 3, long: 3, diamond: 3 },
+      why: { narrowJaw: 'The weight of the bob sits right at your jaw, which adds width where your face is slimmer.',
+        pointedChin: 'Fullness at chin level balances your finer chin.',
+        longFace: 'A thick bob at the jaw adds width and makes a longer face look shorter.',
+        cheekbones: 'Fullness at the jaw balances your wide cheekbones.',
+        wideForehead: 'Weight at the bottom balances your wider forehead.' },
+      not: ['shortFace', 'strongJaw'], ask: 'An Italian bob: blunt and full at the ends, just below the jaw, with soft, bent ends and a deep side part.' },
+    { id: 'frenchbob', hot: 'Seen on Margot Robbie', does: 'A short, tousled bob between the cheekbones and the jaw, usually worn with a fringe.', g: 'w', n: 'French bob with a soft fringe', len: 'Short', tex: 'swc', art: { len: 80, fringe: 'full' },
+      fit: { oval: 3, round: 0, square: 1, heart: 2, long: 3, diamond: 2 },
+      why: { longFace: 'Your face is {L} times as long as it is wide. The fringe and short length both make it look shorter.',
+        tallForehead: 'Your forehead is the tallest of your three face sections ({T1}). The fringe covers it.',
+        narrowJaw: 'Volume ends near your jaw, where your face is slimmer.',
+        wideEyes: 'A fringe that ends at the brows makes your eyes the focus.' },
+      not: ['shortFace', 'shortForehead', 'strongJaw'], ask: 'A French bob: just above the jaw at the front, soft texture, and a light fringe that touches the brows.' },
+    { id: 'wolf', hot: 'Seen on Billie Eilish', does: 'A choppy mix of a shag and a mullet: lots of layers on top, longer and lighter at the back.', g: 'w', n: 'Wolf cut', len: 'Medium', tex: 'wc', art: { len: 96, fringe: 'mid', wavy: 1 },
+      fit: { oval: 3, round: 2, square: 3, heart: 1, long: 2, diamond: 2 },
+      why: { angularJaw: 'Choppy, broken-up layers soften your defined jaw corners.',
+        strongJaw: 'Volume on top and at the cheekbones draws the eye away from your wider jaw.',
+        shortFace: 'Height from the layers on top makes your face look longer.',
+        softJaw: 'Texture at the sides adds shape around a soft jaw.' },
+      not: ['narrowJaw', 'pointedChin'], ask: 'A wolf cut: short, choppy layers at the crown, curtain fringe, length kept at the back and thinned out.' },
+    { id: 'bixie', hot: 'Seen on Zendaya', does: 'Between a pixie and a bob: short, with a bit more length and softness around the face.', g: 'w', n: 'Bixie (long pixie)', len: 'Short', tex: 'swc', art: { len: 72, fringe: 'pixie' },
+      fit: { oval: 3, round: 1, square: 1, heart: 3, long: 1, diamond: 3 },
+      why: { pointedChin: 'Your fine chin looks graceful with short hair.',
+        narrowJaw: 'A slim jaw is shown off by a short, close shape.',
+        cheekbones: 'A short cut puts your cheekbones on show.',
+        wideEyes: 'With the hair short, your eyes become the focus.' },
+      not: ['strongJaw', 'longFace', 'shortFace'], ask: 'A bixie: short at the nape, longer pieces around the ears and a long, side-swept fringe.' },
+
     // ---------- Men ----------
     { id: 'quiff', does: 'Height at the front adds length to the face, and short sides keep it neat.', g: 'm', n: 'Textured quiff', len: 'Short', tex: 'sw', art: { len: 62, fringe: 'quiff', top: 9, tight: 1 },
       fit: { oval: 3, round: 3, square: 2, heart: 0, long: 0, diamond: 1 },
@@ -1246,7 +1288,44 @@ details .skf-hsteps{margin-top:6px}
       why: { angularJaw: 'A crisp line-up echoes your defined jaw corners.',
         strongJaw: 'Clean edges and a short shape suit a strong jaw.',
         softJaw: 'Sharp edges at the hairline and beard line add definition.' },
-      not: [], ask: 'Even length on top, a taper at the sides, and a sharp line-up at the forehead and temples.' }
+      not: [], ask: 'Even length on top, a taper at the sides, and a sharp line-up at the forehead and temples.' },
+    // ---------- Men: trending now (2026) ----------
+    { id: 'lowtaper', hot: 'Most requested at barbers', does: 'A soft fade that starts low at the ears and neck, with a textured top. Clean, but less harsh than a high fade.', g: 'm', n: 'Low taper fade, textured top', len: 'Short', tex: 'swck', art: { len: 62, fringe: 'crop', top: 5, tight: 1 },
+      fit: { oval: 3, round: 2, square: 3, heart: 2, long: 2, diamond: 2 },
+      why: { strongJaw: 'A low taper keeps some weight at the sides, so it doesn\'t make your jaw look wider.',
+        angularJaw: 'Clean lines at the neck and ears match your defined jaw.',
+        narrowForehead: 'Keeping the sides low and full adds width at the temples.',
+        longFace: 'A low fade keeps width at the sides, which suits a longer face better than a high fade.' },
+      not: [], ask: 'A low taper fade, starting just above the ear, with 5 to 7 cm of textured length on top.' },
+    { id: 'mullet', hot: 'Seen on Paul Mescal', does: 'Short and textured at the front and sides, with extra length at the back.', g: 'm', n: 'Modern mullet', len: 'Short to medium', tex: 'swc', art: { len: 72, fringe: 'crop', tight: 1 },
+      fit: { oval: 3, round: 1, square: 2, heart: 3, long: 1, diamond: 3 },
+      why: { narrowJaw: 'Length at the back of the neck adds weight below your slimmer jaw.',
+        pointedChin: 'Hair around the neck balances your finer chin.',
+        cheekbones: 'Short, close sides show off your cheekbones.',
+        wideForehead: 'A textured fringe breaks up a wider forehead.' },
+      not: ['shortFace', 'strongJaw'], ask: 'A modern mullet: textured on top, tapered at the sides, about 5 cm longer at the back, kept soft.' },
+    { id: 'frenchcrop', hot: 'Classic, back in fashion', does: 'Short all round, with a blunt fringe brushed forward.', g: 'm', n: 'French crop', len: 'Short', tex: 'swck', art: { len: 60, fringe: 'crop', top: 2, tight: 2 },
+      fit: { oval: 3, round: 1, square: 3, heart: 2, long: 3, diamond: 2 },
+      why: { tallForehead: 'The forward fringe covers part of your forehead, so the three sections of your face look even.',
+        wideForehead: 'A straight fringe makes your wider forehead look narrower.',
+        longFace: 'A fringe forward is the quickest way to make a longer face look shorter.',
+        angularJaw: 'The straight fringe line matches the sharp corners of your jaw.' },
+      not: ['shortForehead', 'shortFace'], ask: 'A French crop: short sides, 3 to 5 cm on top pushed forward, fringe cut straight across.' },
+    { id: 'warrior', hot: 'Seen on Brad Pitt', does: 'Longer hair, chin to shoulder length, pushed back off the face and left loose.', g: 'm', n: 'Warrior cut (long, pushed back)', len: 'Medium to long', tex: 'swc', art: { len: 90, fringe: 'slick' },
+      fit: { oval: 3, round: 0, square: 3, heart: 2, long: 1, diamond: 3 },
+      why: { angularJaw: 'Long, loose hair around a strong jaw makes the jaw the focus.',
+        strongJaw: 'Length past the jaw frames it instead of sitting on its widest point.',
+        narrowJaw: 'Hair falling around the jaw adds width where your face is slimmer.',
+        cheekbones: 'Pushed back off the face, the hair shows off your cheekbones.' },
+      not: ['shortFace', 'longFace'], ask: 'Grow it to the chin or below. Long layers, pushed back with a light cream, ends left natural.' },
+    { id: 'twoblock', hot: 'Seen on K-pop stars', does: 'Short, clipped sides under a longer, soft top that falls into a curtain fringe.', g: 'm', n: 'Two-block cut with curtain fringe', len: 'Short to medium', tex: 'sw', art: { len: 62, fringe: 'curtain', top: 3, tight: 1 },
+      fit: { oval: 3, round: 2, square: 2, heart: 2, long: 3, diamond: 3 },
+      why: { tallForehead: 'The curtain fringe covers the top of your forehead.',
+        longFace: 'A fringe that falls forward makes a longer face look shorter.',
+        wideForehead: 'Fringe parted at the centre breaks up a wider forehead.',
+        cheekbones: 'The fringe ends near your cheekbones and frames them.',
+        softJaw: 'Clean, short sides add shape around a soft jaw.' },
+      not: ['shortForehead'], ask: 'A two-block: sides clipped short (no fade), 8 to 10 cm on top, parted in the middle into a curtain fringe.' }
   ];
 
   var BEARDS = [
@@ -1270,7 +1349,13 @@ details .skf-hsteps{margin-top:6px}
       not: ['angularJaw'], ask: 'A short beard that follows the jaw from ear to ear, about 1 cm wide.' },
     { id: 'clean', does: 'Nothing hides your jaw and chin.', n: 'Clean shave', art: 'clean', fit: { oval: 3, round: 0, square: 2, heart: 1, long: 1, diamond: 2 },
       why: { angularJaw: 'Your jaw lines are strong. A clean shave puts them fully on show.', cheekbones: 'A clean face makes your cheekbones stand out.', pointedChin: 'Shaved, your fine chin keeps its shape.' },
-      not: ['softJaw', 'shortLower', 'shortFace'], ask: 'Shave with the grain, and calm the skin after.' }
+      not: ['softJaw', 'shortLower', 'shortFace'], ask: 'Shave with the grain, and calm the skin after.' },
+    { id: 'balbo', hot: 'Seen on Robert Downey Jr.', does: 'A moustache and a chin beard that do not quite meet, with clean cheeks.', n: 'Balbo beard', art: 'goatee', fit: { oval: 3, round: 3, square: 2, heart: 1, long: 1, diamond: 2 },
+      why: { shortFace: 'Length at the chin makes a wider face look longer.', broadChin: 'Shaped at the chin, it narrows the look of a broad chin.', softJaw: 'Clean, sharp lines add definition to a soft jaw.', shortLower: 'It adds length to a shorter lower face.' },
+      not: ['longFace', 'longLower'], ask: 'A balbo: a moustache left separate from a 1 to 2 cm chin beard that runs along the jaw a little. Cheeks clean.' },
+    { id: 'fadedbeard', hot: 'A top beard trend this year', does: 'The beard fades from skin at the sideburns into a short beard on the jaw and chin.', n: 'Faded beard', art: 'boxed', fit: { oval: 3, round: 3, square: 2, heart: 2, long: 2, diamond: 2 },
+      why: { shortFace: 'Short at the cheeks and fuller at the chin, it makes your face look longer.', softJaw: 'The fade sharpens the line of a soft jaw.', angularJaw: 'Clean fading at the sides shows off your jaw corners.', strongJaw: 'Tight at the sides, it doesn\'t add more width to a wide jaw.' },
+      not: [], ask: 'Fade the sideburns from skin into the beard. Keep the jaw about 5 mm and the chin about 1 cm.' }
   ];
 
   var PART = {
@@ -1381,7 +1466,7 @@ details .skf-hsteps{margin-top:6px}
   function rank(list, r) {
     var has = {}; r.traits.forEach(function (t) { has[t.id] = t.s; });
     return list.map(function (c) {
-      var s = (c.fit[r.shape] || 0) * 2 + (r.second ? (c.fit[r.second] || 0) * 0.6 : 0), reasons = [], against = [];
+      var s = (c.fit[r.shape] || 0) * 2 + (r.second ? (c.fit[r.second] || 0) * 0.6 : 0) + (c.hot && (c.fit[r.shape] || 0) >= 2 ? 1.5 : 0), reasons = [], against = [];
       Object.keys(c.why).forEach(function (k) { if (has[k] != null) { s += 1 + Math.min(has[k], 3) * 0.3; reasons.push({ t: k, s: has[k], text: c.why[k] }); } });
       (c.not || []).forEach(function (k) { if (has[k] != null) { s -= 2.5; against.push(k); } });
       reasons.sort(function (a, b) { return b.s - a.s; });
@@ -1661,13 +1746,13 @@ details .skf-hsteps{margin-top:6px}
     function card(x, beard) {
       var v = vals(R.m), c = x.c;
       var why = x.reasons.slice(0, full ? 3 : 2).map(function (r) { return '<li><span class="skf-trait">' + esc(Dt.TRAITS[r.t].name) + '</span>' + esc(fill(r.text, v)) + '</li>'; });
-      var f = c.fit[R.shape] || 0, sn = Dt.SHAPES[R.shape].name;
-      if (why.length < 2 && c.does) why.push('<li><span class="skf-trait">' + esc(sn) + ' face</span>' + esc(c.does) + ' ' + (f >= 3 ? 'That is exactly what a ' + sn.toLowerCase() + ' face needs.' : f >= 2 ? 'This works well with a ' + sn.toLowerCase() + ' face.' : 'Style it as shown to keep the balance.') + '</li>');
+      var f = c.fit[R.shape] || 0, sn = Dt.SHAPES[R.shape].name, an = /^[AEIOU]/.test(sn) ? 'an ' : 'a ';
+      if (why.length < 2 && c.does) why.push('<li><span class="skf-trait">' + esc(sn) + ' face</span>' + esc(c.does) + ' ' + (f >= 3 ? 'That is exactly what ' + an + sn.toLowerCase() + ' face needs.' : f >= 2 ? 'This works well with ' + an + sn.toLowerCase() + ' face.' : 'Style it as shown to keep the balance.') + '</li>');
       if (!why.length) why = ['<li><span class="skf-trait">' + esc(sn) + ' face</span>' + esc(goal(Dt.SHAPES[R.shape], R.gender)) + '</li>'];
       var tex = beard ? '' : c.tex.split('').map(function (t) { return Dt.TEXTURE[t].n; }).join(', ');
       return '<article class="skf-card animate-fadeUp">' +
         '<div class="skf-card-art">' + (beard ? art({ len: 60, fringe: 'crop', top: 3, tight: 1 }, c.art) : art(c.art)) + '</div>' +
-        '<div class="skf-card-body"><h3 class="font-serif text-2xl leading-tight">' + esc(c.n) + '</h3>' +
+        '<div class="skf-card-body">' + (c.hot ? '<p class="skf-hot"><b>Trending</b>' + esc(c.hot) + '</p>' : '') + '<h3 class="font-serif text-2xl leading-tight">' + esc(c.n) + '</h3>' +
         (beard ? '' : '<p class="mt-1 text-[11px] uppercase tracking-[0.14em] text-ink-400">' + esc(c.len) + ' · ' + esc(tex) + '</p>') +
         '<p class="mt-4 text-[11px] uppercase tracking-[0.16em] text-champagne-700">Why it suits you</p><ul class="skf-why">' + why.join('') + '</ul>' +
         '<p class="skf-ask">' + svg(IC.scissors, 14) + '<span><b>Ask for:</b> ' + esc(c.ask) + '</span></p></div></article>';

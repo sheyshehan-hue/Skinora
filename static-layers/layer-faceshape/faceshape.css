@@ -99,3 +99,5 @@
 .skf-need { margin-top: 14px; border-left: 2px solid #C6A15B; background: #fff; padding: 10px 14px; font-size: 14px; color: #1A1917 }
 .skf-nudge { animation: skf-nudge .7s ease-in-out 2; outline: 2px solid #C6A15B; outline-offset: 3px }
 @keyframes skf-nudge { 0%, 100% { transform: translateX(0) } 25% { transform: translateX(-5px) } 75% { transform: translateX(5px) } }
+.skf-hot { margin-bottom: 6px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 11px; letter-spacing: .06em; color: #7a5c25 }
+.skf-hot b { padding: 2px 8px; border-radius: 999px; background: #1A1917; color: #E9D3A3; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; font-size: 10px }

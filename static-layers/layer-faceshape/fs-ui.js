@@ -37,7 +37,7 @@
   function rank(list, r) {
     var has = {}; r.traits.forEach(function (t) { has[t.id] = t.s; });
     return list.map(function (c) {
-      var s = (c.fit[r.shape] || 0) * 2 + (r.second ? (c.fit[r.second] || 0) * 0.6 : 0), reasons = [], against = [];
+      var s = (c.fit[r.shape] || 0) * 2 + (r.second ? (c.fit[r.second] || 0) * 0.6 : 0) + (c.hot && (c.fit[r.shape] || 0) >= 2 ? 1.5 : 0), reasons = [], against = [];
       Object.keys(c.why).forEach(function (k) { if (has[k] != null) { s += 1 + Math.min(has[k], 3) * 0.3; reasons.push({ t: k, s: has[k], text: c.why[k] }); } });
       (c.not || []).forEach(function (k) { if (has[k] != null) { s -= 2.5; against.push(k); } });
       reasons.sort(function (a, b) { return b.s - a.s; });
@@ -317,13 +317,13 @@
     function card(x, beard) {
       var v = vals(R.m), c = x.c;
       var why = x.reasons.slice(0, full ? 3 : 2).map(function (r) { return '<li><span class="skf-trait">' + esc(Dt.TRAITS[r.t].name) + '</span>' + esc(fill(r.text, v)) + '</li>'; });
-      var f = c.fit[R.shape] || 0, sn = Dt.SHAPES[R.shape].name;
-      if (why.length < 2 && c.does) why.push('<li><span class="skf-trait">' + esc(sn) + ' face</span>' + esc(c.does) + ' ' + (f >= 3 ? 'That is exactly what a ' + sn.toLowerCase() + ' face needs.' : f >= 2 ? 'This works well with a ' + sn.toLowerCase() + ' face.' : 'Style it as shown to keep the balance.') + '</li>');
+      var f = c.fit[R.shape] || 0, sn = Dt.SHAPES[R.shape].name, an = /^[AEIOU]/.test(sn) ? 'an ' : 'a ';
+      if (why.length < 2 && c.does) why.push('<li><span class="skf-trait">' + esc(sn) + ' face</span>' + esc(c.does) + ' ' + (f >= 3 ? 'That is exactly what ' + an + sn.toLowerCase() + ' face needs.' : f >= 2 ? 'This works well with ' + an + sn.toLowerCase() + ' face.' : 'Style it as shown to keep the balance.') + '</li>');
       if (!why.length) why = ['<li><span class="skf-trait">' + esc(sn) + ' face</span>' + esc(goal(Dt.SHAPES[R.shape], R.gender)) + '</li>'];
       var tex = beard ? '' : c.tex.split('').map(function (t) { return Dt.TEXTURE[t].n; }).join(', ');
       return '<article class="skf-card animate-fadeUp">' +
         '<div class="skf-card-art">' + (beard ? art({ len: 60, fringe: 'crop', top: 3, tight: 1 }, c.art) : art(c.art)) + '</div>' +
-        '<div class="skf-card-body"><h3 class="font-serif text-2xl leading-tight">' + esc(c.n) + '</h3>' +
+        '<div class="skf-card-body">' + (c.hot ? '<p class="skf-hot"><b>Trending</b>' + esc(c.hot) + '</p>' : '') + '<h3 class="font-serif text-2xl leading-tight">' + esc(c.n) + '</h3>' +
         (beard ? '' : '<p class="mt-1 text-[11px] uppercase tracking-[0.14em] text-ink-400">' + esc(c.len) + ' · ' + esc(tex) + '</p>') +
         '<p class="mt-4 text-[11px] uppercase tracking-[0.16em] text-champagne-700">Why it suits you</p><ul class="skf-why">' + why.join('') + '</ul>' +
         '<p class="skf-ask">' + svg(IC.scissors, 14) + '<span><b>Ask for:</b> ' + esc(c.ask) + '</span></p></div></article>';
