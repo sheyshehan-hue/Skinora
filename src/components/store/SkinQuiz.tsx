@@ -1,12 +1,13 @@
 "use client";
 import { useMemo, useState } from "react";
 import clsx from "clsx";
-import { ArrowLeft, ListChecks, ScanFace } from "lucide-react";
+import { ArrowLeft, ListChecks, ScanFace, Smile } from "lucide-react";
 import type { Card } from "@/lib/catalog";
 import { useCart } from "@/store/cart";
 import { formatLKR } from "@/lib/format";
 import { ProductCard } from "./ProductCard";
 import { SkinScan } from "./SkinScan";
+import { FaceScan, type FaceShopProduct } from "./FaceScan";
 import { concernList, type SkinResult } from "@/lib/skin-metrics";
 
 type Candidate = Card & { category: string; skinTypes: string[]; concerns: string[]; keyIngredients: string[]; luxury: boolean };
@@ -34,8 +35,8 @@ function score(p: Candidate, a: Answers) {
   return s;
 }
 
-export function SkinQuiz({ candidates, startWithScan = false }: { candidates: Candidate[]; startWithScan?: boolean }) {
-  const [mode, setMode] = useState<"choose" | "scan" | "questions">(startWithScan ? "scan" : "choose");
+export function SkinQuiz({ candidates, startWithScan = false, startWithFace = false, showSavedFace = false, faceProducts = [] }: { candidates: Candidate[]; startWithScan?: boolean; startWithFace?: boolean; showSavedFace?: boolean; faceProducts?: FaceShopProduct[] }) {
+  const [mode, setMode] = useState<"choose" | "scan" | "questions" | "face">(startWithFace ? "face" : startWithScan ? "scan" : "choose");
   const [scan, setScan] = useState<SkinResult | null>(null);
   const [step, setStep] = useState(0);
   const [a, setA] = useState<Answers>({});
@@ -86,10 +87,20 @@ export function SkinQuiz({ candidates, startWithScan = false }: { candidates: Ca
               <p className="mt-2 font-serif text-3xl">Answer five questions</p>
               <p className="mt-3 text-sm text-ink-600">Tell us about your skin, your day and your budget.</p>
             </button>
+            <button onClick={() => setMode("face")} className="animate-fadeUp border border-champagne-400 bg-white p-8 transition duration-500 hover:border-ink sm:col-span-2" style={{ animationDelay: "160ms" }}>
+              <Smile width={28} strokeWidth={1} className="text-champagne-700" />
+              <p className="mt-6 text-[11px] uppercase tracking-luxe text-champagne-700">New · AI style scan</p>
+              <p className="mt-2 font-serif text-3xl">Find my face shape and hairstyle</p>
+              <p className="mt-3 text-sm text-ink-600">Take a selfie. We measure your face and show the haircuts and beard styles that suit you, and why, then let you try them on your own photo.</p>
+            </button>
           </div>
         </div>
       </div>
     );
+  }
+
+  if (mode === "face") {
+    return <FaceScan onBack={() => setMode("choose")} products={faceProducts} showSaved={showSavedFace} />;
   }
 
   if (mode === "scan") {
