@@ -24,8 +24,9 @@
   function load() {
     if (landmarker) return Promise.resolve(landmarker);
     if (loading) return loading;
-    var local = new URL(ASSET, document.baseURI).href;
-    loading = tryLoad(local, local + 'face_landmarker.task')
+    // SKFACE_ASSETS = 'cdn' skips the self-hosted copy (stores that do not ship vendor/mediapipe).
+    var local = ASSET === 'cdn' ? null : new URL(ASSET, document.baseURI).href;
+    loading = (local ? tryLoad(local, local + 'face_landmarker.task') : Promise.reject(new Error('cdn only')))
       .catch(function () { return tryLoad(CDN, MODEL_CDN); })
       .then(function (l) { landmarker = l; return l; }, function (e) { loading = null; var x = new Error('The face scan could not start here.'); x.skfLoad = true; x.cause = e; throw x; });
     return loading;

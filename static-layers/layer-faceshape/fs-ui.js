@@ -202,6 +202,8 @@
   }
 
   /* ---------- the screens ---------- */
+  // Options when mounted by another app (the Next.js store): onBack, products, addToCart, productHref.
+  var OPT = {};
   function attach(host) {
     if (host.__skfBound) return;
     host.__skfBound = 1;
@@ -361,12 +363,12 @@
       }).join('') + '</ul></div>';
     }
     function productRows(g) {
-      var D = window.__skfData || (function () { try { return (window.__skfData = JSON.parse(document.getElementById('sk-data').textContent)); } catch (e) { return { products: [] }; } })();
+      var D = OPT.products ? { products: OPT.products } : window.__skfData || (function () { try { return (window.__skfData = JSON.parse(document.getElementById('sk-data').textContent)); } catch (e) { return { products: [] }; } })();
       var by = {}; D.products.forEach(function (p) { by[p.slug] = p; });
       var fmt = function (n) { return 'LKR ' + Math.round(n).toLocaleString('en-US'); };
       return Dt.SHOP[g].map(function (s) { var p = by[s[0]]; return p && p.variants && p.variants[0] && p.variants[0].stock > 0 ? { p: p, why: s[1] } : null; }).filter(Boolean).map(function (x) {
         var p = x.p;
-        return '<li class="skf-prod"><a href="p__' + p.slug + '.html" class="skf-prod-img"><img src="' + p.image + '" alt="' + esc(p.brand + ' ' + p.name) + '"></a><div class="min-w-0 flex-1"><p class="text-[11px] uppercase tracking-[0.14em] text-ink-500">' + esc(p.brand) + '</p><a href="p__' + p.slug + '.html" class="block font-serif text-lg leading-snug hover:underline">' + esc(p.name) + '</a><p class="mt-1 text-sm text-ink-600">' + esc(x.why) + '</p></div><div class="flex flex-col items-end gap-2"><span class="text-sm">' + fmt(p.variants[0].price) + '</span><button class="btn-outline !h-9 !px-3 !text-[10.5px]" data-f="add-' + p.slug + '">Add</button></div></li>';
+        return '<li class="skf-prod"><a href="' + href(p.slug) + '" class="skf-prod-img"><img src="' + p.image + '" alt="' + esc(p.brand + ' ' + p.name) + '"></a><div class="min-w-0 flex-1"><p class="text-[11px] uppercase tracking-[0.14em] text-ink-500">' + esc(p.brand) + '</p><a href="' + href(p.slug) + '" class="block font-serif text-lg leading-snug hover:underline">' + esc(p.name) + '</a><p class="mt-1 text-sm text-ink-600">' + esc(x.why) + '</p></div><div class="flex flex-col items-end gap-2"><span class="text-sm">' + fmt(p.variants[0].price) + '</span><button class="btn-outline !h-9 !px-3 !text-[10.5px]" data-f="add-' + p.slug + '">Add</button></div></li>';
       }).join('');
     }
 
@@ -483,7 +485,7 @@
       if (e.target.closest('[data-s]')) stop(); // leaving to the skin scan screens
       var b = e.target.closest('[data-f]'); if (!b || !host.contains(b)) return;
       var k = b.getAttribute('data-f');
-      if (k === 'back') { stop(); location.href = 'quiz.html'; }
+      if (k === 'back') { stop(); if (OPT.onBack) OPT.onBack(); else location.href = 'quiz.html'; }
       else if (k === 'intro') { error = null; intro(); }
       else if (k === 'g-w' || k === 'g-m') { gender = k.slice(2); var y0 = window.scrollY; intro(); window.scrollTo(0, y0); }
       else if (k === 'camera') { if (ready()) camera(); }
@@ -500,7 +502,8 @@
       else if (k.indexOf('tex-') === 0) { var t = k.slice(4); texture = texture === t ? null : t; R.texture = texture; save(R); var y = window.scrollY; result(); window.scrollTo(0, y); }
       else if (k === 'swap') { R.gender = gender = R.gender === 'm' ? 'w' : 'm'; view = 'lines'; full = false; save(R); result(); }
       else if (k.indexOf('add-') === 0) {
-        var D = window.__skfData, p = D && D.products.filter(function (x) { return x.slug === k.slice(4); })[0], c = window.__sk && window.__sk.cart(), v0 = p && p.variants[0];
+        var D = OPT.products ? { products: OPT.products } : window.__skfData, p = D && D.products.filter(function (x) { return x.slug === k.slice(4); })[0], c = window.__sk && window.__sk.cart(), v0 = p && p.variants[0];
+        if (OPT.addToCart) c = { add: OPT.addToCart };
         if (c && v0 && v0.stock > 0) c.add({ variantId: v0.id, productId: p.id, slug: p.slug, brand: p.brand, name: p.name, variantName: v0.name, price: v0.price, compareAt: v0.compareAt, image: p.image, maxQty: v0.stock }, 1);
       }
     });
@@ -550,7 +553,16 @@
     if (skin) skin.parentNode.insertBefore(sec, skin.nextSibling); else grid.parentNode.insertBefore(sec, grid);
   }
 
-  window.SKFACE = { hook: hook, art: art };
+  var href = function (slug) { return OPT.productHref ? OPT.productHref(slug) : 'p__' + slug + '.html'; };
+  // Mount the face scan into any element. Used by the Next.js store.
+  function mount(host, o) {
+    OPT = o || {};
+    attach(host);
+    var sv = saved();
+    if (OPT.showSaved && sv && Dt.SHAPES[sv.shape]) host.__skfShow(sv); else host.__skfIntro();
+    return function () { if (host.__skfStop) host.__skfStop(); var lb = document.getElementById('skf-lb'); if (lb) lb.remove(); };
+  }
+  window.SKFACE = { hook: hook, art: art, mount: mount };
   var path = function () { return (document.body && document.body.getAttribute('data-sk-path') || '').split('?')[0]; };
   if (window.SKSCAN && window.SKSCAN.quiz && !window.SKSCAN.__skfWrapped) {
     // With the skin scan: a third option on its start screen.
