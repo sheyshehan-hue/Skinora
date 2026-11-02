@@ -525,7 +525,7 @@ details .skf-hsteps{margin-top:6px}
   ];
   var WORD = { acne: 'pimples', pigmentation: 'dark spots', ageing: 'lines', dryness: 'dry skin', pores: 'big pores', dullness: 'dull skin', redness: 'red skin' };
   var SKIN = { oily: 'Oily', combination: 'Combination', dry: 'Dry', normal: 'Normal', sensitive: 'Sensitive' };
-  var RESCAN_DAYS = 28;
+  var RESCAN_DAYS = 14;
 
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
   var words = function (l) { var w = l.map(function (c) { return WORD[c] || c; }); return w.length > 1 ? w.slice(0, -1).join(', ') + ' and ' + w[w.length - 1] : (w[0] || ''); };
@@ -638,7 +638,7 @@ details .skf-hsteps{margin-top:6px}
         '<div class="animate-fadeUp"><h1 class="text-balance font-serif text-4xl font-light leading-tight sm:text-5xl">Take a selfie and we will read your skin</h1>' +
         '<p class="mt-5 text-ink-600">Our AI looks at 8 things, like moisture, oil, pores and dark spots. Then we make a routine for you.</p>' +
         '<ul class="sks-tips">' + ['Face a window or soft daylight', 'No filters and no heavy makeup', 'Hair away from your face, glasses off'].map(function (t, i) { return '<li><span class="font-serif text-xl text-champagne-700">0' + (i + 1) + '</span><br>' + t + '</li>'; }).join('') + '</ul>' +
-        '<label class="sks-consent"><input type="checkbox" data-s="consent"' + (consent ? ' checked' : '') + '><span>I agree that Skinora can check my photo with AI. The photo is used once and never saved. Only my scores are kept. This is beauty advice, not medical advice.</span></label>' +
+        '<label class="sks-consent"><input type="checkbox" data-s="consent"' + (consent ? ' checked' : '') + '><span>I agree that Skinora can check my photo with AI. The photo is used once and never saved by Skinora. Only my scores are kept. I can choose to keep the photo on this device for my skin diary. This is beauty advice, not medical advice.</span></label>' +
         (error ? '<p role="alert" class="sks-error">' + esc(error) + '</p>' : '') +
         '<div class="mt-8 grid gap-3 sm:grid-cols-2"><button data-s="camera" class="btn-primary"' + (consent ? '' : ' disabled') + '>' + svg(IC.camera) + ' Take a selfie</button><button data-s="upload" class="btn-outline"' + (consent ? '' : ' disabled') + '>' + svg(IC.upload) + ' Upload a photo</button></div>' +
         '<input type="file" accept="image/*" data-s="file" hidden><input type="file" accept="image/*" capture="user" data-s="selfie" hidden>' +
@@ -695,10 +695,11 @@ details .skf-hsteps{margin-top:6px}
         (r.engine === 'demo' ? '<p class="mt-4 text-xs text-ink-400">Demo estimate. The full AI scan turns on when the store\'s AI key is added.</p>' : '') + '</div></div>' +
         '<div class="mt-14 border-t border-ink/10 pt-10">' + bars(r.scores) + '</div>' +
         '<div class="mt-14 flex flex-col items-center gap-4 border-t border-ink/10 pt-10 text-center"><button data-s="routine" class="btn-primary">Make my routine</button>' +
-        '<p class="text-sm text-ink-500">Saved to <a class="underline" href="account.html">My account</a>. Scan again in 4 weeks to see how your skin changes.</p>' +
+        '<p class="text-sm text-ink-500">Saved to your <a class="underline" href="diary.html">skin diary</a>. Scan again in 2 weeks to see how your skin changes.</p>' +
         '<button data-s="intro" class="text-[11px] uppercase tracking-[0.16em] text-ink-500 hover:text-ink">Take a new photo</button></div></div>';
       host.__skScan = r;
       window.scrollTo(0, 0);
+      try { window.dispatchEvent(new CustomEvent('sks:scan', { detail: { scan: store.all()[0], photo: preview } })); } catch (e) {}
     }
 
     if (!host.__sksBound) {
@@ -2020,6 +2021,568 @@ details .skf-hsteps{margin-top:6px}
   }
   var onAccount = function () { if (path() === '/account') setTimeout(account, 0); };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', onAccount); else onAccount();
+})();
+</script><style id="sk-diary-css">/* Skinora skin progress diary */
+.skd-head { padding-bottom: 36px }
+.skd-example { margin-bottom: 28px; border-left: 2px solid #C6A15B; background: #fff; padding: 14px 18px; font-size: 14px; color: #4a463f }
+.skd-example a { text-decoration: underline; margin-left: 4px }
+.skd-top { display: grid; gap: 24px; align-items: stretch }
+@media (min-width: 900px) { .skd-top { grid-template-columns: 1fr 340px } }
+.skd-hero { display: flex; flex-wrap: wrap; align-items: center; gap: 28px; background: #fff; border: 1px solid rgba(26,25,23,.1); padding: 32px }
+.skd-hero > div { flex: 1; min-width: 220px }
+.skd-ring { flex: none }
+.skd-big { margin-top: 10px; font-family: var(--font-serif), Georgia, serif; font-weight: 300; font-size: clamp(32px, 4.2vw, 52px); line-height: 1.05; text-wrap: balance }
+.skd-due { background: #F6F2EC; border: 1px solid rgba(26,25,23,.08); padding: 28px }
+.skd-due.is-now { background: #1A1917; color: #F6F1E8; border-color: #1A1917 }
+.skd-due.is-now .text-ink-500, .skd-due.is-now .eyebrow { color: rgba(246,241,232,.7) }
+.skd-due.is-now .btn-primary { background: #C6A15B; border-color: #C6A15B; color: #1A1917 }
+.skd-due .eyebrow { display: flex; align-items: center; gap: 8px }
+.skd-link { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; border-bottom: 1px solid currentColor; padding-bottom: 2px; text-align: left; line-height: 1.8 }
+.skd-sec { margin-top: 64px; padding-top: 40px; border-top: 1px solid rgba(26,25,23,.1) }
+.skd-sec-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; margin-bottom: 28px }
+.skd-h3 { font-family: var(--font-serif), Georgia, serif; font-weight: 400; font-size: clamp(26px, 3vw, 36px); line-height: 1.1 }
+.skd-changes { display: grid; gap: 1px; background: rgba(26,25,23,.1); border: 1px solid rgba(26,25,23,.1); grid-template-columns: repeat(2, 1fr) }
+@media (min-width: 768px) { .skd-changes { grid-template-columns: repeat(4, 1fr) } }
+.skd-changes li { background: #fff; padding: 20px }
+.skd-ch-name { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: #6b655c }
+.skd-ch-big { margin-top: 8px; font-family: var(--font-serif), Georgia, serif; font-size: 30px; line-height: 1 }
+.skd-ch-sub { margin-top: 8px; font-size: 12px; color: #8d877d }
+.skd-changes .is-good .skd-ch-big { color: #5E7356 }
+.skd-changes .is-bad .skd-ch-big { color: #8E4A49 }
+.skd-changes .is-same .skd-ch-big { color: #8d877d }
+.skd-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px }
+.skd-pills li { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 6px 12px; font-size: 13px; border: 1px solid rgba(26,25,23,.12); background: #fff }
+.skd-pills .is-good { color: #3f5338; background: #EEF2EA; border-color: #D5DECF }
+.skd-pills .is-bad { color: #8E4A49; background: #F7ECEB; border-color: #EBD3D2 }
+.skd-pills .is-same { color: #6b655c }
+.skd-pick { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; color: #6b655c }
+.skd-pick label { display: flex; align-items: center; gap: 8px; letter-spacing: .12em; text-transform: uppercase; font-size: 11px }
+.skd-pick select { font-size: 16px; letter-spacing: 0; text-transform: none; border: 1px solid rgba(26,25,23,.2); background: #fff; padding: 8px 10px; color: #1A1917 }
+@media (min-width: 640px) { .skd-pick select { font-size: 14px } }
+.skd-cmp-wrap { display: grid; gap: 32px; align-items: center }
+@media (min-width: 900px) { .skd-cmp-wrap { grid-template-columns: minmax(0, 520px) 1fr } }
+.skd-cmp { position: relative; width: 100%; aspect-ratio: 1; overflow: hidden; background: #1A1917; user-select: none; touch-action: pan-y }
+.skd-cmp img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover }
+.skd-cmp-after { clip-path: inset(0 0 0 var(--x)) }
+.skd-handle { position: absolute; top: 0; bottom: 0; left: var(--x); width: 2px; margin-left: -1px; background: #F6F1E8; pointer-events: none }
+.skd-handle span { position: absolute; top: 50%; left: 50%; display: grid; place-items: center; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 999px; background: #F6F1E8; color: #1A1917; box-shadow: 0 2px 12px rgba(0,0,0,.25) }
+.skd-cmp input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0 }
+.skd-tag { position: absolute; top: 14px; padding: 6px 10px; background: rgba(26,25,23,.72); color: #F6F1E8; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; pointer-events: none }
+.skd-tag.l { left: 14px } .skd-tag.r { right: 14px }
+.skd-cmp-empty { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; background: #fff; border: 1px dashed rgba(26,25,23,.2); padding: 24px }
+.skd-cmp-empty > div:last-child { flex: 1; min-width: 220px }
+.skd-cmp-empty img, .skd-cmp-ph { width: 140px; height: 140px; object-fit: cover; flex: none }
+.skd-cmp-ph { display: grid; place-items: center; background: #F6F2EC; color: #9C7A3C }
+.skd-chips { display: flex; flex-wrap: wrap; gap: 6px }
+.skd-chips button { border: 1px solid rgba(26,25,23,.15); border-radius: 999px; padding: 8px 14px; font-size: 12px; background: #fff; min-height: 36px }
+.skd-chips button[aria-pressed="true"] { background: #1A1917; border-color: #1A1917; color: #F6F1E8 }
+.skd-chart { background: #fff; border: 1px solid rgba(26,25,23,.1); padding: 16px 12px 12px }
+.skd-chart svg { width: 100%; height: auto; display: block; color: #1A1917 }
+.skd-chart figcaption { margin-top: 6px; text-align: center; font-size: 12px; color: #8d877d }
+.skd-timeline { display: grid; gap: 16px }
+.skd-entry { display: flex; gap: 20px; background: #fff; border: 1px solid rgba(26,25,23,.1); padding: 20px }
+.skd-entry-media { flex: none; width: 96px; display: flex; justify-content: center }
+.skd-entry-media img { width: 96px; height: 96px; object-fit: cover }
+.skd-entry-body { flex: 1; min-width: 0 }
+.skd-entry-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 16px; font-size: 14px; color: #4a463f }
+.skd-week { display: inline-block; margin-right: 6px; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: #9C7A3C }
+.skd-delta { font-family: inherit; font-size: 14px; margin-left: 4px }
+.skd-delta.is-good { color: #5E7356 } .skd-delta.is-bad { color: #8E4A49 }
+.skd-note { display: block; margin-top: 14px }
+.skd-note textarea { width: 100%; resize: vertical; border: 1px solid rgba(26,25,23,.14); background: #FBF9F6; padding: 10px 12px; font-size: 16px; line-height: 1.5 }
+@media (min-width: 640px) { .skd-note textarea { font-size: 14px } }
+.skd-note textarea:focus { outline: none; border-color: #1A1917; background: #fff }
+.skd-note-ro { margin-top: 12px; font-family: var(--font-serif), Georgia, serif; font-style: italic; color: #4a463f }
+.skd-entry-tools { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 18px; justify-content: flex-end }
+.skd-entry-tools button { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: #8d877d; min-height: 32px }
+.skd-entry-tools button:hover { color: #8E4A49 }
+.skd-share { display: grid; gap: 32px; align-items: center }
+@media (min-width: 900px) { .skd-share { grid-template-columns: 1fr 320px } }
+.skd-share-prev img { width: 100%; max-width: 320px; margin: 0 auto; display: block; box-shadow: 0 10px 40px rgba(26,25,23,.12) }
+.skd-check { display: flex; align-items: center; gap: 10px; margin-top: 18px; font-size: 14px; color: #4a463f; cursor: pointer }
+.skd-check input { width: 18px; height: 18px; accent-color: #1A1917 }
+.skd-privacy { margin-top: 64px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 24px; background: #F6F2EC; font-size: 13px; color: #4a463f }
+.skd-privacy p { display: flex; gap: 10px; align-items: flex-start; max-width: 720px }
+.skd-privacy p svg { flex: none; margin-top: 2px }
+.skd-privacy .skd-link { color: #8E4A49 }
+.skd-empty { max-width: 640px; margin: 24px auto 0; text-align: center; background: #fff; border: 1px solid rgba(26,25,23,.1); padding: 48px 28px }
+.skd-empty-ic { display: grid; place-items: center; width: 64px; height: 64px; margin: 0 auto 20px; border-radius: 999px; background: #F6F2EC; color: #9C7A3C }
+.btn-primary svg, .btn-outline svg { display: inline-block; vertical-align: -3px; margin-right: 6px }
+/* After a scan, on the result screen */
+.skd-saved { margin-top: 56px; display: grid; gap: 28px; align-items: center; border: 1px solid #C6A15B; box-shadow: 0 0 0 1px #C6A15B inset; background: #fff; padding: 28px }
+@media (min-width: 768px) { .skd-saved { grid-template-columns: 1fr 300px } }
+.skd-saved h2 { margin-top: 8px }
+.skd-keep .btn-outline, .skd-keep .btn-primary { display: flex; align-items: center; justify-content: center }
+.skd-kept { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #3f5338 }
+/* Account page */
+.skd-acct { margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(26,25,23,.1); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; font-size: 14px; color: #4a463f }
+.skd-acct span { display: flex; align-items: center; gap: 8px; flex-wrap: wrap }
+.skd-acct b { font-weight: 500; color: #1A1917 }
+@media (max-width: 560px) { .skd-hero, .skd-due, .skd-saved { padding: 22px } .skd-entry { padding: 16px; gap: 14px } .skd-entry-media, .skd-entry-media img { width: 72px } .skd-entry-media img { height: 72px } .skd-entry-media .skd-ring { width: 72px !important; height: 72px !important } .skd-hero { gap: 18px } .skd-hero > div { min-width: 150px } .skd-hero .skd-ring { width: 84px !important; height: 84px !important } .skd-big { font-size: 30px } }
+.skd-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0 }
+</style><script id="sk-diary-js">/* Skinora skin progress diary.
+   Every AI skin scan becomes a diary entry. The diary page shows a before and after slider, a progress
+   chart, change scores such as "Redness down 20%", notes, a reminder to rescan every 2 weeks, and a
+   shareable progress card.
+   Privacy: everything stays in this browser. Scores and notes are in localStorage (skd-diary). A photo is
+   kept only when the customer taps "Keep this photo", and then only in this browser's IndexedDB
+   (skinora-diary). Nothing in this file sends a photo or a score anywhere. */
+(function () {
+  'use strict';
+  if (window.SKDIARY) return;
+
+  var EVERY = 14; // days between scans
+  var DAY = 864e5;
+  var METRICS = [
+    ['hydration', 'Moisture', 'Dryness'], ['oilBalance', 'Oil control', 'Oiliness'], ['pores', 'Pores', 'Visible pores'], ['clarity', 'Clear skin', 'Breakouts'],
+    ['redness', 'Calm skin', 'Redness'], ['evenTone', 'Even tone', 'Dark spots'], ['texture', 'Smooth and glowing', 'Dullness'], ['fineLines', 'Firm skin', 'Fine lines']
+  ];
+  var SKIN = { oily: 'Oily', combination: 'Combination', dry: 'Dry', normal: 'Normal', sensitive: 'Sensitive' };
+  var GOOD = '#5E7356', BAD = '#8E4A49', GOLD = '#C6A15B';
+
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var fmt = function (t, o) { return new Date(t).toLocaleDateString('en-GB', o || { day: 'numeric', month: 'short' }); };
+  var longDate = function (t) { return fmt(t, { day: 'numeric', month: 'long', year: 'numeric' }); };
+  var svg = function (p, w) { return '<svg xmlns="http://www.w3.org/2000/svg" width="' + (w || 16) + '" height="' + (w || 16) + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + p + '</svg>'; };
+  var IC = {
+    camera: '<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/>',
+    shield: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
+    cal: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+    share: '<path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="m16 6-4-4-4 4"/><path d="M12 2v13"/>',
+    trash: '<path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>',
+    check: '<path d="M20 6 9 17l-5-5"/>',
+    arrows: '<path d="m9 18-6-6 6-6M15 6l6 6-6 6"/>',
+    book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5V21h16"/>',
+    img: '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/>'
+  };
+
+  /* ---------- entries: scores and notes (localStorage) ---------- */
+  var LS = {
+    get: function (k, d) { try { var v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } },
+    set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  };
+  var entries = {
+    // Newest first. Scans saved by the skin scan (skd-scans, which keeps only 12) are copied in, so the diary keeps the full history.
+    all: function () {
+      var l = LS.get('skd-diary', []), gone = LS.get('skd-diary-gone', []), have = {};
+      l.forEach(function (e) { have[e.at] = 1; });
+      var added = 0;
+      LS.get('skd-scans', []).forEach(function (s) {
+        if (!s || !s.at || !s.scores || have[s.at] || gone.indexOf(s.at) >= 0) return;
+        l.push({ at: s.at, engine: s.engine, skinType: s.skinType, concerns: s.concerns || [], scores: s.scores, overall: s.overall, note: '', photo: false });
+        have[s.at] = 1; added++;
+      });
+      l.sort(function (a, b) { return b.at - a.at; });
+      if (added) LS.set('skd-diary', l.slice(0, 120));
+      return l;
+    },
+    save: function (l) { LS.set('skd-diary', l.slice(0, 120)); },
+    patch: function (at, p) { var l = entries.all(); l.forEach(function (e) { if (e.at === at) for (var k in p) e[k] = p[k]; }); entries.save(l); },
+    remove: function (at) {
+      entries.save(entries.all().filter(function (e) { return e.at !== at; }));
+      var gone = LS.get('skd-diary-gone', []); gone.push(at); LS.set('skd-diary-gone', gone.slice(-200));
+      LS.set('skd-scans', LS.get('skd-scans', []).filter(function (s) { return s.at !== at; }));
+      photos.del(at);
+    },
+    clear: function () {
+      var gone = LS.get('skd-diary-gone', []);
+      entries.all().forEach(function (e) { gone.push(e.at); });
+      LS.set('skd-diary-gone', gone.slice(-200)); LS.set('skd-diary', []); LS.set('skd-scans', []);
+      photos.clear();
+    }
+  };
+
+  /* ---------- photos (IndexedDB, this browser only) ---------- */
+  var dbp = null;
+  function db() {
+    if (!dbp) dbp = new Promise(function (ok, bad) {
+      if (!window.indexedDB) return bad(new Error('no indexedDB'));
+      var r = indexedDB.open('skinora-diary', 1);
+      r.onupgradeneeded = function () { r.result.createObjectStore('photos'); };
+      r.onsuccess = function () { ok(r.result); };
+      r.onerror = function () { bad(r.error); };
+    });
+    return dbp;
+  }
+  function tx(mode, fn) {
+    return db().then(function (d) {
+      return new Promise(function (ok, bad) {
+        var t = d.transaction('photos', mode), st = t.objectStore('photos'), req = fn(st);
+        t.oncomplete = function () { ok(req && req.result); };
+        t.onerror = t.onabort = function () { bad(t.error); };
+      });
+    });
+  }
+  var photos = {
+    get: function (at) { return tx('readonly', function (s) { return s.get(at); }).catch(function () { return null; }); },
+    put: function (at, url) { return tx('readwrite', function (s) { return s.put(url, at); }); },
+    del: function (at) { return tx('readwrite', function (s) { return s.delete(at); }).catch(function () {}); },
+    clear: function () { return tx('readwrite', function (s) { return s.clear(); }).catch(function () {}); }
+  };
+  function shrink(url, max) {
+    return new Promise(function (ok, bad) {
+      var img = new Image();
+      img.onload = function () {
+        var k = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight)), c = document.createElement('canvas');
+        c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        ok(c.toDataURL('image/jpeg', 0.82));
+      };
+      img.onerror = bad; img.src = url;
+    });
+  }
+
+  /* ---------- change scores ---------- */
+  // A score is out of 100, higher is better. The problem behind it (redness, dryness…) is 100 minus the score,
+  // so Calm skin 60 → 68 means redness went from 40 to 32: "Redness down 20%".
+  function change(a, b, key) {
+    var x = 100 - (a.scores[key] || 0), y = 100 - (b.scores[key] || 0), pts = (b.scores[key] || 0) - (a.scores[key] || 0);
+    var pct = x > 0 ? Math.round((x - y) / x * 100) : (pts > 0 ? 100 : 0);
+    return { pct: Math.max(-99, Math.min(99, pct)), pts: pts };
+  }
+  function changes(a, b) {
+    return METRICS.map(function (m) { var c = change(a, b, m[0]); return { key: m[0], name: m[2], score: m[1], pct: c.pct, pts: c.pts, from: a.scores[m[0]], to: b.scores[m[0]] }; })
+      .sort(function (p, q) { return Math.abs(q.pct) - Math.abs(p.pct) || q.pct - p.pct; });
+  }
+  function say(c) {
+    if (c.pct >= 3) return c.name + ' down ' + c.pct + '%';
+    if (c.pct <= -3) return c.name + ' up ' + Math.abs(c.pct) + '%';
+    return c.name + ' about the same';
+  }
+  var tone = function (c) { return c.pct >= 3 ? 'is-good' : c.pct <= -3 ? 'is-bad' : 'is-same'; };
+  var arrow = function (c) { return c.pct >= 3 ? '↓' : c.pct <= -3 ? '↑' : '·'; };
+  function span(a, b) {
+    var d = Math.round(Math.abs(b - a) / DAY);
+    if (d < 1) return 'today';
+    if (d < 14) return d + (d === 1 ? ' day' : ' days');
+    var w = Math.round(d / 7); return w + ' weeks';
+  }
+  function weekLabel(e, first) { var w = Math.round((e.at - first.at) / (7 * DAY)); return e.at === first.at ? 'Start' : w < 1 ? Math.max(1, Math.round((e.at - first.at) / DAY)) + ' days in' : 'Week ' + w; }
+
+  /* ---------- small pieces ---------- */
+  function ring(v, size) {
+    var r = 52, c = 2 * Math.PI * r;
+    return '<svg viewBox="0 0 120 120" class="skd-ring" style="width:' + (size || 120) + 'px;height:' + (size || 120) + 'px" role="img" aria-label="Skin score ' + v + ' out of 100"><circle cx="60" cy="60" r="' + r + '" fill="none" stroke="currentColor" stroke-opacity=".1" stroke-width="6"/><circle cx="60" cy="60" r="' + r + '" fill="none" stroke="' + GOLD + '" stroke-width="6" stroke-linecap="round" stroke-dasharray="' + c + '" stroke-dashoffset="' + c * (1 - v / 100) + '" transform="rotate(-90 60 60)"/><text x="60" y="68" text-anchor="middle" font-size="36" fill="currentColor" style="font-family:var(--font-serif),Georgia,serif">' + v + '</text></svg>';
+  }
+  function pills(list, n) {
+    return '<ul class="skd-pills">' + list.slice(0, n || list.length).map(function (c) {
+      return '<li class="' + tone(c) + '"><span aria-hidden="true">' + arrow(c) + '</span>' + esc(say(c)) + '</li>';
+    }).join('') + '</ul>';
+  }
+  function due(last) {
+    var next = last.at + EVERY * DAY, left = Math.ceil((next - Date.now()) / DAY);
+    return { next: next, left: left, now: left <= 0 };
+  }
+
+  /* ---------- 1. after a scan: add it to the diary ---------- */
+  function onScan(ev) {
+    var d = ev.detail || {}, s = d.scan;
+    if (!s || !s.at) return;
+    var l = entries.all(), me = null, prev = null;
+    l.forEach(function (e, i) { if (e.at === s.at) { me = e; prev = l[i + 1] || null; } });
+    if (!me) return;
+    var first = l[l.length - 1];
+    var top = document.querySelector('.sks-result-top');
+    var host = top && top.parentNode;
+    if (!host || host.querySelector('.skd-saved')) return;
+    var box = document.createElement('div');
+    box.className = 'skd-saved animate-fadeUp';
+    var n = l.length;
+    var head = prev
+      ? '<h2 class="font-serif text-3xl font-light">Since your last scan on ' + esc(fmt(prev.at, { day: 'numeric', month: 'long' })) + '</h2>' + pills(changes(prev, me), 3) +
+        (first !== prev ? '<p class="mt-4 text-sm text-ink-500">Since you started ' + esc(span(first.at, me.at)) + ' ago: <b class="font-medium text-ink">' + esc(say(changes(first, me)[0])) + '</b>, score ' + first.overall + ' → ' + me.overall + '.</p>' : '')
+      : '<h2 class="font-serif text-3xl font-light">Your diary starts today</h2><p class="mt-3 text-sm text-ink-600">Scan again in 2 weeks and we will show you what changed, like “Redness down 20%”.</p>';
+    box.innerHTML = '<div><p class="eyebrow">Skin diary · Entry ' + n + '</p>' + head + '</div>' +
+      '<div class="skd-keep">' + (d.photo ? keepHtml(false) : '') +
+      '<a class="btn-outline mt-3 w-full" href="diary.html">' + svg(IC.book) + ' Open my skin diary</a></div>';
+    var cta = host.lastElementChild;
+    host.insertBefore(box, cta);
+    if (d.photo) {
+      box.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-k]'); if (!b) return;
+        if (b.getAttribute('data-k') === 'keep') {
+          b.disabled = true;
+          shrink(d.photo, 720).then(function (u) { return photos.put(s.at, u); }).then(function () {
+            entries.patch(s.at, { photo: true });
+            box.querySelector('.skd-keep-photo').outerHTML = keepHtml(true);
+          }, function () { b.disabled = false; b.textContent = 'Could not keep the photo in this browser'; });
+        } else {
+          photos.del(s.at); entries.patch(s.at, { photo: false });
+          box.querySelector('.skd-keep-photo').outerHTML = keepHtml(false);
+        }
+      });
+    }
+  }
+  function keepHtml(kept) {
+    return '<div class="skd-keep-photo">' + (kept
+      ? '<p class="skd-kept">' + svg(IC.check, 16) + ' Photo kept for your before and after</p><p class="text-xs text-ink-500">Only on this device. <button data-k="unkeep" class="underline">Remove it</button></p>'
+      : '<button data-k="keep" class="btn-primary w-full">' + svg(IC.img) + ' Keep this photo for my before and after</button><p class="mt-2 text-xs text-ink-500">' + svg(IC.shield, 12) + ' It stays on this device only. It is never uploaded.</p>') + '</div>';
+  }
+
+  /* ---------- 2. account page: link to the diary ---------- */
+  function account() {
+    var sec = document.getElementById('sks-my-skin');
+    if (!sec || sec.querySelector('.skd-acct')) return;
+    var l = entries.all(), row = document.createElement('div');
+    row.className = 'skd-acct';
+    if (!l.length) { row.innerHTML = '<span>' + svg(IC.book) + ' Your skin diary starts with your first scan.</span>'; }
+    else {
+      var u = due(l[0]), first = l[l.length - 1];
+      var txt = l.length > 1 ? esc(say(changes(first, l[0])[0])) + ' since ' + esc(fmt(first.at)) : '1 entry so far';
+      row.innerHTML = '<span>' + svg(IC.book) + ' <b>Skin diary</b> · ' + txt + ' · ' + (u.now ? 'new scan due now' : 'next scan ' + esc(fmt(u.next))) + '</span><a href="diary.html" class="skd-link">Open my diary</a>';
+    }
+    sec.appendChild(row);
+  }
+
+  /* ---------- 3. the diary page ---------- */
+  function sample() {
+    // An example diary for the empty state. Not saved and never mixed with real scans.
+    var now = Date.now(), base = { hydration: 52, oilBalance: 58, pores: 60, clarity: 55, redness: 50, evenTone: 57, texture: 59, fineLines: 70 };
+    var step = { hydration: 4, oilBalance: 2, pores: 1.5, clarity: 3.5, redness: 5, evenTone: 2, texture: 3, fineLines: 1 };
+    var notes = ['Started the CeraVe cleanser and SPF 50 every morning.', 'Skin felt tight on day 3, added the Hyaluronic Acid serum.', 'Fewer red patches after workouts.', 'Busy week, slept late. One new pimple on my chin.', 'Best my cheeks have looked in months.'];
+    return [0, 1, 2, 3, 4].map(function (i) {
+      var s = {}; METRICS.forEach(function (m) { s[m[0]] = Math.round(Math.min(95, base[m[0]] + step[m[0]] * i - (i === 3 ? 2 : 0))); });
+      var o = Math.round(METRICS.reduce(function (t, m) { return t + s[m[0]]; }, 0) / METRICS.length);
+      return { at: now - (4 - i) * 14 * DAY - 3600e3, engine: 'sample', skinType: 'combination', concerns: ['redness', 'dryness'], scores: s, overall: o, note: notes[i], photo: false };
+    }).reverse();
+  }
+
+  function page(root) {
+    var example = /[?&]example=1/.test(location.search);
+    var l = example ? sample() : entries.all();
+    var ui = { metric: 'overall', a: null, b: null, sharePhotos: false };
+    var urls = {};
+
+    function draw() {
+      if (!l.length) return empty();
+      var last = l[0], first = l[l.length - 1], u = due(last);
+      var withPhoto = l.filter(function (e) { return e.photo && urls[e.at]; });
+      if (ui.a == null || !urls[ui.a]) ui.a = withPhoto.length ? withPhoto[withPhoto.length - 1].at : null;
+      if (ui.b == null || !urls[ui.b]) ui.b = withPhoto.length ? withPhoto[0].at : null;
+      var ch = l.length > 1 ? changes(first, last) : [];
+      var best = ch.filter(function (c) { return c.pct >= 3; });
+
+      root.innerHTML =
+        (example ? '<div class="skd-example"><b>This is an example diary.</b> Your own diary starts with your first skin scan and is kept only on your device. <a href="quiz.html?scan=1">Scan my skin</a> · <a href="diary.html">Back to my diary</a></div>' : '') +
+        // Top: headline change and when to scan next
+        '<section class="skd-top">' +
+        '<div class="skd-hero">' + ring(last.overall, 132) + '<div>' +
+        (l.length > 1
+          ? '<p class="eyebrow">' + esc(span(first.at, last.at)) + ' · ' + l.length + ' scans</p><h2 class="skd-big">' + (best.length ? esc(say(best[0])) : 'Score ' + first.overall + ' → ' + last.overall) + '</h2>' +
+            '<p class="mt-3 text-ink-600">Your skin score went from <b class="font-medium text-ink">' + first.overall + '</b> on ' + esc(fmt(first.at, { day: 'numeric', month: 'long' })) + ' to <b class="font-medium text-ink">' + last.overall + '</b> on ' + esc(fmt(last.at, { day: 'numeric', month: 'long' })) + '.</p>'
+          : '<p class="eyebrow">Entry 1 · ' + esc(fmt(last.at, { day: 'numeric', month: 'long' })) + '</p><h2 class="skd-big"><em>' + esc(SKIN[last.skinType] || last.skinType || '') + '</em> skin, your starting point</h2><p class="mt-3 text-ink-600">Scan again in 2 weeks in the same light and we will show you what changed.</p>') +
+        '</div></div>' +
+        '<aside class="skd-due' + (u.now ? ' is-now' : '') + '"><p class="eyebrow">' + svg(IC.cal, 14) + ' Next scan</p>' +
+        '<p class="mt-3 font-serif text-3xl">' + (u.now ? 'Due now' : u.left === 1 ? 'Tomorrow' : 'In ' + u.left + ' days') + '</p><p class="text-sm text-ink-500">' + (u.now ? 'It has been ' + esc(span(last.at, Date.now())) + ' since your last scan.' : esc(fmt(u.next, { weekday: 'long', day: 'numeric', month: 'long' }))) + '</p>' +
+        '<a class="' + (u.now ? 'btn-primary' : 'btn-outline') + ' mt-5 w-full" href="quiz.html?scan=1">' + svg(IC.camera) + ' Scan my skin</a>' +
+        '<button data-d="ics" class="skd-link mt-4">Add a reminder every 2 weeks to my calendar</button></aside>' +
+        '</section>' +
+        (ch.length ? '<section class="skd-sec"><div class="skd-sec-head"><h3 class="skd-h3">What changed since you started</h3><p class="text-sm text-ink-500">' + esc(fmt(first.at, { day: 'numeric', month: 'long' })) + ' to ' + esc(fmt(last.at, { day: 'numeric', month: 'long' })) + '</p></div>' + changeGrid(ch) + '</section>' : '') +
+        // Before and after
+        '<section class="skd-sec"><div class="skd-sec-head"><h3 class="skd-h3">Before and after</h3>' + (withPhoto.length > 1 ? pickers(withPhoto) : '') + '</div>' + compare(withPhoto) + '</section>' +
+        // Chart
+        (l.length > 1 ? '<section class="skd-sec"><div class="skd-sec-head"><h3 class="skd-h3">Your progress</h3>' + chips() + '</div>' + chart() + '</section>' : '') +
+        // Timeline
+        '<section class="skd-sec"><div class="skd-sec-head"><h3 class="skd-h3">Timeline</h3><p class="text-sm text-ink-500">Add a note to each entry, like a new product or a stressful week.</p></div><ol class="skd-timeline">' + l.map(card).join('') + '</ol></section>' +
+        // Share
+        (l.length > 1 ? '<section class="skd-sec skd-share"><div><h3 class="skd-h3">Share your progress</h3><p class="mt-2 text-sm text-ink-600">Make a picture of your results to post or send to a friend. Your photos are added only if you choose.</p>' +
+          (withPhoto.length > 1 ? '<label class="skd-check"><input type="checkbox" data-d="sharephotos"' + (ui.sharePhotos ? ' checked' : '') + '> Add my before and after photos</label>' : '') +
+          '<div class="mt-6 flex flex-wrap gap-3"><button data-d="share" class="btn-primary">' + svg(IC.share) + ' Share my progress</button><button data-d="download" class="btn-outline">Save the picture</button></div></div><div class="skd-share-prev" data-d-prev></div></section>' : '') +
+        // Privacy
+        '<section class="skd-privacy"><p>' + svg(IC.shield, 16) + ' <span>Your diary is kept only in this browser on this device. Photos are never uploaded, and only you can see them. If you clear your browser data, the diary is cleared too.</span></p>' +
+        (example ? '' : '<button data-d="wipe" class="skd-link">Delete my diary and photos</button>') + '</section>';
+      bindSlider();
+      if (l.length > 1) sharePreview();
+    }
+
+    function empty() {
+      root.innerHTML = '<section class="skd-empty"><div class="skd-empty-ic">' + svg(IC.book, 28) + '</div><h2 class="font-serif text-4xl font-light">Your diary starts with your first scan</h2>' +
+        '<p class="mt-4 text-ink-600">Take a selfie and our AI scores 8 things, like moisture, redness and dark spots. Scan again every 2 weeks and see your skin change, with a before and after and scores like “Redness down 20%”.</p>' +
+        '<div class="mt-8 flex flex-wrap justify-center gap-3"><a class="btn-primary" href="quiz.html?scan=1">' + svg(IC.camera) + ' Scan my skin</a><a class="btn-outline" href="diary.html?example=1">See an example</a></div>' +
+        '<p class="mt-8 flex items-center justify-center gap-2 text-xs text-ink-500">' + svg(IC.shield, 14) + ' Your photos and scores stay on your device.</p></section>';
+    }
+
+    function changeGrid(ch) {
+      return '<ul class="skd-changes">' + ch.map(function (c) {
+        return '<li class="' + tone(c) + '"><p class="skd-ch-name">' + esc(c.name) + '</p><p class="skd-ch-big">' + (c.pct >= 3 ? 'Down ' + c.pct + '%' : c.pct <= -3 ? 'Up ' + Math.abs(c.pct) + '%' : 'Same') + '</p>' +
+          '<p class="skd-ch-sub">' + esc(c.score) + ' score ' + c.from + ' → ' + c.to + '</p></li>';
+      }).join('') + '</ul>';
+    }
+
+    function pickers(withPhoto) {
+      var opt = function (sel) { return withPhoto.map(function (e) { return '<option value="' + e.at + '"' + (e.at === sel ? ' selected' : '') + '>' + esc(fmt(e.at, { day: 'numeric', month: 'short', year: 'numeric' })) + '</option>'; }).join(''); };
+      return '<div class="skd-pick"><label>Before <select data-d="a">' + opt(ui.a) + '</select></label><label>After <select data-d="b">' + opt(ui.b) + '</select></label></div>';
+    }
+
+    function compare(withPhoto) {
+      if (withPhoto.length < 2) {
+        var one = withPhoto[0];
+        return '<div class="skd-cmp-empty">' + (one ? '<img src="' + urls[one.at] + '" alt="Your photo from ' + esc(fmt(one.at)) + '">' : '<div class="skd-cmp-ph">' + svg(IC.img, 30) + '</div>') +
+          '<div><p class="font-serif text-2xl">' + (one ? 'One photo saved. Keep your next scan photo too.' : 'Keep your scan photos to see them side by side') + '</p>' +
+          '<p class="mt-2 text-sm text-ink-600">After each scan, tap “Keep this photo for my before and after”. Photos stay on this device only. For the clearest result, use the same window light and the same distance each time.</p></div></div>';
+      }
+      var A = l.filter(function (e) { return e.at === ui.a; })[0], B = l.filter(function (e) { return e.at === ui.b; })[0];
+      var ch = changes(A, B);
+      return '<div class="skd-cmp-wrap"><div class="skd-cmp" data-d-cmp style="--x:50%">' +
+        '<img src="' + urls[A.at] + '" alt="Before, ' + esc(fmt(A.at)) + '"><img class="skd-cmp-after" src="' + urls[B.at] + '" alt="After, ' + esc(fmt(B.at)) + '">' +
+        '<span class="skd-tag l">Before · ' + esc(fmt(A.at)) + '</span><span class="skd-tag r">After · ' + esc(fmt(B.at)) + '</span>' +
+        '<div class="skd-handle" aria-hidden="true"><span>' + svg(IC.arrows, 16) + '</span></div>' +
+        '<input type="range" min="0" max="100" value="50" aria-label="Slide to compare before and after" data-d="slide"></div>' +
+        '<div class="skd-cmp-side"><p class="eyebrow">' + esc(span(A.at, B.at)) + ' apart</p><p class="mt-3 font-serif text-5xl">' + A.overall + ' <span class="text-ink-400">→</span> ' + B.overall + '</p><p class="text-sm text-ink-500">Skin score</p>' + pills(ch, 4) + '</div></div>';
+    }
+
+    function bindSlider() {
+      var c = root.querySelector('[data-d-cmp]'); if (!c) return;
+      c.querySelector('input').addEventListener('input', function (e) { c.style.setProperty('--x', e.target.value + '%'); });
+    }
+
+    function chips() {
+      return '<div class="skd-chips" role="group" aria-label="Choose what to show">' + [['overall', 'Skin score']].concat(METRICS.map(function (m) { return [m[0], m[2]]; })).map(function (m) {
+        return '<button data-d="metric" data-v="' + m[0] + '" aria-pressed="' + (ui.metric === m[0]) + '">' + esc(m[1]) + '</button>';
+      }).join('') + '</div>';
+    }
+
+    function chart() {
+      var pts = l.slice().reverse(), W = 720, H = 240, P = { l: 36, r: 18, t: 20, b: 34 };
+      var isO = ui.metric === 'overall';
+      // For a problem (redness…) show the level, so "down" on the chart means better, the same as the words.
+      var val = function (e) { return isO ? e.overall : 100 - (e.scores[ui.metric] || 0); };
+      var vs = pts.map(val), lo = Math.max(0, Math.floor((Math.min.apply(null, vs) - 8) / 10) * 10), hi = Math.min(100, Math.ceil((Math.max.apply(null, vs) + 8) / 10) * 10);
+      var t0 = pts[0].at, t1 = pts[pts.length - 1].at || t0 + 1;
+      var X = function (t) { return P.l + (t1 === t0 ? (W - P.l - P.r) / 2 : (t - t0) / (t1 - t0) * (W - P.l - P.r)); };
+      var Y = function (v) { return P.t + (1 - (v - lo) / (hi - lo || 1)) * (H - P.t - P.b); };
+      var line = pts.map(function (e, i) { return (i ? 'L' : 'M') + X(e.at).toFixed(1) + ' ' + Y(val(e)).toFixed(1); }).join(' ');
+      var area = line + ' L' + X(t1).toFixed(1) + ' ' + (H - P.b) + ' L' + X(t0).toFixed(1) + ' ' + (H - P.b) + ' Z';
+      var grid = '';
+      for (var g = lo; g <= hi; g += 10) grid += '<line x1="' + P.l + '" x2="' + (W - P.r) + '" y1="' + Y(g) + '" y2="' + Y(g) + '" stroke="currentColor" stroke-opacity=".08"/><text x="' + (P.l - 8) + '" y="' + (Y(g) + 4) + '" text-anchor="end" font-size="11" fill="currentColor" fill-opacity=".45">' + g + '</text>';
+      var dots = pts.map(function (e) { return '<circle cx="' + X(e.at) + '" cy="' + Y(val(e)) + '" r="4.5" fill="#fff" stroke="' + (isO ? '#1A1917' : GOLD) + '" stroke-width="2"><title>' + esc(fmt(e.at)) + ': ' + val(e) + '</title></circle>'; }).join('');
+      var lab = pts.map(function (e, i) { if (pts.length > 6 && i % 2 && i !== pts.length - 1) return ''; return '<text x="' + X(e.at) + '" y="' + (H - 10) + '" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity=".55">' + esc(fmt(e.at)) + '</text>'; }).join('');
+      var name = isO ? 'Skin score (higher is better)' : METRICS.filter(function (m) { return m[0] === ui.metric; })[0][2] + ' level (lower is better)';
+      return '<figure class="skd-chart"><svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(name) + ' over time">' + grid +
+        '<path d="' + area + '" fill="' + (isO ? '#1A1917' : GOLD) + '" fill-opacity=".06"/><path d="' + line + '" fill="none" stroke="' + (isO ? '#1A1917' : GOLD) + '" stroke-width="2" stroke-linejoin="round"/>' + dots + lab + '</svg><figcaption>' + esc(name) + '</figcaption></figure>';
+    }
+
+    function card(e, i) {
+      var prev = l[i + 1], first = l[l.length - 1];
+      var ch = prev ? changes(prev, e) : null;
+      return '<li class="skd-entry"><div class="skd-entry-media">' + (e.photo && urls[e.at] ? '<img src="' + urls[e.at] + '" alt="Your photo from ' + esc(fmt(e.at)) + '" loading="lazy">' : ring(e.overall, 84)) + '</div>' +
+        '<div class="skd-entry-body"><div class="skd-entry-top"><p><span class="skd-week">' + esc(weekLabel(e, first)) + '</span> ' + esc(longDate(e.at)) + '</p>' +
+        '<p class="font-serif text-2xl">' + e.overall + (prev ? ' <span class="skd-delta ' + (e.overall >= prev.overall ? 'is-good' : 'is-bad') + '">' + (e.overall >= prev.overall ? '▲ ' : '▼ ') + Math.abs(e.overall - prev.overall) + '</span>' : '') + '</p></div>' +
+        (ch ? pills(ch, 2) : '<p class="mt-2 text-sm text-ink-500"><em class="font-serif">' + esc(SKIN[e.skinType] || e.skinType || '') + '</em> skin · your first scan</p>') +
+        (example ? (e.note ? '<p class="skd-note-ro">“' + esc(e.note) + '”</p>' : '') :
+          '<label class="skd-note"><span class="skd-sr">Note for ' + esc(fmt(e.at)) + '</span><textarea rows="2" data-d="note" data-at="' + e.at + '" maxlength="400" placeholder="Add a note: new products, sleep, weather…">' + esc(e.note || '') + '</textarea></label>' +
+          '<div class="skd-entry-tools">' + (e.photo && urls[e.at] ? '<button data-d="unphoto" data-at="' + e.at + '">Remove photo</button>' : '') + '<button data-d="del" data-at="' + e.at + '">' + svg(IC.trash, 13) + ' Delete entry</button></div>') +
+        (e.engine === 'demo' ? '<p class="mt-2 text-[11px] text-ink-400">Demo estimate</p>' : '') + '</div></li>';
+    }
+
+    /* share picture */
+    function picture() {
+      var first = l[l.length - 1], last = l[0], ch = changes(first, last).filter(function (c) { return c.pct >= 3; }).slice(0, 3);
+      if (!ch.length) ch = changes(first, last).slice(0, 3);
+      var withP = ui.sharePhotos && ui.a && ui.b && urls[ui.a] && urls[ui.b];
+      var A = withP ? l.filter(function (e) { return e.at === ui.a; })[0] : first, B = withP ? l.filter(function (e) { return e.at === ui.b; })[0] : last;
+      if (withP) { ch = changes(A, B).filter(function (c) { return c.pct >= 3; }).slice(0, 3); if (!ch.length) ch = changes(A, B).slice(0, 3); }
+      var load = function (u) { return new Promise(function (ok) { var im = new Image(); im.onload = function () { ok(im); }; im.onerror = function () { ok(null); }; im.src = u; }); };
+      return Promise.all(withP ? [load(urls[A.at]), load(urls[B.at])] : []).then(function (ims) {
+        var W = 1080, H = 1350, c = document.createElement('canvas'); c.width = W; c.height = H;
+        var x = c.getContext('2d'), serif = 'Georgia, "Times New Roman", serif', sans = '"Helvetica Neue", Arial, sans-serif';
+        x.fillStyle = '#F6F1E8'; x.fillRect(0, 0, W, H);
+        x.strokeStyle = GOLD; x.lineWidth = 2; x.strokeRect(40, 40, W - 80, H - 80);
+        x.fillStyle = '#1A1917'; x.textAlign = 'center';
+        x.font = '500 30px ' + sans; x.fillText('S K I N O R A', W / 2, 120);
+        x.fillStyle = '#9C7A3C'; x.font = '24px ' + sans; x.fillText('MY SKIN DIARY', W / 2, 168);
+        x.fillStyle = '#1A1917'; x.font = 'italic 64px ' + serif; x.fillText('My skin in ' + span(A.at, B.at), W / 2, 262);
+        var y = 300;
+        if (withP && ims[0] && ims[1]) {
+          var s = 440, gap = 30, x0 = (W - s * 2 - gap) / 2;
+          [ims[0], ims[1]].forEach(function (im, i) {
+            var side = Math.min(im.naturalWidth, im.naturalHeight), px = x0 + i * (s + gap);
+            x.drawImage(im, (im.naturalWidth - side) / 2, (im.naturalHeight - side) / 2, side, side, px, y, s, s);
+            x.fillStyle = 'rgba(26,25,23,.72)'; x.fillRect(px, y + s - 54, s, 54);
+            x.fillStyle = '#F6F1E8'; x.font = '24px ' + sans; x.fillText((i ? 'AFTER · ' : 'BEFORE · ') + fmt(i ? B.at : A.at).toUpperCase(), px + s / 2, y + s - 19);
+          });
+          y += s + 90;
+        } else y += 120;
+        x.fillStyle = '#1A1917'; x.font = '300 ' + (withP ? 120 : 190) + 'px ' + serif;
+        x.fillText(A.overall + '  →  ' + B.overall, W / 2, y + (withP ? 40 : 110));
+        x.fillStyle = '#6b655c'; x.font = '26px ' + sans; x.fillText('SKIN SCORE', W / 2, y + (withP ? 92 : 180));
+        y += withP ? 160 : 290;
+        ch.forEach(function (cg, i) {
+          x.fillStyle = cg.pct >= 3 ? GOOD : cg.pct <= -3 ? BAD : '#6b655c'; x.font = (i ? '' : 'italic ') + (i ? 46 : 58) + 'px ' + serif;
+          x.fillText(say(cg), W / 2, y + i * 74);
+        });
+        x.fillStyle = '#8d877d'; x.font = '22px ' + sans; x.fillText('Tracked with the Skinora AI skin scan · skinora.lk', W / 2, H - 84);
+        return c;
+      });
+    }
+    function sharePreview() {
+      var box = root.querySelector('[data-d-prev]'); if (!box) return;
+      picture().then(function (c) { box.innerHTML = '<img alt="Your progress picture" src="' + c.toDataURL('image/jpeg', 0.85) + '">'; });
+    }
+    function blobOf(c) { return new Promise(function (ok) { c.toBlob(ok, 'image/png'); }); }
+    function download(blob) {
+      var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'my-skinora-skin-diary.png';
+      document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+    }
+
+    function ics() {
+      var last = l[0], start = new Date(Math.max(due(last).next, Date.now() + DAY));
+      start.setHours(10, 0, 0, 0);
+      var p = function (n) { return (n < 10 ? '0' : '') + n; };
+      var d = function (t) { return t.getFullYear() + p(t.getMonth() + 1) + p(t.getDate()) + 'T' + p(t.getHours()) + p(t.getMinutes()) + '00'; };
+      var end = new Date(start.getTime() + 15 * 60e3), url = location.href.replace(/diary\.html.*$/, 'quiz.html?scan=1');
+      var txt = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Skinora//Skin diary//EN', 'BEGIN:VEVENT', 'UID:skin-diary-' + start.getTime() + '@skinora.lk',
+        'DTSTAMP:' + d(new Date()), 'DTSTART:' + d(start), 'DTEND:' + d(end), 'RRULE:FREQ=WEEKLY;INTERVAL=2;COUNT=13',
+        'SUMMARY:Skinora skin scan', 'DESCRIPTION:Time for your 2-week skin scan. Same window light\\, no makeup. ' + url, 'URL:' + url,
+        'BEGIN:VALARM', 'TRIGGER:PT0M', 'ACTION:DISPLAY', 'DESCRIPTION:Skinora skin scan', 'END:VALARM', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+      var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([txt], { type: 'text/calendar' })); a.download = 'skinora-skin-scan.ics';
+      document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+    }
+
+    var t = null;
+    root.addEventListener('input', function (e) {
+      if (e.target.getAttribute('data-d') !== 'note') return;
+      var at = +e.target.getAttribute('data-at'), v = e.target.value;
+      clearTimeout(t); t = setTimeout(function () { entries.patch(at, { note: v }); l.forEach(function (x) { if (x.at === at) x.note = v; }); }, 300);
+    });
+    root.addEventListener('change', function (e) {
+      var k = e.target.getAttribute('data-d');
+      if (k === 'a' || k === 'b') { ui[k] = +e.target.value; draw(); }
+      if (k === 'sharephotos') { ui.sharePhotos = e.target.checked; sharePreview(); }
+    });
+    root.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-d]'); if (!b || b.tagName === 'SELECT' || b.tagName === 'INPUT' || b.tagName === 'TEXTAREA') return;
+      var k = b.getAttribute('data-d'), at = +b.getAttribute('data-at');
+      if (k === 'metric') { ui.metric = b.getAttribute('data-v'); draw(); }
+      if (k === 'ics') ics();
+      if (k === 'del' && confirm('Delete the entry from ' + longDate(at) + '? Its photo is deleted too.')) { entries.remove(at); delete urls[at]; l = entries.all(); draw(); }
+      if (k === 'unphoto') { photos.del(at); entries.patch(at, { photo: false }); delete urls[at]; l = entries.all(); draw(); }
+      if (k === 'wipe' && confirm('Delete your whole skin diary, with all scores, notes and photos, from this device?')) { entries.clear(); urls = {}; l = []; draw(); }
+      if (k === 'share' || k === 'download') {
+        picture().then(blobOf).then(function (blob) {
+          var file = window.File ? new File([blob], 'my-skinora-skin-diary.png', { type: 'image/png' }) : null;
+          if (k === 'share' && file && navigator.canShare && navigator.canShare({ files: [file] })) {
+            return navigator.share({ files: [file], title: 'My skin diary', text: 'My skin progress with Skinora' }).catch(function () {});
+          }
+          download(blob);
+        });
+      }
+    });
+
+    // Load the kept photos, then draw.
+    Promise.all(l.filter(function (e) { return e.photo; }).map(function (e) { return photos.get(e.at).then(function (u) { if (u) urls[e.at] = u; }); })).then(draw, draw);
+    draw();
+  }
+
+  window.addEventListener('sks:scan', onScan);
+  window.SKDIARY = { entries: entries, photos: photos, changes: changes, say: say };
+  var boot = function () {
+    var path = (document.body.getAttribute('data-sk-path') || '').split('?')[0];
+    if (path === '/account') { account(); setTimeout(account, 300); }
+    var root = document.querySelector('[data-skd-page]');
+    if (root) page(root);
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();
 </script><script id="sk-feat-data" type="application/json">{"giftMin": 25000, "subPct": 10, "routinePct": 10, "subcats": ["cleansers", "serums", "sunscreen"], "step": {"cleansers": "Cleanse", "toners-essences": "Prep", "serums": "Treat", "masks-treatments": "Treat", "moisturisers": "Moisturise", "sunscreen": "Protect"}, "gifts": [{"id": "anr", "name": "Est\u00e9e Lauder Advanced Night Repair, 7 ml", "img": "media/products/estee-lauder-advanced-night-repair-serum-1.jpg"}, {"id": "lip", "name": "Laneige Lip Sleeping Mask, 8 g", "img": "media/products/laneige-lip-sleeping-mask-berry-1.jpg"}, {"id": "santal", "name": "Le Labo Santal 33, 5 ml travel spray", "img": "media/products/le-labo-santal-33-eau-de-parfum-1.jpg"}], "minis": ["laneige-lip-sleeping-mask-berry", "la-roche-posay-cicaplast-baume-b5", "the-ordinary-niacinamide-10-zinc-1", "beauty-of-joseon-relief-sun-rice-probiotics-spf50", "the-ordinary-hyaluronic-acid-2-b5", "cosrx-low-ph-good-morning-gel-cleanser"], "ff": ["cerave-", "the-ordinary-", "clinique-", "la-roche-posay-cicaplast"], "avoid": ["Retinol", "Salicylic Acid"], "scents": {"ysl-beauty-libre-eau-de-parfum": ["Floral amber", "Warm lavender and orange blossom, wrapped in soft vanilla.", ["bold", "romantic"], "evening", 3, ["Lavender, mandarin", "Orange blossom, jasmine", "Vanilla, musk"], "warm"], "chanel-coco-mademoiselle-eau-de-parfum": ["Floral chypre", "Bright orange and polished rose over clean patchouli.", ["romantic", "confident"], "any", 2, ["Orange, bergamot", "Rose, jasmine", "Patchouli, vetiver"], "floral"], "lancome-la-vie-est-belle-eau-de-parfum": ["Gourmand", "Sweet praline and iris, like a patisserie on a spring morning.", ["cosy", "romantic"], "any", 3, ["Blackcurrant, pear", "Iris, jasmine", "Praline, vanilla"], "warm"], "chanel-bleu-de-chanel-eau-de-parfum": ["Woody aromatic", "Crisp grapefruit over smooth sandalwood and a trail of incense.", ["confident", "clean"], "any", 2, ["Grapefruit, mint", "Ginger, jasmine", "Sandalwood, incense"], "woody"], "tom-ford-oud-wood-eau-de-parfum": ["Woody oriental", "Smoky rare woods and warm cardamom, rich and quiet.", ["bold", "cosy"], "evening", 3, ["Cardamom, pepper", "Oud, sandalwood", "Vetiver, amber"], "woody"], "jo-malone-london-wood-sage-sea-salt-cologne": ["Fresh woody", "A windswept beach walk: sea spray, sage and driftwood.", ["clean", "calm"], "day", 1, ["Ambrette seed", "Sea salt", "Sage, grapefruit"], "fresh"], "le-labo-santal-33-eau-de-parfum": ["Woody", "Smoky sandalwood, cardamom and a soft leather note.", ["confident", "cosy"], "any", 2, ["Cardamom, violet", "Iris, papyrus", "Sandalwood, cedar"], "woody"], "maison-margiela-replica-lazy-sunday-morning": ["Fresh musk", "Clean white musk and cotton sheets on a slow morning.", ["clean", "calm"], "day", 1, ["Aldehydes, pear", "Lily of the valley, iris", "White musk"], "fresh"], "dior-miss-dior-eau-de-parfum": ["Floral", "An armful of fresh roses and peony with a powdery iris finish.", ["romantic", "calm"], "day", 2, ["Mandarin", "Grasse rose, peony", "Iris, vanilla"], "floral"], "dior-sauvage-eau-de-toilette": ["Fresh spicy", "Peppery bergamot over a clean, ambery base.", ["confident", "clean"], "any", 2, ["Calabrian bergamot", "Sichuan pepper, lavender", "Ambroxan, cedar"], "fresh"], "ysl-beauty-y-eau-de-parfum": ["Fresh aromatic", "Crisp apple and sage over warm amber woods.", ["confident", "clean"], "any", 2, ["Apple, ginger", "Sage, geranium", "Amberwood, tonka"], "fresh"]}, "occasions": [{"id": "christmas", "name": "Christmas", "date": "2026-12-25", "img": "media/editorial/journal-gifting.jpg", "line": "Candles for the home, a signature scent, and boxes that look beautiful under the tree.", "picks": ["skinora-the-luxury-discovery-box", "diptyque-baies-scented-candle", "dior-miss-dior-eau-de-parfum", "chanel-bleu-de-chanel-eau-de-parfum", "aesop-resurrection-aromatique-hand-balm", "jo-malone-london-pomegranate-noir-home-candle"]}, {"id": "valentines", "name": "Valentine's Day", "date": "2027-02-14", "img": "media/editorial/gifts-for-her.jpg", "line": "Romantic fragrance for them, and a little something for the lips.", "picks": ["chanel-coco-mademoiselle-eau-de-parfum", "ysl-beauty-libre-eau-de-parfum", "dior-sauvage-eau-de-toilette", "le-labo-santal-33-eau-de-parfum", "laneige-lip-sleeping-mask-berry", "lancome-la-vie-est-belle-eau-de-parfum"]}, {"id": "avurudu", "name": "Sinhala and Tamil New Year", "short": "Avurudu", "date": "2027-04-14", "img": "media/editorial/journal-routine.jpg", "line": "Fresh starts for the whole family: rituals to share and gifts for the house.", "picks": ["skinora-the-glass-skin-ritual-set", "aesop-resurrection-aromatique-hand-wash", "jo-malone-london-wood-sage-sea-salt-cologne", "mount-lai-rose-quartz-gua-sha-facial-lifting-tool", "sulwhasoo-first-care-activating-serum", "cerave-moisturising-cream"]}, {"id": "mothers", "name": "Mother's Day", "date": "2027-05-09", "img": "media/editorial/story.jpg", "line": "The night serum she would never buy herself, and the cream she deserves.", "picks": ["estee-lauder-advanced-night-repair-serum", "la-mer-creme-de-la-mer", "clinique-moisture-surge-100h-auto-replenishing-hydrator", "lancome-la-vie-est-belle-eau-de-parfum", "diptyque-baies-scented-candle", "mount-lai-rose-quartz-gua-sha-facial-lifting-tool"]}], "looks": [{"img": "media/editorial/glass-skin-edit.jpg", "net": "Instagram", "cap": "Glass skin in Colombo heat", "picks": ["cosrx-advanced-snail-96-mucin-power-essence", "medicube-pdrn-pink-peptide-serum", "beauty-of-joseon-relief-sun-rice-probiotics-spf50"]}, {"img": "media/editorial/story.jpg", "net": "TikTok", "cap": "My 3-step morning glow", "picks": ["cerave-hydrating-cleanser", "glow-recipe-watermelon-glow-niacinamide-dew-drops", "la-roche-posay-anthelios-uvmune-400-invisible-fluid-spf50"]}, {"img": "media/editorial/barrier-repair.jpg", "net": "Instagram", "cap": "The barrier repair night", "picks": ["cerave-moisturising-cream", "la-roche-posay-cicaplast-baume-b5", "laneige-water-sleeping-mask"]}, {"img": "media/editorial/luxury-collection.jpg", "net": "TikTok", "cap": "Unboxing the luxury shelf", "picks": ["la-mer-creme-de-la-mer", "tom-ford-oud-wood-eau-de-parfum", "estee-lauder-advanced-night-repair-serum"]}, {"img": "media/editorial/gifts-for-her.jpg", "net": "Instagram", "cap": "Wrapped by hand, for her", "picks": ["dior-miss-dior-eau-de-parfum", "chanel-coco-mademoiselle-eau-de-parfum", "aesop-resurrection-aromatique-hand-balm"]}], "howtoCat": {"cleansers": {"img": "media/howto/cleanse.jpg", "when": "Morning and night", "steps": ["Wet your face with lukewarm water.", "Rub a coin-size amount between your hands.", "Massage onto your face for 30 to 60 seconds.", "Rinse well and pat dry with a soft towel."], "tip": "Use lukewarm water. Hot water dries your skin."}, "toners-essences": {"img": "media/howto/serum.jpg", "when": "Morning and night", "steps": ["Wash your face and pat it dry.", "Pour 2 or 3 drops into your palms.", "Pat gently all over your face.", "Follow with your serum and moisturiser."], "tip": "Pat, do not rub. It sinks in better."}, "serums": {"img": "media/howto/serum.jpg", "when": "Morning and night", "steps": ["Wash your face and pat it dry.", "Put 2 or 3 drops on your fingertips.", "Press gently into your face and neck.", "Wait one minute, then put on moisturiser."], "tip": "A little is enough. More is not better."}, "moisturisers": {"img": "media/howto/cream.jpg", "when": "Morning and night", "steps": ["Take a pea-size amount.", "Dot it on your forehead, cheeks, nose and chin.", "Smooth it in with upward strokes.", "In the morning, put sunscreen on top."], "tip": "Use a little more on dry patches."}, "sunscreen": {"img": "media/howto/spf.jpg", "when": "Every morning, as the last step", "steps": ["Squeeze out two finger-lengths.", "Dot it over your face and neck.", "Spread it evenly. Do not forget your ears.", "Put it on 15 minutes before you go out.", "Put on more every 2 hours in the sun."], "tip": "Use it every day, even when it is cloudy."}, "masks-treatments": {"img": "media/howto/cream.jpg", "when": "At night", "steps": ["Wash your face and pat it dry.", "Spread a thin layer over your face.", "Leave it on overnight.", "Rinse it off in the morning."], "tip": "Use 2 or 3 times a week to start."}, "women": {"img": "media/howto/perfume.jpg", "when": "Any time", "steps": ["Spray on clean, moisturised skin.", "Hold the bottle about 15 cm away.", "Spray your wrists, neck and behind your ears.", "Do not rub your wrists together."], "tip": "Keep the bottle away from heat and sunlight."}, "bath-body": {"img": "media/howto/balm.jpg", "when": "Any time", "steps": ["Take a pea-size amount.", "Rub it between your hands.", "Massage the backs of your hands and nails."], "tip": "Keep it by your sink so you remember."}, "home-fragrance": {"img": "media/howto/candle.jpg", "when": "Whenever you like", "steps": ["First time: let the top melt to the edges, about 2 hours.", "Cut the wick to 5 mm before each use.", "Burn for no more than 2 hours at a time.", "Never leave a burning candle alone."], "tip": "Put the lid on to stop the flame. It keeps the scent clean."}, "tools": {"img": "media/howto/guasha.jpg", "when": "Morning or night", "steps": ["Put on a face oil or serum so the stone glides.", "Hold the stone flat against your skin.", "Glide up and out: neck, jaw, cheeks, then forehead.", "Do 5 light strokes on each area."], "tip": "Keep it in the fridge for a cool, fresh feel."}, "men": {"img": "media/howto/perfume.jpg", "when": "Any time", "steps": ["Spray on clean, moisturised skin.", "Hold the bottle about 15 cm away.", "Spray your wrists, neck and behind your ears.", "Do not rub your wrists together."], "tip": "Keep the bottle away from heat and sunlight."}, "unisex": {"img": "media/howto/perfume.jpg", "when": "Any time", "steps": ["Spray on clean, moisturised skin.", "Hold the bottle about 15 cm away.", "Spray your wrists, neck and behind your ears.", "Do not rub your wrists together."], "tip": "Keep the bottle away from heat and sunlight."}}, "howtoSlug": {"the-ordinary-retinol-05-in-squalane": {"img": "media/howto/serum.jpg", "when": "At night only", "steps": ["Wash your face and pat it fully dry.", "Put 2 or 3 drops on your fingertips.", "Press into your face. Keep away from your eyes.", "Start with 2 or 3 nights a week.", "Wear sunscreen every morning."], "tip": "Do not use if you are pregnant. Ask your doctor."}, "the-ordinary-glycolic-acid-7-exfoliating-toner": {"img": "media/howto/serum.jpg", "when": "At night, 2 or 3 times a week", "steps": ["Wash your face and pat it dry.", "Put a little on a cotton pad.", "Sweep it over your face. Avoid your eyes.", "Do not rinse. Follow with moisturiser.", "Wear sunscreen the next morning."], "tip": "A little tingle is normal. Stop if it burns."}, "cerave-sa-smoothing-cleanser": {"img": "media/howto/cleanse.jpg", "when": "Once or twice a day", "steps": ["Wet your face with lukewarm water.", "Rub a coin-size amount between your hands.", "Massage onto your face for 30 to 60 seconds.", "Rinse well and pat dry."], "tip": "Has salicylic acid. Start once a day if your skin is sensitive."}, "the-ordinary-azelaic-acid-suspension-10": {"img": "media/howto/cream.jpg", "when": "Morning or night", "steps": ["Wash your face and pat it dry.", "Take a pea-size amount.", "Spread a thin layer over your face.", "Follow with moisturiser."], "tip": "Try it on a small spot first. A little tingle is normal."}, "la-roche-posay-effaclar-duom": {"img": "media/howto/cream.jpg", "when": "Morning and night", "steps": ["Wash your face and pat it dry.", "Take a pea-size amount.", "Spread a thin layer on your face or on spots.", "In the morning, put sunscreen on top."], "tip": "Can feel a little dry at first. That is normal."}, "medicube-zero-pore-pad-20": {"img": "media/howto/cleanse.jpg", "when": "2 or 3 times a week", "steps": ["Wash your face and pat it dry.", "Wipe your face with the rough side of the pad.", "Turn it over and pat with the smooth side.", "Follow with moisturiser."], "tip": "Wear sunscreen the next day."}, "laneige-water-sleeping-mask": {"img": "media/howto/cream.jpg", "when": "At night, as the last step", "steps": ["Do your normal night routine.", "Take a fingertip of the mask.", "Spread a thin layer over your face.", "Sleep, then rinse it off in the morning."], "tip": "Use 2 or 3 times a week for soft, bouncy skin."}, "medicube-collagen-night-wrapping-mask": {"img": "media/howto/cream.jpg", "when": "At night, as the last step", "steps": ["Do your normal night routine.", "Spread a thin layer over your face.", "Wait for it to set, about 10 minutes.", "Sleep, then rinse it off in the morning."], "tip": "Use 2 or 3 times a week."}, "laneige-lip-sleeping-mask-berry": {"img": "media/howto/balm.jpg", "when": "At night, or any time", "steps": ["Use the little spatula to take a small amount.", "Spread a thin layer on your lips.", "Leave it on while you sleep.", "Wipe off any extra in the morning."], "tip": "Great over lipstick in the day too."}, "la-roche-posay-cicaplast-baume-b5": {"img": "media/howto/balm.jpg", "when": "Morning and night, or when needed", "steps": ["Wash and dry the area.", "Take a pea-size amount.", "Smooth it over dry or irritated skin.", "Use on your face or body."], "tip": "Very good for dry patches and after sun."}, "la-mer-creme-de-la-mer": {"img": "media/howto/cream.jpg", "when": "Morning and night", "steps": ["Take a small amount, about the size of a pea.", "Warm it between your fingertips until clear.", "Press it gently into your face and neck.", "In the morning, put sunscreen on top."], "tip": "Warming it first helps it sink in."}, "cosrx-advanced-snail-96-mucin-power-essence": {"img": "media/howto/serum.jpg", "when": "Morning and night", "steps": ["Wash your face and pat it dry.", "Pump 2 drops into your palm.", "Pat it gently over your face.", "Follow with serum and moisturiser."], "tip": "It feels a little sticky for a minute. That is normal."}, "aesop-resurrection-aromatique-hand-wash": {"img": "media/howto/cleanse.jpg", "when": "Any time", "steps": ["Wet your hands.", "Use one pump.", "Rub together for 20 seconds.", "Rinse and dry well."], "tip": "Follow with the hand balm for soft hands."}, "skinora-the-glass-skin-ritual-set": {"img": "media/howto/serum.jpg", "when": "Morning and night", "steps": ["Wash your face and pat it dry.", "Pat the snail essence into your skin.", "Press in 2 or 3 drops of the PDRN serum.", "In the morning, finish with the sunscreen."], "tip": "Do this every day for 4 weeks to see the glow."}, "skinora-the-luxury-discovery-box": {"img": "media/howto/serum.jpg", "when": "Any time", "steps": ["Open one new product at a time.", "Try it on your inner arm first.", "Use it for a week to see how your skin feels.", "Keep your favourites in your routine."], "tip": "Each product page has its own steps."}}, "ingredients": {"Niacinamide": "niacinamide", "Hyaluronic Acid": "hyaluronic-acid", "Ceramides": "ceramides", "Retinol": "retinol", "Salicylic Acid": "salicylic-acid", "Glycolic Acid": "glycolic-acid", "Azelaic Acid": "azelaic-acid", "Vitamin C": "vitamin-c", "Peptides": "peptides", "Squalane": "squalane", "Snail Mucin": "snail-mucin", "PDRN": "pdrn", "Centella Asiatica": "centella-asiatica", "Panthenol": "panthenol"}}</script><script id="sk-feat-js">/* Skinora features layer: routine sets, subscribe & save, free gift, express pay, alerts, advisor chat,
    bag reminders, review filters, scent profiles, finder, gift guide, referrals, filters. Front-end preview only. */
