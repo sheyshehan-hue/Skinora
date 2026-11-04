@@ -85,6 +85,12 @@ export function Header({ categories, announcement, picks = [] }: { categories: N
                   {c.name}
                 </Link>
               ))}
+              <Link href="/women" onMouseEnter={() => setMega(null)} className="link-underline nav-caps hidden whitespace-nowrap py-7 2xl:inline">
+                For Her
+              </Link>
+              <Link href="/men" onMouseEnter={() => setMega(null)} className="link-underline nav-caps hidden whitespace-nowrap py-7 2xl:inline">
+                For Him
+              </Link>
               <Link href="/brands" onMouseEnter={() => setMega(null)} className="link-underline nav-caps py-7">
                 Brands
               </Link>
@@ -141,6 +147,8 @@ export function Header({ categories, announcement, picks = [] }: { categories: N
                   <li><Link href={`/c/${active.slug}?sort=new`} className="hover:text-champagne-700">New arrivals</Link></li>
                   <li><Link href={`/c/${active.slug}?sort=bestsellers`} className="hover:text-champagne-700">Best sellers</Link></li>
                   <li><Link href="/collections/luxury-collection" className="hover:text-champagne-700">The Luxury Collection</Link></li>
+                  <li><Link href="/women" className="hover:text-champagne-700">For her: the women's edit</Link></li>
+                  <li><Link href="/men" className="hover:text-champagne-700">For him: the men's edit</Link></li>
                   <li><Link href="/quiz" className="hover:text-champagne-700">Find your routine: take the skin quiz</Link></li>
                   <li><Link href="/offers" className="hover:text-champagne-700">Offers & flash sales</Link></li>
                 </ul>
@@ -183,8 +191,11 @@ export function Header({ categories, announcement, picks = [] }: { categories: N
               </details>
             ))}
             <div className="mt-6 space-y-4 text-sm uppercase tracking-[0.14em]">
+              <Link href="/women" className="block">For Her</Link>
+              <Link href="/men" className="block">For Him</Link>
               <Link href="/brands" className="block">Brands</Link>
               <Link href="/offers" className="block">Offers</Link>
+              <Link href="/guides" className="block">Guides</Link>
               <Link href="/quiz" className="block">Skin quiz</Link>
               <Link href="/account" className="block">My account</Link>
               <Link href="/track" className="block">Track an order</Link>

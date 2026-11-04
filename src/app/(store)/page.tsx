@@ -1,4 +1,6 @@
+import type { Metadata } from "next";
 import Image from "next/image";
+import { alternates } from "@/lib/seo";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { productCardInclude, toCard } from "@/lib/catalog";
@@ -13,6 +15,9 @@ import { Countdown } from "@/components/store/Countdown";
 
 export const revalidate = 300;
 
+// Organization, OnlineStore and WebSite structured data are rendered site-wide from the root layout.
+export const metadata: Metadata = { alternates: alternates("/") };
+
 export default async function Home() {
   const now = new Date();
   const [heroes, promo, best, fresh, brands, luxury, collections, flash] = await Promise.all([
@@ -26,19 +31,8 @@ export default async function Home() {
     prisma.flashSale.findFirst({ where: { active: true, startsAt: { lte: now }, endsAt: { gt: now } }, include: { products: { include: { product: { include: productCardInclude } } } } }),
   ]);
 
-  const orgLd = {
-    "@context": "https://schema.org",
-    "@type": "OnlineStore",
-    name: "Skinora",
-    url: process.env.NEXT_PUBLIC_SITE_URL,
-    address: { "@type": "PostalAddress", streetAddress: "42 Flower Road", addressLocality: "Colombo 07", addressCountry: "LK" },
-    currenciesAccepted: "LKR",
-    paymentAccepted: "Credit Card, Koko, Mintpay, Bank Transfer, Cash on Delivery",
-  };
-
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }} />
       {heroes[0] && <EditorialHero slide={heroes[0]} />}
 
       <div className="container-lux">
@@ -204,6 +198,26 @@ export default async function Home() {
               ))}
             </dl>
           </Reveal>
+        </section>
+
+        {/* Shop by audience: internal links to the men's and women's landing pages, plus a plain answer for search and AI assistants */}
+        <section className="mt-28">
+          <SectionHeading eyebrow="Shop by edit" title="For him, for her" />
+          <div className="grid gap-6 md:grid-cols-2">
+            {[
+              { href: "/women", eyebrow: "For her", title: "Women's skincare, perfume & K-beauty", body: "Glass-skin serums, pigmentation care, anti-ageing and fragrances from Dior, Chanel, YSL and Lancôme." },
+              { href: "/men", eyebrow: "For him", title: "Men's skincare & fragrance", body: "Oil-control cleansers, SPF 50, acne care and fragrances from Dior, Chanel, YSL and Tom Ford." },
+            ].map((e) => (
+              <Link key={e.href} href={e.href} className="group block border border-ink/10 bg-white p-8 sm:p-10">
+                <p className="eyebrow">{e.eyebrow}</p>
+                <h3 className="mt-3 font-serif text-3xl group-hover:text-champagne-700 sm:text-4xl">{e.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-ink-600">{e.body}</p>
+              </Link>
+            ))}
+          </div>
+          <p className="mt-12 max-w-3xl text-sm leading-relaxed text-ink-500">
+            Skinora is a Sri Lankan store for 100% authentic international skincare, perfume and lifestyle products for men and women, with prices in LKR. We deliver to all 25 districts (same-day in Colombo), accept cash on delivery, cards, Koko and Mintpay, and show the batch number and expiry of every product before you buy. Read our <Link href="/guides" className="underline">guides</Link> or <Link href="/faq" className="underline">FAQ</Link>.
+          </p>
         </section>
       </div>
     </>

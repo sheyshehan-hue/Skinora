@@ -15,7 +15,9 @@ import { ProductGrid } from "@/components/store/ProductGrid";
 import { Stars } from "@/components/store/Stars";
 import { AuthenticBadge } from "@/components/store/AuthenticBadge";
 import { SectionHeading } from "@/components/store/SectionHeading";
-import { SKIN_TYPES } from "@/lib/constants";
+import { FREE_SHIPPING_THRESHOLD, SKIN_TYPES } from "@/lib/constants";
+import { formatLKR } from "@/lib/format";
+import { DELIVERY_SUMMARY, STORE, abs, alternates, faqLd, ldJson, returnPolicy, sellerRef, shippingDetails } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -36,12 +38,19 @@ async function getProduct(slug: string) {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const p = await getProduct((await params).slug);
   if (!p) return {};
-  const title = p.metaTitle ?? `${p.brand.name} ${p.name}`;
+  // "<product> price in Sri Lanka" is how most Sri Lankan shoppers search for a specific product.
+  const from = Math.min(...p.variants.map((v) => variantPrice(v, flashPercent(p)).price));
+  const title = p.metaTitle || `${p.brand.name} ${p.name} Price in Sri Lanka`;
+  const lead = p.tagline ? `${p.tagline}. ` : "";
+  const description =
+    p.metaDescription ||
+    `Original ${p.brand.name} ${p.name} in Sri Lanka${Number.isFinite(from) ? ` from ${formatLKR(from)}` : ""}. ${lead}Batch and expiry shown, same-day Colombo delivery, cash on delivery island-wide.`.slice(0, 300);
   return {
-    title,
-    description: p.metaDescription ?? p.description.slice(0, 155),
-    alternates: { canonical: `/p/${p.slug}` },
-    openGraph: { title, images: p.images[0] ? [{ url: p.images[0].url }] : [] },
+    title: { absolute: `${title} | Skinora` },
+    description,
+    alternates: alternates(`/p/${p.slug}`),
+    openGraph: { type: "website", title, description, url: `/p/${p.slug}`, images: p.images[0] ? [{ url: abs(p.images[0].url), alt: `${p.brand.name} ${p.name}` }] : [] },
+    other: Number.isFinite(from) ? { "product:price:amount": String(from), "product:price:currency": "LKR" } : undefined,
   };
 }
 
@@ -66,17 +75,39 @@ export default async function ProductPage({ params }: Props) {
     return { id: v.id, name: v.name, sku: v.sku, price, compareAt, stock: v.stock, batch: b ? { number: b.batchNumber, expiry: b.expiryDate.toISOString(), origin: b.supplier?.country ?? "" } : null };
   });
   const [desc, notes] = p.description.split("\n\n");
-  const site = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+  const url = abs(`/p/${p.slug}`);
+  const fullName = `${p.brand.name} ${p.name}`;
+  const fromPrice = variants.length ? Math.min(...variants.map((v) => v.price)) : 0;
+  const nextBatch = variants.find((v) => v.batch)?.batch;
+  const priceValidUntil = new Date(Date.now() + 30 * 864e5).toISOString().slice(0, 10);
+  const audience = p.gender === "men" ? "men" : p.gender === "women" ? "women" : p.gender === "unisex" ? "men and women" : null;
+  const quick = [
+    { q: `What is the price of ${fullName} in Sri Lanka?`, a: `${fullName} is ${variants.length > 1 ? `from ${formatLKR(fromPrice)} (${variants.map((v) => `${v.name} ${formatLKR(v.price)}`).join(", ")})` : formatLKR(fromPrice)} at Skinora, including duties. Delivery is free over ${formatLKR(FREE_SHIPPING_THRESHOLD)}.` },
+    { q: `Is the ${fullName} at Skinora original?`, a: `Yes. It is sourced from ${p.brand.name} or an authorised distributor${p.originCountry ? `, made in ${p.originCountry}` : ""}, and imported by ${p.importer ?? STORE.legalName}.${nextBatch ? ` The unit you receive is from batch ${nextBatch.number}, best before ${new Date(nextBatch.expiry).toLocaleDateString("en-GB", { month: "long", year: "numeric" })}.` : ""}` },
+    ...(audience ? [{ q: `Is ${fullName} for men or women?`, a: `It is made for ${audience}.` }] : p.skinTypes.length ? [{ q: `Which skin types is ${fullName} suitable for?`, a: `It suits ${p.skinTypes.join(", ")} skin${p.concerns.length ? ` and helps with ${p.concerns.join(", ")}` : ""}.` }] : []),
+    { q: "How fast is delivery in Sri Lanka?", a: DELIVERY_SUMMARY },
+  ];
 
   const ld = {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: `${p.brand.name} ${p.name}`,
-    image: p.images.map((i) => `${site}${i.url}`),
+    "@id": `${url}#product`,
+    url,
+    name: fullName,
+    image: p.images.map((i) => abs(i.url)),
     description: p.description,
     brand: { "@type": "Brand", name: p.brand.name },
     sku: p.variants[0]?.sku,
-    countryOfOrigin: p.originCountry,
+    mpn: p.variants[0]?.sku,
+    category: [p.category.parent?.name, p.category.name].filter(Boolean).join(" > "),
+    countryOfOrigin: p.originCountry ?? undefined,
+    ...(p.gender ? { audience: { "@type": "PeopleAudience", suggestedGender: p.gender === "unisex" ? "unisex" : p.gender === "men" ? "male" : "female" } } : {}),
+    additionalProperty: [
+      p.skinTypes.length && { "@type": "PropertyValue", name: "Suitable skin types", value: p.skinTypes.join(", ") },
+      p.concerns.length && { "@type": "PropertyValue", name: "Helps with", value: p.concerns.join(", ") },
+      p.keyIngredients.length && { "@type": "PropertyValue", name: "Key ingredients", value: p.keyIngredients.join(", ") },
+      { "@type": "PropertyValue", name: "Authenticity", value: "100% authentic, from brand-authorised distributors. Batch number and expiry shown before purchase." },
+    ].filter(Boolean),
     offers: variants.map((v) => ({
       "@type": "Offer",
       sku: v.sku,
@@ -85,11 +116,15 @@ export default async function ProductPage({ params }: Props) {
       priceCurrency: "LKR",
       availability: v.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
       itemCondition: "https://schema.org/NewCondition",
-      url: `${site}/p/${p.slug}`,
-      shippingDetails: { "@type": "OfferShippingDetails", shippingDestination: { "@type": "DefinedRegion", addressCountry: "LK" } },
+      url,
+      priceValidUntil,
+      seller: sellerRef,
+      areaServed: "LK",
+      shippingDetails,
+      hasMerchantReturnPolicy: returnPolicy,
     })),
     ...(p.ratingCount ? { aggregateRating: { "@type": "AggregateRating", ratingValue: p.ratingAvg.toFixed(1), reviewCount: p.ratingCount } } : {}),
-    review: p.reviews.slice(0, 5).map((r) => ({ "@type": "Review", author: { "@type": "Person", name: r.name }, reviewRating: { "@type": "Rating", ratingValue: r.rating }, reviewBody: r.body })),
+    review: p.reviews.slice(0, 5).map((r) => ({ "@type": "Review", author: { "@type": "Person", name: r.name }, datePublished: r.createdAt.toISOString().slice(0, 10), reviewRating: { "@type": "Rating", ratingValue: r.rating, bestRating: 5 }, reviewBody: r.body })),
   };
 
   const crumbs = [{ label: "Home", href: "/" }, ...(p.category.parent ? [{ label: p.category.parent.name, href: `/c/${p.category.parent.slug}` }] : []), { label: p.category.name, href: `/c/${p.category.slug}` }, { label: p.name }];
@@ -102,7 +137,8 @@ export default async function ProductPage({ params }: Props) {
 
   return (
     <div className="container-lux pt-4 sm:pt-6">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={ldJson(ld)} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={ldJson(faqLd(quick))} />
       <div className="hidden sm:block"><Breadcrumbs items={crumbs} /></div>
       <Link href={`/c/${p.category.slug}`} className="inline-flex min-h-11 items-center gap-2 text-[11px] uppercase tracking-[0.16em] text-ink-500 sm:hidden">
         <ArrowLeft width={14} strokeWidth={1.3} /> {p.category.name}
@@ -165,6 +201,16 @@ export default async function ProductPage({ params }: Props) {
               {p.keyIngredients.length > 0 && <p className="mt-3 text-xs text-ink-400">Key actives are underlined. Always patch-test new products.</p>}
             </Detail>
             <Detail title="How to use"><p>{p.howToUse}</p></Detail>
+            <Detail title="Quick answers">
+              <dl className="space-y-4">
+                {quick.map((f) => (
+                  <div key={f.q}>
+                    <dt className="font-medium text-ink">{f.q}</dt>
+                    <dd className="mt-1">{f.a}</dd>
+                  </div>
+                ))}
+              </dl>
+            </Detail>
             <Detail title="Delivery & returns">
               <p>Same-day delivery in Colombo for orders before 1pm, next-day to Gampaha, Kalutara, Kandy, Galle and Kurunegala, and 2 to 5 days island-wide. Complimentary over LKR 15,000. Unopened items can be returned within 14 days. <Link href="/delivery" className="underline">Rates by district</Link></p>
             </Detail>
