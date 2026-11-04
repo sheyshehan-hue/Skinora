@@ -176,3 +176,10 @@ export async function frequentlyBoughtTogether(productId: string, limit = 3) {
 export async function nextBatch(variantId: string) {
   return prisma.batch.findFirst({ where: { variantId, remaining: { gt: 0 } }, orderBy: { expiryDate: "asc" }, include: { supplier: true } });
 }
+
+/** Active products by slug, returned in the order given. Unknown slugs are skipped. */
+export async function productsBySlugs(slugs: string[]) {
+  if (!slugs.length) return [];
+  const rows = await prisma.product.findMany({ where: { slug: { in: slugs }, status: "ACTIVE" }, include: productCardInclude });
+  return slugs.map((s) => rows.find((r) => r.slug === s)).filter(Boolean).map((p) => toCard(p!));
+}

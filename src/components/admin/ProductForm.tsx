@@ -126,8 +126,8 @@ export function ProductForm({ brands, categories, product }: { brands: Opt[]; ca
         <section className="card space-y-4 p-5">
           <h2 className="text-[15px] font-medium">SEO</h2>
           <L label="URL slug"><input value={p.slug ?? ""} onChange={(e) => set("slug", e.target.value)} className="a-input font-mono text-xs" placeholder="auto from brand + name" /></L>
-          <L label="Meta title"><input value={p.metaTitle ?? ""} onChange={(e) => set("metaTitle", e.target.value)} className="a-input" /></L>
-          <L label={`Meta description (${(p.metaDescription ?? "").length}/160)`}><textarea value={p.metaDescription ?? ""} onChange={(e) => set("metaDescription", e.target.value)} rows={3} className="a-input h-auto py-2" /></L>
+          <L label="Meta title (blank = “Brand Name Price in Sri Lanka”)"><input value={p.metaTitle ?? ""} onChange={(e) => set("metaTitle", e.target.value)} className="a-input" /></L>
+          <L label={`Meta description (${(p.metaDescription ?? "").length}/160, blank = auto with LKR price)`}><textarea value={p.metaDescription ?? ""} onChange={(e) => set("metaDescription", e.target.value)} rows={3} className="a-input h-auto py-2" /></L>
         </section>
       </div>
     </div>

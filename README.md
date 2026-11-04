@@ -16,7 +16,9 @@ Built with Next.js 15 (App Router, server actions), TypeScript, Tailwind CSS, Po
 - Skin quiz that builds a routine, wishlist, cart drawer, search with autocomplete, gift wrap, and "100% Authentic" messaging throughout.
 - Guest checkout or customer accounts with order history, order tracking, and loyalty points.
 - Sri Lanka specifics: LKR pricing, district delivery fees with same-day delivery in Colombo and next-day in nearby districts, PayHere cards, Koko and Mintpay, bank transfer, cash on delivery (up to LKR 75,000), a WhatsApp button, and SMS and email order updates.
-- SEO: metadata, JSON-LD (Product, BreadcrumbList, OnlineStore), sitemap.xml and robots.txt.
+- SEO for Sri Lanka: "<product> Price in Sri Lanka" titles with the live LKR price, en-LK hreflang (Sinhala and Tamil alternates switch on with the locales), JSON-LD (Organization, OnlineStore + HealthAndBeautyBusiness with the Colombo 07 address and hours, WebSite search, Product with LKR offers, shipping and returns, FAQPage, Article, BreadcrumbList, ItemList), image sitemap, filtered listings kept out of the index, and an Open Graph image.
+- Men's and women's landing pages (`/men`, `/women`), six answer-first buying guides (`/guides`), a store FAQ (`/faq`), and extra copy and FAQs on the main category pages. Copy lives in `src/lib/landing.ts` and `src/lib/guides.ts`.
+- GEO (AI assistants): `/llms.txt` with store facts, policies and live LKR prices, robots.txt that explicitly welcomes ChatGPT, Gemini, Perplexity, Claude, Apple and Bing crawlers, "Quick answers" on every product page, and one shared source of store facts in `src/lib/seo.ts`.
 - English first. Product and category records have a `translations` field and `src/i18n` is ready for Sinhala and Tamil.
 
 **Admin (`/admin`)**

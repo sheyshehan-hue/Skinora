@@ -211,7 +211,7 @@ async function main() {
         isBestSeller: p.popularity >= 7,
         featured: p.popularity >= 8 || !!p.luxury,
         originCountry: brand.origin,
-        metaDescription: `${p.brand} ${p.name}: ${p.tagline}. 100% authentic, imported to Sri Lanka with batch and expiry details. Delivered island-wide.`,
+        // metaTitle / metaDescription left empty: the product page builds "<name> Price in Sri Lanka" with the live LKR price.
         images: {
           create: [
             { url: img1, alt: `${p.brand} ${p.name}`, sortOrder: 0, width: 800, height: 1000 },

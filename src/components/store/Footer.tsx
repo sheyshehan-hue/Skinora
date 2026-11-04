@@ -4,9 +4,9 @@ import { Newsletter } from "./Newsletter";
 import { HideOnCheckout } from "./HideOnCheckout";
 
 const cols = [
-  { title: "Shop", links: [["Skin Care", "/c/skin-care"], ["Fragrances", "/c/fragrances"], ["Lifestyle", "/c/lifestyle"], ["The Luxury Collection", "/collections/luxury-collection"], ["Brands", "/brands"], ["Offers", "/offers"]] },
-  { title: "Client care", links: [["Track your order", "/track"], ["Delivery & rates", "/delivery"], ["Returns", "/delivery#returns"], ["Authenticity promise", "/authenticity"], ["My account", "/account"]] },
-  { title: "Discover", links: [["Skin quiz", "/quiz"], ["Glass Skin Edit", "/collections/glass-skin-edit"], ["Gifts for Her", "/collections/gifts-for-her"], ["Barrier Repair", "/collections/barrier-repair"]] },
+  { title: "Shop", links: [["For Her", "/women"], ["For Him", "/men"], ["Skin Care", "/c/skin-care"], ["Fragrances", "/c/fragrances"], ["Lifestyle", "/c/lifestyle"], ["The Luxury Collection", "/collections/luxury-collection"], ["Brands", "/brands"], ["Offers", "/offers"]] },
+  { title: "Client care", links: [["Track your order", "/track"], ["Delivery & rates", "/delivery"], ["Returns", "/delivery#returns"], ["Authenticity promise", "/authenticity"], ["FAQ", "/faq"], ["My account", "/account"]] },
+  { title: "Discover", links: [["Skin quiz", "/quiz"], ["Guides", "/guides"], ["Best sunscreen for Sri Lanka", "/guides/best-sunscreen-sri-lanka"], ["Glass Skin Edit", "/collections/glass-skin-edit"], ["Gifts for Her", "/collections/gifts-for-her"], ["Barrier Repair", "/collections/barrier-repair"]] },
 ];
 
 export function Footer() {
